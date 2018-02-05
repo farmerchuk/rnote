@@ -1,0 +1,282 @@
+/*
+==============================
+CSS Reset
+==============================
+*/
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 100%;
+  box-sizing: border-box;
+  vertical-align: baseline;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*
+==============================
+Standard Element Styles
+==============================
+*/
+
+html {
+  font: normal 14px "Raleway", sans-serif;
+  letter-spacing: 0.05em;
+  color: #363636;
+}
+
+body {
+  padding-top: 100px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: #bad0df;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #dadada;
+}
+
+h3 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+p {
+  padding-bottom: 1rem;
+  line-height: 2;
+  font-size: 1.3rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+==============================
+Custom Styles
+==============================
+*/
+
+header.notes-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  padding: 20px 3vw 0 3vw;
+  margin-left: 350px;
+  margin-right: 300px;
+  background: #fff;
+}
+
+header.notes-header::after {
+  clear: both;
+}
+
+header.user-settings {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100px;
+  padding: 20px;
+}
+
+header.user-settings a {
+  display: inline-block;
+  float: right;
+  font-size: 1.5rem;
+  color: #363636;
+}
+
+header.user-settings a::after {
+  content: '';
+  display: inline-block;
+  background: transparent url("icon_menu.png") 0 0 no-repeat;
+  background-size: 30px 30px;
+  height: 30px;
+  width: 30px;
+  vertical-align: text-bottom;
+  margin-left: 20px;
+}
+
+aside.folder-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 350px;
+  padding: 20px;
+  background: #363636;
+  color: #fff;
+}
+
+aside.folder-menu a {
+  color: #fff;
+}
+
+aside.folder-menu a:hover {
+  color: #bad0df;
+}
+
+section.folder-attributes {
+  padding-top: 40px;
+}
+
+section.folder-attributes dt,
+section.folder-attributes dd {
+  font-size: 1.1rem;
+}
+
+section.folder-attributes dt {
+  width: 25%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+  color: #bad0df;
+}
+
+section.folder-attributes dd {
+  width: 75%;
+  padding-bottom: 1.5rem;
+  color: #dadada;
+}
+
+section.folder-actions {
+  padding-top: 30px;
+}
+
+section.folder-actions li {
+  padding-bottom: 1.5rem;
+}
+
+aside.folder-menu .find {
+  position: fixed;
+  bottom: 20px;
+  width: 310px;
+}
+
+aside.folder-menu form.find input[name="query"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  color: #fff;
+  background: #363636;
+}
+
+form.find input[type="submit"] {
+  display: none;
+}
+
+header.notes-header a:first-of-type {
+  float: left;
+}
+
+header.notes-header a:last-of-type {
+  float: right;
+}
+
+section.notes {
+  margin: 0 300px 0 350px;
+  line-height: 1.5;
+  padding: 20px 3vw;
+}
+
+section.notes article {
+  padding-bottom: 50px;
+}
+
+section.notes article header {
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+
+section.notes article header a {
+  color: #363636;
+}
+
+section.notes article header a:hover {
+  color: #97a7b1;
+}
+
+section.notes article h3 {
+  float: left;
+}
+
+section.notes article time {
+  float: left;
+  padding-top: 15px;
+  padding-left: 20px;
+}
+
+aside.related-folders {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  overflow: scroll;
+}
+
+aside.related-folders a {
+  color: #363636;
+}
+
+aside.related-folders a:hover {
+  color: #97a7b1;
+}
+
+aside.related-folders section {
+  padding: 20px;
+}
+
+aside.related-folders ul li.summary {
+  margin-bottom: 20px;
+}
+
+aside.related-folders li.summary ul li {
+  padding-bottom: 5px;
+}
+
+aside.related-folders li.summary ul li:first-of-type {
+  font-weight: bold;
+}
+
+img.logo {
+  display: block;
+  padding-bottom: 50px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  border: 1px solid #363636;
+  border-radius: 4px;
+  color: #363636;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border: 1px solid #97a7b1;
+  color: #97a7b1;
+}
