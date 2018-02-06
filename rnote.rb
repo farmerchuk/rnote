@@ -2,7 +2,7 @@ require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
 
-require_relative "lib/database_persistence"
+require_relative "lib/database"
 
 configure do
   set :erb, :escape_html => true
@@ -12,15 +12,16 @@ end
 
 configure(:development) do
   require "sinatra/reloader"
-  also_reload "database_persistence.rb"
+  also_reload "database.rb"
 end
 
 before do
-  #@storage = DatabasePersistence.new(logger)
+  @storage = Database.new(logger)
+  @user_id = 1
 end
 
 after do
-  #@storage.disconnect
+  @storage.disconnect
 end
 
 helpers do
@@ -30,5 +31,16 @@ end
 # ROUTES ==============================
 
 get "/" do
+  erb :folder, layout: :layout
+end
+
+get "/folders/new" do
+  erb :new_folder, layout: :layout
+end
+
+get "/folders/:id" do
+  @folder_id = params[:id]
+  @folder = @storage.load_folder(@folder_id)
+
   erb :folder, layout: :layout
 end

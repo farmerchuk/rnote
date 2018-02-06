@@ -1,0 +1,146 @@
+<div id="create-new-folder">
+
+  <header class="primary-header">
+
+    <h3>Create New Folder</h3>
+
+  </header>
+
+  <header class="user-settings">
+    <a href="#">Jason</a>
+  </header>
+
+  <main>
+
+    <aside class="folder-menu">
+
+      <a href="/">
+        <img class="logo" src="/images/logo.png" alt="logo">
+      </a>
+
+      <header>
+
+        <h2>Tip:</h2>
+
+        <p>
+          If this folder is related to an existing folder, you may wish to choose
+          'Create Related Folder' instead to preserve the relationship between
+          the two folders.
+        </p>
+
+      </header>
+
+      <form class="find" action="#" method="post">
+        <label>
+          <input type="text" name="query" placeholder="Find folder...">
+        </label>
+        <input type="submit" value="">
+      </form>
+
+    </aside>
+
+    <section class="primary-body">
+
+      <form action="/folders/new" method="post">
+
+        <fieldset>
+
+          <dl>
+
+            <div class="form-row">
+              <dt>
+                <label for="name">What should this folder be called?</label>
+              </dt>
+              <dd>
+                <input type="text" name="name" id="name" placeholder="Chris Farmer">
+              </dd>
+            </div>
+
+            <div class="form-row">
+              <dt>
+                <label for="type">What type of folder is this?</label>
+              </dt>
+              <dd>
+                <input type="text" name="type" id="type" placeholder="Lead">
+              </dd>
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-1">
+                <dt>
+                  <label for="attr1">Attribute 1:</label>
+                </dt>
+                <dd>
+                  <input type="text" name="attr1" id="attr1" placeholder="Title">
+                </dd>
+              </div><!--
+
+              --><div class="col-2">
+                <dt>
+                  <label for="value1">Value 1</label>
+                </dt>
+                <dd>
+                  <input type="text" name="value1" id="value1" placeholder="VP Product Design">
+                </dd>
+              </div>
+
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-1">
+                <dt>
+                  <label for="attr2">Attribute 2:</label>
+                </dt>
+                <dd>
+                  <input type="text" name="attr2" id="attr2" placeholder="">
+                </dd>
+              </div><!--
+
+              --><div class="col-2">
+                <dt>
+                  <label for="value2">Value 2</label>
+                </dt>
+                <dd>
+                  <input type="text" name="value2" id="value2" placeholder="">
+                </dd>
+              </div>
+
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-1">
+                <dt>
+                  <label for="attr3">Attribute 3:</label>
+                </dt>
+                <dd>
+                  <input type="text" name="attr3" id="attr3" placeholder="">
+                </dd>
+              </div><!--
+
+              --><div class="col-2">
+                <dt>
+                  <label for="value3">Value 3</label>
+                </dt>
+                <dd>
+                  <input type="text" name="value3" id="value3" placeholder="">
+                </dd>
+              </div>
+
+            </div>
+
+          </dl>
+
+        </fieldset>
+
+        <input class="btn form-submit" type="submit" value="Create New Folder">
+
+      </form>
+
+    </section>
+
+  </main>
+
+</div>

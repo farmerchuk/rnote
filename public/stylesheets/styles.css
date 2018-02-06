@@ -75,7 +75,7 @@ Custom Styles
 ==============================
 */
 
-header.notes-header {
+header.primary-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -85,9 +85,10 @@ header.notes-header {
   margin-left: 350px;
   margin-right: 300px;
   background: #fff;
+  box-shadow: 0 20px 10px -3px #fff;
 }
 
-header.notes-header::after {
+header.primary-header::after {
   clear: both;
 }
 
@@ -95,9 +96,11 @@ header.user-settings {
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 1;
   width: 300px;
   height: 100px;
   padding: 20px;
+  box-shadow: 0 20px 10px -3px #fff;
 }
 
 header.user-settings a {
@@ -123,6 +126,7 @@ aside.folder-menu {
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 2;
   width: 350px;
   padding: 20px;
   background: #363636;
@@ -169,8 +173,9 @@ section.folder-actions li {
   padding-bottom: 1.5rem;
 }
 
-aside.folder-menu .find {
+aside.folder-menu form.find {
   position: fixed;
+  z-index: -1;
   bottom: 20px;
   width: 310px;
 }
@@ -189,42 +194,42 @@ form.find input[type="submit"] {
   display: none;
 }
 
-header.notes-header a:first-of-type {
+header.primary-header a:first-of-type {
   float: left;
 }
 
-header.notes-header a:last-of-type {
+header.primary-header a:last-of-type {
   float: right;
 }
 
-section.notes {
+section.primary-body {
   margin: 0 300px 0 350px;
   line-height: 1.5;
   padding: 20px 3vw;
 }
 
-section.notes article {
+section.primary-body article {
   padding-bottom: 50px;
 }
 
-section.notes article header {
+section.primary-body article header {
   padding-bottom: 20px;
   overflow: hidden;
 }
 
-section.notes article header a {
+section.primary-body article header a {
   color: #363636;
 }
 
-section.notes article header a:hover {
+section.primary-body article header a:hover {
   color: #97a7b1;
 }
 
-section.notes article h3 {
+section.primary-body article h3 {
   float: left;
 }
 
-section.notes article time {
+section.primary-body article time {
   float: left;
   padding-top: 15px;
   padding-left: 20px;
@@ -268,6 +273,12 @@ img.logo {
   padding-bottom: 50px;
 }
 
+/*
+==============================
+Button Styles
+==============================
+*/
+
 .btn {
   display: inline-block;
   padding: 10px 15px;
@@ -275,9 +286,90 @@ img.logo {
   border-radius: 4px;
   color: #363636;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .btn:hover {
   border: 1px solid #97a7b1;
   color: #97a7b1;
+}
+
+/*
+==============================
+Create New Folder Page Styles
+==============================
+*/
+
+#create-new-folder h3 {
+  padding-top: 45px;
+  padding-left: 10px;
+}
+
+#create-new-folder p {
+  padding-top: 20px;
+  color: #dadada;
+}
+
+#create-new-folder section.primary-body {
+  margin-right: 0;
+}
+
+#create-new-folder section.primary-body form {
+  overflow: hidden;
+  padding-top: 40vh;
+  padding-left: 10px;
+  margin-top: -275px;
+}
+
+#create-new-folder fieldset {
+  border: none;
+  padding-bottom: 20px;
+}
+
+#create-new-folder form dt {
+  padding-bottom: 10px;
+}
+
+#create-new-folder form label {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+#create-new-folder section.primary-body form input[type="text"] {
+  padding: 0.5rem 10px;
+  font-size: 1.2rem;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  width: 400px;
+}
+
+#create-new-folder form div.form-row {
+  padding-bottom: 20px;
+}
+
+#create-new-folder form div.form-row:nth-of-type(2) {
+  padding-bottom: 40px;
+}
+
+#create-new-folder form div.col-1 {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+#create-new-folder form div.col-1 input[type="text"] {
+  width: 200px;
+}
+
+#create-new-folder form div.col-2 {
+  display: inline-block;
+}
+
+#create-new-folder form div.col-2 input[type="text"] {
+  width: 300px;
+}
+
+#create-new-folder form input.form-submit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
