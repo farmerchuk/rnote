@@ -110,7 +110,7 @@ header.user-settings a {
 header.user-settings a::after {
   content: '';
   display: inline-block;
-  background: transparent url("icon_menu.png") 0 0 no-repeat;
+  background: transparent url("../images/icon_menu.png") 0 0 no-repeat;
   background-size: 30px 30px;
   height: 30px;
   width: 30px;
@@ -157,6 +157,7 @@ section.folder-attributes dt {
 section.folder-attributes dd {
   width: 75%;
   padding-bottom: 1.5rem;
+  padding-left: 1rem;
   color: #dadada;
 }
 
