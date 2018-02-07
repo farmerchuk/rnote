@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
+require "pry"
 
 require_relative "lib/database"
 
@@ -24,11 +25,25 @@ after do
   @storage.disconnect
 end
 
+# ---------------------------------------
+# VIEW HELPERS
+# ---------------------------------------
+
 helpers do
 
 end
 
-# ROUTES ==============================
+# ---------------------------------------
+# ROUTE HELPERS
+# ---------------------------------------
+
+def pass_form_validations?
+  true
+end
+
+# ---------------------------------------
+# ROUTES
+# ---------------------------------------
 
 get "/" do
   erb :folder, layout: :layout
@@ -38,9 +53,20 @@ get "/folders/new" do
   erb :new_folder, layout: :layout
 end
 
+post "/folders/new" do
+  if pass_form_validations?
+    folder_params = params.values << @user_id
+    folder_id = @storage.create_folder(*folder_params)
+
+    redirect "/folders/#{folder_id}"
+  else
+    erb :new_folder, layout: :layout
+  end
+end
+
 get "/folders/:id" do
-  @folder_id = params[:id]
-  @folder = @storage.load_folder(@folder_id)
+  folder_id = params[:id]
+  folder = @storage.load_folder(folder_id)
 
   erb :folder, layout: :layout
 end

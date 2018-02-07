@@ -10,7 +10,7 @@ CREATE TABLE users (
 
 CREATE TABLE folders (
   id serial PRIMARY KEY,
-  name text NOT NULL,
+  name text UNIQUE NOT NULL,
   type text NOT NULL,
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   dt timestamptz NOT NULL DEFAULT now()

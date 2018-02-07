@@ -310,15 +310,17 @@ Create New Folder Page Styles
   color: #dadada;
 }
 
+#create-new-folder header.primary-header {
+  padding-left: 90px;
+}
+
 #create-new-folder section.primary-body {
   margin-right: 0;
+  padding: 67px 20px 20px 100px;
 }
 
 #create-new-folder section.primary-body form {
   overflow: hidden;
-  padding-top: 40vh;
-  padding-left: 10px;
-  margin-top: -275px;
 }
 
 #create-new-folder fieldset {
