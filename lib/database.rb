@@ -1,6 +1,7 @@
 # database.rb
 
 require "pg"
+require "pry"
 
 class Database
   attr_reader :db, :logger
@@ -44,13 +45,39 @@ class Database
     sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
     folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
 
-    sql_new_attrs = <<~SQL
-      INSERT INTO attributes (name, value, folder_id)
-      VALUES ($1, $2, $7), ($3, $4, $7), ($5, $6, $7);
+    sql_attr_1 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
     SQL
-    query(sql_new_attrs, attr1, value1, attr2, value2, attr3, value3, folder_id)
+    query(sql_attr_1, attr1, value1, 1, folder_id)
+
+    sql_attr_2 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql_attr_2, attr2, value2, 2, folder_id)
+
+    sql_attr_3 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql_attr_3, attr3, value3, 3, folder_id)
 
     folder_id
+  end
+
+  def update_folder(user_id, folder_id, folder_name, folder_type, attr1, value1, attr2, value2, attr3, value3)
+    sql_folder = "UPDATE folders SET (name, type) = ($1, $2) WHERE id = $3 AND user_id = $4;"
+    query(sql_folder, folder_name, folder_type, folder_id, user_id)
+
+    sql_attr1 = "UPDATE attributes SET (name, value) = ($1, $2) WHERE position = 1 AND folder_id = $3;"
+    query(sql_attr1, attr1, value1, folder_id)
+
+    sql_attr2 = "UPDATE attributes SET (name, value) = ($1, $2) WHERE position = 2 AND folder_id = $3;"
+    query(sql_attr2, attr2, value2, folder_id)
+
+    sql_attr3 = "UPDATE attributes SET (name, value) = ($1, $2) WHERE position = 3 AND folder_id = $3;"
+    query(sql_attr3, attr3, value3, folder_id)
   end
 
   def load_notes(user_id, folder_id)
@@ -68,6 +95,15 @@ class Database
         note_date_time: tuple["note_date_time"]
       }
     end
+  end
+
+  def create_note(title, body, user_id, folder_id)
+    sql = <<~SQL
+      INSERT INTO notes (title, body, user_id, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+
+    query(sql, title, body, user_id, folder_id)
   end
 
   private

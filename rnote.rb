@@ -84,6 +84,47 @@ get "/folders/:id" do
   erb :folder, layout: :layout
 end
 
+get "/folders/:id/edit" do
+  @folder_id = params[:id].to_i
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_type = folder.first[:folder_type]
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  erb :edit_folder, layout: :layout
+end
+
+post "/folders/:id/edit" do
+  if pass_form_validations?
+    folder_id = params[:id]
+    folder_name = params[:name]
+    folder_type = params[:type]
+    folder_attr1 = params[:attr1]
+    folder_value1 = params[:value1]
+    folder_attr2 = params[:attr2]
+    folder_value2 = params[:value2]
+    folder_attr3 = params[:attr3]
+    folder_value3 =  params[:value3]
+
+    @storage.update_folder(@user_id, folder_id, folder_name, folder_type,
+                           folder_attr1, folder_value1,
+                           folder_attr2, folder_value2,
+                           folder_attr3, folder_value3)
+
+    redirect "/folders/#{folder_id}"
+  else
+    erb :edit_folder, layout: :layout
+  end
+end
+
 get "/folders/:id/notes/new" do
   @folder_id = params[:id].to_i
   folder = @storage.load_folder(@user_id, @folder_id)
@@ -107,8 +148,10 @@ end
 post "/folders/:id/notes/new" do
   if pass_form_validations?
     folder_id = params[:id]
-    note_params = params.values << @user_id
-    @storage.create_note(*folder_params)
+    title = params[:title]
+    body = params[:body]
+
+    @storage.create_note(title, body, @user_id, folder_id)
 
     redirect "/folders/#{folder_id}"
   else

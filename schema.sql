@@ -29,6 +29,7 @@ CREATE TABLE attributes (
   id serial PRIMARY KEY,
   name text NOT NULL,
   value text NOT NULL,
+  position integer NOT NULL,
   folder_id integer NOT NULL REFERENCES folders (id) ON DELETE CASCADE,
   dt timestamptz NOT NULL DEFAULT now()
 );
@@ -39,3 +40,5 @@ CREATE TABLE relations (
   child_id integer NOT NULL REFERENCES folders (id) ON DELETE CASCADE,
   dt timestamptz NOT NULL DEFAULT now()
 );
+
+INSERT INTO users (name, email, password) VALUES ('Jason', 'jason@gmail.com', 'secret');
