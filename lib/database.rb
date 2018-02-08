@@ -18,9 +18,23 @@ class Database
     @db.close
   end
 
-  def load_folder(folder_id)
-    sql = "SELECT * FROM folders WHERE id = $1;"
-    result = query(sql, folder_id).first
+  def load_folder(user_id, folder_id)
+    sql = <<~SQL
+      SELECT folders.name AS folder_name, folders.type AS folder_type, attributes.name AS attr_name, attributes.value AS attr_value
+      FROM folders
+      LEFT OUTER JOIN attributes ON folders.id = attributes.folder_id
+      WHERE folders.user_id = $1 AND folders.id = $2;
+    SQL
+
+    result = query(sql, user_id, folder_id)
+    result.map do |tuple|
+      {
+        folder_name: tuple["folder_name"],
+        folder_type: tuple["folder_type"],
+        attr_name: tuple["attr_name"],
+        attr_value: tuple["attr_value"]
+      }
+    end
   end
 
   def create_folder(name, type, attr1, value1, attr2, value2, attr3, value3, user_id)
@@ -37,6 +51,23 @@ class Database
     query(sql_new_attrs, attr1, value1, attr2, value2, attr3, value3, folder_id)
 
     folder_id
+  end
+
+  def load_notes(user_id, folder_id)
+    sql = <<~SQL
+      SELECT title AS note_title, body AS note_body, dt AS note_date_time
+      FROM notes
+      WHERE user_id = $1 AND folder_id = $2;
+    SQL
+
+    result = query(sql, user_id, folder_id)
+    result.map do |tuple|
+      {
+        note_title: tuple["note_title"],
+        note_body: tuple["note_body"],
+        note_date_time: tuple["note_date_time"]
+      }
+    end
   end
 
   private

@@ -65,8 +65,53 @@ post "/folders/new" do
 end
 
 get "/folders/:id" do
-  folder_id = params[:id]
-  folder = @storage.load_folder(folder_id)
+  @folder_id = params[:id].to_i
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_type = folder.first[:folder_type]
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @notes = @storage.load_notes(@user_id, @folder_id).reverse
 
   erb :folder, layout: :layout
+end
+
+get "/folders/:id/notes/new" do
+  @folder_id = params[:id].to_i
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_type = folder.first[:folder_type]
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @notes = @storage.load_notes(@user_id, @folder_id).reverse
+
+  erb :new_note, layout: :layout
+end
+
+post "/folders/:id/notes/new" do
+  if pass_form_validations?
+    folder_id = params[:id]
+    note_params = params.values << @user_id
+    @storage.create_note(*folder_params)
+
+    redirect "/folders/#{folder_id}"
+  else
+    erb :new_note, layout: :layout
+  end
 end

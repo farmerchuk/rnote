@@ -69,6 +69,16 @@ a {
   text-decoration: none;
 }
 
+fieldset {
+  border: none;
+  padding-bottom: 20px;
+}
+
+form label {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
 /*
 ==============================
 Custom Styles
@@ -151,7 +161,6 @@ section.folder-attributes dd {
 }
 
 section.folder-attributes dt {
-  width: 25%;
   font-size: 1.1rem;
   font-weight: bold;
   padding-bottom: 0.5rem;
@@ -159,7 +168,6 @@ section.folder-attributes dt {
 }
 
 section.folder-attributes dd {
-  width: 75%;
   padding-bottom: 1.5rem;
   padding-left: 1rem;
   color: #dadada;
@@ -235,6 +243,28 @@ section.primary-body article time {
   padding-left: 20px;
 }
 
+section.primary-body form {
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+section.primary-body form input[type="text"] {
+  padding: 0.5rem 10px;
+  font-size: 1.2rem;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  width: 400px;
+}
+
+section.primary-body form textarea {
+  padding: 0.5rem 10px;
+  font-size: 1.2rem;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  width: 100%;
+  resize: vertical;
+}
+
 aside.related-folders {
   position: fixed;
   top: 100px;
@@ -273,6 +303,14 @@ img.logo {
   padding-bottom: 50px;
 }
 
+form div.form-row {
+  padding-bottom: 20px;
+}
+
+form dt {
+  padding-bottom: 10px;
+}
+
 /*
 ==============================
 Button Styles
@@ -287,6 +325,7 @@ Button Styles
   color: #363636;
   text-decoration: none;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 .btn:hover {
@@ -319,36 +358,6 @@ Create New Folder Page Styles
   padding: 67px 20px 20px 100px;
 }
 
-#create-new-folder section.primary-body form {
-  overflow: hidden;
-}
-
-#create-new-folder fieldset {
-  border: none;
-  padding-bottom: 20px;
-}
-
-#create-new-folder form dt {
-  padding-bottom: 10px;
-}
-
-#create-new-folder form label {
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-#create-new-folder section.primary-body form input[type="text"] {
-  padding: 0.5rem 10px;
-  font-size: 1.2rem;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  width: 400px;
-}
-
-#create-new-folder form div.form-row {
-  padding-bottom: 20px;
-}
-
 #create-new-folder form div.form-row:nth-of-type(2) {
   padding-bottom: 40px;
 }
@@ -374,4 +383,26 @@ Create New Folder Page Styles
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+/*
+==============================
+Create New Note Page Styles
+==============================
+*/
+
+#create-new-note form input.form-submit {
+  float: right;
+}
+
+#create-new-note section.primary-body form {
+  padding-bottom: 20px;
+}
+
+#create-new-note section.primary-body article:first-of-type {
+  padding-top: 50px;
+}
+
+#create-new-note form textarea {
+  height: 50vh;
 }

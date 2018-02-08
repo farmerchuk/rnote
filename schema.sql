@@ -20,6 +20,7 @@ CREATE TABLE notes (
   id serial PRIMARY KEY,
   title text NOT NULL,
   body text,
+  user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   folder_id integer NOT NULL REFERENCES folders (id) ON DELETE CASCADE,
   dt timestamptz NOT NULL DEFAULT now()
 );
