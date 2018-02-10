@@ -74,7 +74,7 @@
 
     <section class="primary-body">
 
-      <% @notes.each do |note| %>
+      <% @notes.reverse.each do |note| %>
 
         <% if note[:note_id].to_i == @note_id %>
 
