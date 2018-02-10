@@ -30,7 +30,9 @@ end
 # ---------------------------------------
 
 helpers do
-
+  def new_line_to_br(string)
+    string.gsub(/[\r]/, "<br />")
+  end
 end
 
 # ---------------------------------------
@@ -46,7 +48,7 @@ end
 # ---------------------------------------
 
 get "/" do
-  erb :folder, layout: :layout
+  redirect "/folders/2"
 end
 
 get "/folders/new" do
@@ -156,5 +158,41 @@ post "/folders/:id/notes/new" do
     redirect "/folders/#{folder_id}"
   else
     erb :new_note, layout: :layout
+  end
+end
+
+get "/folders/:folder_id/notes/:note_id/edit" do
+  @folder_id = params[:folder_id].to_i
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_type = folder.first[:folder_type]
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @notes = @storage.load_notes(@user_id, @folder_id).reverse
+  @note_id = params[:note_id].to_i
+
+  erb :edit_note, layout: :layout
+end
+
+post "/folders/:folder_id/notes/:note_id/edit" do
+  if pass_form_validations?
+    folder_id = params[:folder_id]
+    note_id = params[:note_id]
+    note_title = params[:title]
+    note_body = params[:body]
+
+    @storage.update_note(@user_id, folder_id, note_id, note_title, note_body)
+
+    redirect "/folders/#{folder_id}"
+  else
+    erb :edit_folder, layout: :layout
   end
 end

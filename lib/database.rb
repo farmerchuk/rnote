@@ -82,7 +82,7 @@ class Database
 
   def load_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT title AS note_title, body AS note_body, dt AS note_date_time
+      SELECT id AS note_id, title AS note_title, body AS note_body, dt AS note_date_time
       FROM notes
       WHERE user_id = $1 AND folder_id = $2;
     SQL
@@ -90,6 +90,7 @@ class Database
     result = query(sql, user_id, folder_id)
     result.map do |tuple|
       {
+        note_id: tuple["note_id"],
         note_title: tuple["note_title"],
         note_body: tuple["note_body"],
         note_date_time: tuple["note_date_time"]
@@ -104,6 +105,13 @@ class Database
     SQL
 
     query(sql, title, body, user_id, folder_id)
+  end
+
+  def update_note(user_id, folder_id, note_id, note_title, note_body)
+    sql = <<~SQL
+      UPDATE notes SET (title, body) = ($1, $2) WHERE id = $3 AND folder_id = $4 AND user_id = $5;
+    SQL
+    query(sql, note_title, note_body, note_id, folder_id, user_id)
   end
 
   private

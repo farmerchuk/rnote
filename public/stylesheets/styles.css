@@ -245,7 +245,6 @@ section.primary-body article time {
 
 section.primary-body form {
   overflow: hidden;
-  padding: 0 10px;
 }
 
 section.primary-body form input[type="text"] {
@@ -258,7 +257,8 @@ section.primary-body form input[type="text"] {
 
 section.primary-body form textarea {
   padding: 0.5rem 10px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  line-height: 2;
   border: 1px solid #dadada;
   border-radius: 4px;
   width: 100%;
@@ -298,9 +298,9 @@ aside.related-folders li.summary ul li:first-of-type {
   font-weight: bold;
 }
 
-img.logo {
-  display: block;
-  padding-bottom: 50px;
+a.logo {
+  display: inline-block;
+  margin-bottom: 50px;
 }
 
 form div.form-row {
@@ -340,8 +340,7 @@ Create New Folder Page Styles
 */
 
 #create-new-folder h3 {
-  padding-top: 45px;
-  padding-left: 10px;
+  display: inline;
 }
 
 #create-new-folder p {
@@ -349,13 +348,9 @@ Create New Folder Page Styles
   color: #dadada;
 }
 
-#create-new-folder header.primary-header {
-  padding-left: 90px;
-}
-
 #create-new-folder section.primary-body {
   margin-right: 0;
-  padding: 67px 20px 20px 100px;
+  padding: 20px 3vw;
 }
 
 #create-new-folder form div.form-row:nth-of-type(2) {
@@ -391,6 +386,10 @@ Create New Note Page Styles
 ==============================
 */
 
+#create-new-note h3 {
+  display: inline;
+}
+
 #create-new-note form input.form-submit {
   float: right;
 }
@@ -404,5 +403,34 @@ Create New Note Page Styles
 }
 
 #create-new-note form textarea {
+  width: 100%;
   height: 50vh;
+}
+
+/*
+==============================
+Edit Note Page Styles
+==============================
+*/
+
+#edit-note h3 {
+  display: inline;
+}
+
+#edit-note form input.form-submit {
+  float: right;
+}
+
+#edit-note section.primary-body form {
+  padding-bottom: 20px;
+}
+
+#edit-note form textarea {
+  width: 100%;
+  height: 50vh;
+}
+
+#edit-note #active-note {
+  padding-top: 120px;
+  margin-top: -100px;
 }

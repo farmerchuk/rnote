@@ -2,6 +2,8 @@
 
   <header class="primary-header">
 
+    <h3>Add New Note</h3>
+
     <a class="btn" href="#">VIEW ALL RELATED NOTES</a>
 
   </header>
@@ -14,8 +16,8 @@
 
     <aside class="folder-menu">
 
-      <a href="/">
-        <img class="logo" src="/images/logo.png" alt="logo">
+      <a class="logo" href="/">
+        <img src="/images/logo.png" alt="logo">
       </a>
 
       <header>
@@ -124,7 +126,7 @@
             <section class="note">
 
               <p>
-                <%== note[:note_body] %>
+                <%== new_line_to_br(note[:note_body]) %>
               </p>
 
             </section>
