@@ -84,7 +84,8 @@ class Database
     sql = <<~SQL
       SELECT id AS note_id, title AS note_title, body AS note_body, dt AS note_date_time
       FROM notes
-      WHERE user_id = $1 AND folder_id = $2;
+      WHERE user_id = $1 AND folder_id = $2
+      ORDER BY dt DESC;
     SQL
 
     result = query(sql, user_id, folder_id)
