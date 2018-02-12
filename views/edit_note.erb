@@ -74,7 +74,7 @@
 
     <section class="primary-body">
 
-      <% @notes.reverse.each do |note| %>
+      <% @notes.each do |note| %>
 
         <% if note[:note_id].to_i == @note_id %>
 
@@ -143,99 +143,43 @@
 
       <% end %>
 
-    <aside class="related-folders">
+      <aside class="related-folders">
 
-      <section>
+        <section>
 
-        <ul>
+          <ul>
 
-          <li class="summary">
-            <a href="#">
-              <ul>
-                <li>Jason Slusarchuk</li>
-                <li>#PERSON</li>
-                <li>Role: VP Product</li>
-                <li>Email: jason@gmail.com</li>
-                <li>Tel: (555) 555-5555</li>
-              </ul>
-            </a>
-          </li>
+            <% if @parent_folder %>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+              <li class="summary">
+                <a href="/folders/<%== @parent_folder['id'] %>">
+                  <ul>
+                    <li><%== @parent_folder['name'] %></li>
+                    <li>#<%== @parent_folder['type'] %></li>
+                  </ul>
+                </a>
+              </li>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+            <% end %>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+            <% @related_folders.each do |folder| %>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+              <li class="summary">
+                <a href="/folders/<%== folder[:folder_id] %>">
+                  <ul>
+                    <li><%== folder[:folder_name] %></li>
+                    <li>#<%== folder[:folder_type] %></li>
+                  </ul>
+                </a>
+              </li>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+            <% end %>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+          </ul>
 
-          <li class="summary">
-            <ul>
-              <li>Jason Slusarchuk</li>
-              <li>#PERSON</li>
-              <li>Role: VP Product</li>
-              <li>Email: jason@gmail.com</li>
-              <li>Tel: (555) 555-5555</li>
-            </ul>
-          </li>
+        </section>
 
-        </ul>
-
-      </section>
-
-    </aside>
+      </aside>
 
   </main>
 

@@ -63,6 +63,40 @@ class Database
     SQL
     query(sql_attr_3, attr3, value3, 3, folder_id)
 
+    sql_relations = "INSERT INTO relations (parent_id) VALUES ($1)"
+    query(sql_relations, folder_id)
+
+    folder_id
+  end
+
+  def create_related_folder(name, type, attr1, value1, attr2, value2, attr3, value3, user_id, parent_id)
+    sql_new_folder = "INSERT INTO folders (name, type, user_id) VALUES ($1, $2, $3);"
+    query(sql_new_folder, name, type, user_id)
+
+    sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
+    folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
+
+    sql_attr_1 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql_attr_1, attr1, value1, 1, folder_id)
+
+    sql_attr_2 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql_attr_2, attr2, value2, 2, folder_id)
+
+    sql_attr_3 = <<~SQL
+      INSERT INTO attributes (name, value, position, folder_id)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql_attr_3, attr3, value3, 3, folder_id)
+
+    sql_relations = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2)"
+    query(sql_relations, parent_id, folder_id)
+
     folder_id
   end
 
@@ -80,12 +114,42 @@ class Database
     query(sql_attr3, attr3, value3, folder_id)
   end
 
+  def load_parent_folder(user_id, child_folder_id)
+    sql = <<~SQL
+      SELECT folders.id, folders.name, folders.type
+      FROM relations
+      INNER JOIN folders ON relations.parent_id = folders.id
+      WHERE relations.child_id = $1 AND folders.user_id = $2;
+    SQL
+
+    query(sql, child_folder_id, user_id).first
+  end
+
+  def load_related_child_folders(user_id, folder_id)
+    sql_child_folder_ids = <<~SQL
+      SELECT id, name, type FROM folders WHERE id = ANY (
+        SELECT relations.child_id AS child_folders
+        FROM folders
+        INNER JOIN relations ON relations.parent_id = folders.id
+        WHERE folders.user_id = $1 and folders.id = $2);
+    SQL
+
+    result = query(sql_child_folder_ids, user_id, folder_id)
+    result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_type: tuple["type"]
+      }
+    end
+  end
+
   def load_notes(user_id, folder_id)
     sql = <<~SQL
       SELECT id AS note_id, title AS note_title, body AS note_body, dt AS note_date_time
       FROM notes
       WHERE user_id = $1 AND folder_id = $2
-      ORDER BY dt DESC;
+      ORDER BY dt ASC;
     SQL
 
     result = query(sql, user_id, folder_id)

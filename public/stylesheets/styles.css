@@ -50,7 +50,6 @@ h1 {
 
 h2 {
   font-size: 1.5rem;
-  font-weight: bold;
   color: #dadada;
 }
 
@@ -296,6 +295,12 @@ aside.related-folders li.summary ul li {
 
 aside.related-folders li.summary ul li:first-of-type {
   font-weight: bold;
+  font-size: 1.5rem;
+}
+
+aside.related-folders li.summary ul li:last-of-type {
+  text-transform: uppercase;
+  font-size: 1.1rem;
 }
 
 a.logo {

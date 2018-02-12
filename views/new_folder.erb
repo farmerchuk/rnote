@@ -2,7 +2,15 @@
 
   <header class="primary-header">
 
-    <h3>Create New Folder</h3>
+    <% if @parent_id %>
+
+      <h3>Create Related Folder </h3>
+
+    <% else %>
+
+      <h3>Create New Folder</h3>
+
+    <% end %>
 
   </header>
 
@@ -52,7 +60,7 @@
                 <label for="name">What should this folder be called?</label>
               </dt>
               <dd>
-                <input type="text" name="name" id="name" placeholder="Chris Farmer">
+                <input type="text" name="name" id="name" placeholder="Mickey Mouse">
               </dd>
             </div>
 
@@ -61,7 +69,7 @@
                 <label for="type">What type of folder is this?</label>
               </dt>
               <dd>
-                <input type="text" name="type" id="type" placeholder="Lead">
+                <input type="text" name="type" id="type" placeholder="Contact">
               </dd>
             </div>
 
@@ -81,7 +89,7 @@
                   <label for="value1">Value 1</label>
                 </dt>
                 <dd>
-                  <input type="text" name="value1" id="value1" placeholder="VP Product Design">
+                  <input type="text" name="value1" id="value1" placeholder="VP of Imagineering">
                 </dd>
               </div>
 
@@ -94,7 +102,7 @@
                   <label for="attr2">Attribute 2:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr2" id="attr2" placeholder="">
+                  <input type="text" name="attr2" id="attr2" placeholder="Email">
                 </dd>
               </div><!--
 
@@ -103,7 +111,7 @@
                   <label for="value2">Value 2</label>
                 </dt>
                 <dd>
-                  <input type="text" name="value2" id="value2" placeholder="">
+                  <input type="text" name="value2" id="value2" placeholder="mickey@disney.com">
                 </dd>
               </div>
 
@@ -132,6 +140,12 @@
             </div>
 
           </dl>
+
+          <% if @parent_id %>
+
+            <input type="hidden" name="parent_id" value="<%== @parent_id %>">
+
+          <% end %>
 
         </fieldset>
 

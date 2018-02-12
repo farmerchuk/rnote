@@ -48,17 +48,28 @@ end
 # ---------------------------------------
 
 get "/" do
-  redirect "/folders/2"
+  redirect "/folders/new"
 end
 
 get "/folders/new" do
+  @parent_id = params[:parent_id]
+
   erb :new_folder, layout: :layout
 end
 
 post "/folders/new" do
   if pass_form_validations?
-    folder_params = params.values << @user_id
-    folder_id = @storage.create_folder(*folder_params)
+    new_folder_params = [
+      params['name'], params['type'], params['attr1'], params['value1'],
+      params['attr2'], params['value2'], params['attr3'], params['value3'], @user_id
+    ]
+
+    if params[:parent_id]
+      new_folder_params << params['parent_id'].to_i
+      folder_id = @storage.create_related_folder(*new_folder_params)
+    else
+      folder_id = @storage.create_folder(*new_folder_params)
+    end
 
     redirect "/folders/#{folder_id}"
   else
@@ -82,6 +93,9 @@ get "/folders/:id" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
+
+  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
+  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
 
   erb :folder, layout: :layout
 end
@@ -144,6 +158,9 @@ get "/folders/:id/notes/new" do
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
 
+  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
+  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
+
   erb :new_note, layout: :layout
 end
 
@@ -178,6 +195,9 @@ get "/folders/:folder_id/notes/:note_id/edit" do
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
   @note_id = params[:note_id].to_i
+
+  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
+  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
 
   erb :edit_note, layout: :layout
 end
