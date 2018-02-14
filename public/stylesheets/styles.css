@@ -350,6 +350,7 @@ Create New Folder Page Styles
 
 #create-new-folder p {
   padding-top: 20px;
+  font-size: 1.2rem;
   color: #dadada;
 }
 
@@ -383,6 +384,31 @@ Create New Folder Page Styles
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+#create-new-folder #link-folders {
+  padding-top: 20px;
+  color: #c2563f;
+}
+
+#create-new-folder #link-folders input[type="checkbox"] {
+  display: none;
+}
+
+#create-new-folder #link-folders label::before {
+  content: "";
+  display: inline-block;
+  height: 21px;
+  width: 21px;
+  margin-right: 20px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  vertical-align: -4px;
+  cursor: pointer;
+}
+
+#create-new-folder #link-folders input[type="checkbox"]:checked + label::before {
+  background: transparent url("../images/bg_checked.png");
 }
 
 /*

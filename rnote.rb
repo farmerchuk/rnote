@@ -53,6 +53,7 @@ end
 
 get "/folders/new" do
   @parent_id = params[:parent_id]
+  @parent_name = params[:parent_name]
 
   erb :new_folder, layout: :layout
 end

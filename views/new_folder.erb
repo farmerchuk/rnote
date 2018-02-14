@@ -2,15 +2,7 @@
 
   <header class="primary-header">
 
-    <% if @parent_id %>
-
-      <h3>Create Related Folder </h3>
-
-    <% else %>
-
-      <h3>Create New Folder</h3>
-
-    <% end %>
+    <h3>Create New Folder</h3>
 
   </header>
 
@@ -28,12 +20,21 @@
 
       <header>
 
-        <h2>Tip:</h2>
+        <h2>Tips:</h2>
 
         <p>
-          If this folder is related to an existing folder, you may wish to choose
-          'Create Related Folder' instead to preserve the relationship between
-          the two folders.
+          Think of folders as people, places or things, or in other
+          words, objects you'd like to associate notes with.
+        </p>
+
+        <p>
+          Folder types can help you quickly identify what kind of folder this
+          is. Also very useful for when filtering search results.
+        </p>
+
+        <p>
+          Attributes are key traits like a person's title and contact
+          information.
         </p>
 
       </header>
@@ -139,13 +140,18 @@
 
             </div>
 
+            <% if @parent_id %>
+
+              <div id="link-folders" class="form-row">
+
+                <input type="checkbox" name="parent_id" id="parent_id" value="<%== @parent_id %>">
+                <label for="parent_id">Link this new record to <%== @parent_name %>?</label>
+
+              </div>
+
+            <% end %>
+
           </dl>
-
-          <% if @parent_id %>
-
-            <input type="hidden" name="parent_id" value="<%== @parent_id %>">
-
-          <% end %>
 
         </fieldset>
 
