@@ -245,7 +245,7 @@ section.primary-body article header a:hover {
 }
 
 section.primary-body article h3 {
-  
+
 }
 
 section.primary-body article time {
@@ -288,11 +288,6 @@ aside.related-folders a {
   color: #363636;
 }
 
-aside.related-folders h4 {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #dadada;
-}
-
 aside.related-folders a:hover {
   color: #97a7b1;
 }
@@ -303,6 +298,11 @@ aside.related-folders section {
 
 aside.related-folders ul li.summary {
   margin-bottom: 20px;
+}
+
+aside.related-folders ul li.summary ul {
+  border-left: 3px solid #dadada;
+  padding-left: 10px;
 }
 
 aside.related-folders li.summary ul li {
