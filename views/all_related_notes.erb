@@ -4,7 +4,7 @@
 
     <h3>All Related Notes</h3>
 
-    <a class="btn" href="/folders/<%== @folder_id %>/notes/new">ADD NEW NOTE</a>
+    <a class="btn" href="/folders/<%= @folder_id %>/notes/new">ADD NEW NOTE</a>
 
   </header>
 
@@ -45,17 +45,17 @@
           <article>
 
             <header>
-              <time datetime="2001-05-15T19:00"><%== format_date(note[:note_date_time]) %></time>
+              <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
               <h3>
-                <a href="/folders/<%== note[:folder_id] %>/notes/<%== note[:note_id] %>/edit#active-note"><%== note[:note_title] %></a>
+                <a href="/folders/<%= note[:folder_id] %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
               </h3>
-              <h5><%== note[:folder_name] %></h5>
+              <h5><%= note[:folder_name] %></h5>
             </header>
 
             <section class="note">
 
               <p>
-                <%== new_line_to_br(note[:note_body]) %>
+                <%= new_line_to_br(note[:note_body]) %>
               </p>
 
             </section>
