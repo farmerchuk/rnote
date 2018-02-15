@@ -22,9 +22,13 @@
 
       <header>
 
-        <h1><%== @folder_name %></h1>
+        <a href="/folders/<%== @folder_id %>">
 
-        <h2>#<%== @folder_type.upcase %></h2>
+          <h1><%== @folder_name %></h1>
+
+          <h2>#<%== @folder_type.upcase %></h2>
+
+        </a>
 
       </header>
 
@@ -120,10 +124,10 @@
           <article>
 
             <header>
-              <a href="/folders/<%== @folder_id %>/notes/<%== note[:note_id] %>/edit#active-note">
-                <h3><%== note[:note_title] %></h3>
-              </a>
-              <time datetime="2001-05-15T19:00"><%== note[:note_date_time] %></time>
+              <time datetime="2001-05-15T19:00"><%== format_date(note[:note_date_time]) %></time>
+              <h3>
+                <a href="/folders/<%== @folder_id %>/notes/<%== note[:note_id] %>/edit#active-note"><%== note[:note_title] %></a>
+              </h3>
             </header>
 
             <section class="note">

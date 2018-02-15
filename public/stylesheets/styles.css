@@ -56,14 +56,18 @@ h2 {
 h3 {
   font-size: 2rem;
   font-weight: bold;
+  padding-right: 20px;
 }
 
 h4 {
   font-size: 1.5rem;
   font-weight: bold;
   color: #97a7b1;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #dadada;
+}
+
+h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 p {
@@ -241,13 +245,12 @@ section.primary-body article header a:hover {
 }
 
 section.primary-body article h3 {
-  float: left;
+  
 }
 
 section.primary-body article time {
-  float: left;
-  padding-top: 15px;
-  padding-left: 20px;
+  float: right;
+  padding-top: 10px;
 }
 
 section.primary-body form {
@@ -283,6 +286,11 @@ aside.related-folders {
 
 aside.related-folders a {
   color: #363636;
+}
+
+aside.related-folders h4 {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dadada;
 }
 
 aside.related-folders a:hover {
@@ -425,7 +433,7 @@ Create New Note Page Styles
 ==============================
 */
 
-#create-new-note h3 {
+#create-new-note header.primary-header h3 {
   display: inline;
 }
 
@@ -452,7 +460,7 @@ Edit Note Page Styles
 ==============================
 */
 
-#edit-note h3 {
+#edit-note header.primary-header h3 {
   display: inline;
 }
 
@@ -472,4 +480,18 @@ Edit Note Page Styles
 #edit-note #active-note {
   padding-top: 120px;
   margin-top: -100px;
+}
+
+/*
+==============================
+View All Related Notes Page Styles
+==============================
+*/
+
+#all-related-notes header.primary-header h3 {
+  display: inline;
+}
+
+#all-related-notes h5 {
+  display: inline;
 }

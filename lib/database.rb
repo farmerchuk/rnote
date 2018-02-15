@@ -179,6 +179,39 @@ class Database
     query(sql, note_title, note_body, note_id, folder_id, user_id)
   end
 
+  def load_all_related_notes(user_id, folder_id)
+    sql = <<~SQL
+      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name, folders.type AS folder_type, notes.title AS note_title, notes.body AS note_body, notes.dt AS note_date_time
+      FROM notes
+      INNER JOIN folders ON notes.folder_id = folders.id
+      WHERE folder_id = ANY (
+        SELECT folders.id AS parent_folder
+        FROM relations
+        INNER JOIN folders ON relations.parent_id = folders.id
+        WHERE folders.user_id = $1 AND relations.child_id = $2
+      ) OR folder_id = ANY (
+        SELECT relations.child_id AS child_folders
+        FROM folders
+        INNER JOIN relations ON relations.parent_id = folders.id
+        WHERE folders.user_id = $1 and folders.id = $2
+      ) OR folder_id = $2
+      ORDER BY notes.dt ASC;
+    SQL
+
+    result = query(sql, user_id, folder_id)
+    result.map do |tuple|
+      {
+        note_id: tuple["note_id"],
+        folder_id: tuple["folder_id"],
+        folder_name: tuple["folder_name"],
+        folder_type: tuple["folder_type"],
+        note_title: tuple["note_title"],
+        note_body: tuple["note_body"],
+        note_date_time: tuple["note_date_time"]
+      }
+    end
+  end
+
   private
 
   def query(statement, *params)

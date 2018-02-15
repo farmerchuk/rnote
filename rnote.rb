@@ -33,6 +33,10 @@ helpers do
   def new_line_to_br(string)
     string.gsub(/[\r]/, "<br />")
   end
+
+  def format_date(date)
+    date.split('.').first
+  end
 end
 
 # ---------------------------------------
@@ -216,4 +220,26 @@ post "/folders/:folder_id/notes/:note_id/edit" do
   else
     erb :edit_folder, layout: :layout
   end
+end
+
+get "/folders/:folder_id/all_related_notes" do
+  @folder_id = params[:folder_id].to_i
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_type = folder.first[:folder_type]
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
+
+  @notes = @storage.load_all_related_notes(@user_id, @folder_id).reverse
+
+  erb :all_related_notes, layout: :layout
 end

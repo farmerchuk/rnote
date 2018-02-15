@@ -1,9 +1,10 @@
-<div id="main-page">
+<div id="all-related-notes">
 
   <header class="primary-header">
 
-    <a class="btn" href="/folders/<%== @folder_id %>/notes/new">ADD NEW NOTE</a><!--
-    --><a class="btn" href="/folders/<%== @folder_id %>/all_related_notes">VIEW ALL RELATED NOTES</a>
+    <h3>All Related Notes</h3>
+
+    <a class="btn" href="/folders/<%== @folder_id %>/notes/new">ADD NEW NOTE</a>
 
   </header>
 
@@ -109,8 +110,9 @@
             <header>
               <time datetime="2001-05-15T19:00"><%== format_date(note[:note_date_time]) %></time>
               <h3>
-                <a href="/folders/<%== @folder_id %>/notes/<%== note[:note_id] %>/edit#active-note"><%== note[:note_title] %></a>
+                <a href="/folders/<%== note[:folder_id] %>/notes/<%== note[:note_id] %>/edit#active-note"><%== note[:note_title] %></a>
               </h3>
+              <h5><%== note[:folder_name] %></h5>
             </header>
 
             <section class="note">
