@@ -19,6 +19,30 @@ class Database
     @db.close
   end
 
+  def find_folders(user_id, search_query)
+    search_query = "%" + search_query + "%"
+    sql = <<~SQL
+      SELECT * FROM folders WHERE user_id = $1 AND name ILIKE $2;
+    SQL
+
+    result = query(sql, user_id, search_query)
+    result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_type: tuple["type"],
+        date_time: tuple["dt"]
+      }
+    end
+  end
+
+  def list_folder_types(user_id)
+    sql = "SELECT DISTINCT type FROM folders WHERE user_id = $1"
+
+    result = query(sql, user_id)
+    result.map { |tuple| tuple["type"] }
+  end
+
   def load_folder(user_id, folder_id)
     sql = <<~SQL
       SELECT folders.name AS folder_name, folders.type AS folder_type, attributes.name AS attr_name, attributes.value AS attr_value

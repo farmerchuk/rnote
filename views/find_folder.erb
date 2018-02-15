@@ -1,0 +1,103 @@
+<div id="find-folder">
+
+  <header class="primary-header">
+
+    <% if @query.empty? %>
+
+      <h3>Listing All Folders</h3>
+
+    <% else %>
+
+      <h3>Searching for '<%== @query %>'</h3>
+
+    <% end %>
+
+  </header>
+
+  <header class="user-settings">
+    <a href="#">Jason</a>
+  </header>
+
+  <main>
+
+    <aside class="folder-menu">
+
+      <a class="logo" href="/">
+        <img src="/images/logo.png" alt="logo">
+      </a>
+
+      <header>
+
+        <h2>Filter & Sort Options:</h2>
+
+      </header>
+
+      <form class="find-folder-filters" action="/folders/find_folder" method="get">
+        <dl>
+
+          <dt>
+            <label for="filter_by_type">Filter by Folder Type:</label>
+          </dt>
+          <dd>
+            <select name="filter_by_type" id="filter_by_type">
+              <option value="all_types">All types</option>
+              <% @folder_types.each do |type| %>
+                <option value="<%== type %>" <%== "selected" if params[:filter_by_type] == type %>><%== type.capitalize %></option>
+              <% end %>
+            </select>
+          </dd>
+
+          <dt>
+            <label for="sort">Sort by:</label>
+          </dt>
+          <dd>
+            <select name="sort" id="sort">
+              <option value="no_sort">No sort</option>
+              <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
+              <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
+            </select>
+          </dd>
+
+          <input type="hidden" name="query" value="<%== @query %>">
+
+        </dl>
+
+        <input type="submit" value="Apply Filters">
+      </form>
+
+      <form class="find" action="/folders/find_folder" method="get">
+        <p>Search or hit 'enter' for all folders</p>
+        <label>
+          <input type="text" name="query" placeholder="Find folder...">
+        </label>
+        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="sort" value="no_sort">
+        <input type="submit" value="">
+      </form>
+
+    </aside>
+
+    <section class="primary-body">
+
+      <ul>
+
+        <% @folders.each do |folder| %>
+
+          <li class="summary">
+            <a href="/folders/<%== folder[:folder_id] %>">
+              <ul>
+                <li><%== folder[:folder_name] %></li>
+                <li>#<%== folder[:folder_type] %></li>
+              </ul>
+            </a>
+          </li>
+
+        <% end %>
+
+      </ul>
+
+    </section>
+
+  </main>
+
+</div>

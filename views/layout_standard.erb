@@ -53,25 +53,28 @@
 
         <ul>
           <li>
-            <a href="/folders/<%== @folder_id %>/edit">&gt; EDIT FOLDER</a>
+            <a href="/folders/<%== @folder_id %>/edit">EDIT FOLDER</a>
           </li>
           <li>
-            <a href="#">&gt; ADD REMINDER</a>
+            <a href="#">ADD TO-DO</a>
           </li>
           <li>
-            <a href="/folders/new?parent_id=<%== @folder_id %>&parent_name=<%== @folder_name %>">&gt; CREATE NEW FOLDER</a>
+            <a href="/folders/new?parent_id=<%== @folder_id %>&parent_name=<%== @folder_name %>">CREATE NEW FOLDER</a>
           </li>
           <li>
-            <a href="#">&gt; DELETE FOLDER</a>
+            <a href="#">DELETE FOLDER</a>
           </li>
         </ul>
 
       </section>
 
-      <form class="find" action="#" method="post">
+      <form class="find" action="/folders/find_folder" method="get">
+        <small>Search or hit 'enter' for all folders</small>
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
+        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
 

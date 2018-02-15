@@ -156,6 +156,7 @@ aside.folder-menu {
 
 aside.folder-menu a {
   color: #fff;
+  font-size: 1.2rem;
 }
 
 aside.folder-menu a:hover {
@@ -166,13 +167,8 @@ section.folder-attributes {
   padding-top: 40px;
 }
 
-section.folder-attributes dt,
-section.folder-attributes dd {
-  font-size: 1.1rem;
-}
-
 section.folder-attributes dt {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   padding-bottom: 0.5rem;
   color: #bad0df;
@@ -181,6 +177,7 @@ section.folder-attributes dt {
 section.folder-attributes dd {
   padding-bottom: 1.5rem;
   padding-left: 1rem;
+  font-size: 1.1rem;
   color: #dadada;
 }
 
@@ -199,6 +196,14 @@ aside.folder-menu form.find {
   width: 310px;
 }
 
+aside.folder-menu form.find small {
+  display: block;
+  font-size: 1rem;
+  color: #dadada;
+  padding-bottom: 8px;
+  padding-left: 5px;
+}
+
 aside.folder-menu form.find input[name="query"] {
   width: 100%;
   padding: 10px;
@@ -209,7 +214,7 @@ aside.folder-menu form.find input[name="query"] {
   background: #363636;
 }
 
-form.find input[type="submit"] {
+aside.folder-menu form.find input[type="submit"] {
   display: none;
 }
 
@@ -360,7 +365,7 @@ Create New Folder Page Styles
 ==============================
 */
 
-#create-new-folder h3 {
+#create-new-folder header.primary-header h3 {
   display: inline;
 }
 
@@ -494,4 +499,88 @@ View All Related Notes Page Styles
 
 #all-related-notes h5 {
   display: inline;
+}
+
+/*
+==============================
+Find Folder Page Styles
+==============================
+*/
+
+#find-folder form.find-folder-filters {
+  padding-top: 40px;
+}
+
+#find-folder form.find-folder-filters label {
+  color: #bad0df;
+  font-size: 1.1rem;
+}
+
+#find-folder form.find-folder-filters dl {
+  padding-bottom: 20px;
+}
+
+#find-folder form.find-folder-filters dd {
+  padding-bottom: 20px;
+}
+
+#find-folder form.find-folder-filters select,
+#find-folder form.find-folder-filters input[type="submit"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  color: #fff;
+  background: #363636;
+}
+
+#find-folder form.find-folder-filters input[type="submit"] {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#find-folder form.find-folder-filters input[type="submit"]:hover {
+  border: 1px solid #bad0df;
+  color: #bad0df;
+}
+
+#find-folder header.primary-header h3 {
+  display: inline;
+}
+
+#find-folder section.primary-body {
+  margin-right: 0;
+  padding: 20px 3vw;
+}
+
+#find-folder section.primary-body a {
+  color: #363636;
+}
+
+#find-folder section.primary-body a:hover {
+  color: #97a7b1;
+}
+
+#find-folder section.primary-body ul li.summary {
+  margin-bottom: 20px;
+}
+
+#find-folder section.primary-body li.summary ul {
+  display: inline-block;
+}
+
+#find-folder section.primary-body li.summary ul li {
+  padding-bottom: 5px;
+}
+
+#find-folder section.primary-body li.summary ul li:first-of-type {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+#find-folder section.primary-body li.summary ul li:last-of-type {
+  text-transform: uppercase;
+  font-size: 1.1rem;
 }

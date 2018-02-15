@@ -20,20 +20,31 @@
 
       <header>
 
-        <h2>Tip:</h2>
+        <h2>Tips:</h2>
 
         <p>
-          If this folder is related to an existing folder, you may wish to choose
-          'Create Related Folder' instead to preserve the relationship between
-          the two folders.
+          You can think of folders as people, places or things.
+        </p>
+
+        <p>
+          Folder types can help you quickly identify what kind of folder this
+          is. Also very useful for when filtering search results.
+        </p>
+
+        <p>
+          Attributes are key traits like a person's title and contact
+          information.
         </p>
 
       </header>
 
-      <form class="find" action="#" method="post">
+      <form class="find" action="/folders/find_folder" method="get">
+        <small>Search or hit 'enter' for all folders</small>
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
+        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
 

@@ -47,12 +47,33 @@ def pass_form_validations?
   true
 end
 
+def filter_sort_folders(folders, filter_by_type, sort)
+  if filter_by_type != "all_types" && filter_by_type != nil
+    folders = folders.select { |folder| folder[:folder_type] == filter_by_type }
+  end
+  if sort == "recently_created_first" || sort == "recently_created_last"
+    folders = folders.sort_by { |folder| folder[:date_time] }
+    folders.reverse! if sort == "recently_created_first"
+  end
+
+  folders
+end
+
 # ---------------------------------------
 # ROUTES
 # ---------------------------------------
 
 get "/" do
-  redirect "/folders/new"
+  redirect "/folders/1"
+end
+
+get "/folders/find_folder" do
+  @query = params[:query] || ""
+  @all_folders = @storage.find_folders(@user_id, @query)
+  @folder_types = @storage.list_folder_types(@user_id)
+  @folders = filter_sort_folders(@all_folders, params[:filter_by_type], params[:sort])
+
+  erb :find_folder, layout: :layout
 end
 
 get "/folders/new" do
