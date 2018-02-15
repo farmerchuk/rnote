@@ -102,7 +102,7 @@ get "/folders/:id" do
   @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
   @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
 
-  erb :folder, layout: :layout
+  erb :folder, layout: :layout_standard
 end
 
 get "/folders/:id/edit" do
@@ -166,7 +166,7 @@ get "/folders/:id/notes/new" do
   @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
   @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
 
-  erb :new_note, layout: :layout
+  erb :new_note, layout: :layout_standard
 end
 
 post "/folders/:id/notes/new" do
@@ -204,7 +204,7 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
   @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
 
-  erb :edit_note, layout: :layout
+  erb :edit_note, layout: :layout_standard
 end
 
 post "/folders/:folder_id/notes/:note_id/edit" do
@@ -241,5 +241,5 @@ get "/folders/:folder_id/all_related_notes" do
 
   @notes = @storage.load_all_related_notes(@user_id, @folder_id).reverse
 
-  erb :all_related_notes, layout: :layout
+  erb :all_related_notes, layout: :layout_standard
 end

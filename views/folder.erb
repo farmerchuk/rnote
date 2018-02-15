@@ -7,70 +7,7 @@
 
   </header>
 
-  <header class="user-settings">
-    <a href="#">Jason</a>
-  </header>
-
   <main>
-
-    <aside class="folder-menu">
-
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="logo">
-      </a>
-
-      <header>
-
-        <a href="/folders/<%== @folder_id %>">
-
-          <h1><%== @folder_name %></h1>
-
-          <h2>#<%== @folder_type.upcase %></h2>
-
-        </a>
-
-      </header>
-
-      <section class="folder-attributes">
-
-        <dl>
-          <% @folder_attributes.each do |attribute| %>
-            <% unless attribute[:name].empty? || attribute[:value].empty? %>
-              <dt><%== attribute[:name] %>:</dt>
-              <dd><%== attribute[:value] %></dd>
-            <% end %>
-          <% end %>
-        </dl>
-
-      </section>
-
-      <section class="folder-actions">
-
-        <ul>
-          <li>
-            <a href="/folders/<%== @folder_id %>/edit">&gt; EDIT FOLDER</a>
-          </li>
-          <li>
-            <a href="#">&gt; ADD REMINDER</a>
-          </li>
-          <li>
-            <a href="/folders/new?parent_id=<%== @folder_id %>&parent_name=<%== @folder_name %>">&gt; CREATE NEW FOLDER</a>
-          </li>
-          <li>
-            <a href="#">&gt; DELETE FOLDER</a>
-          </li>
-        </ul>
-
-      </section>
-
-      <form class="find" action="#" method="post">
-        <label>
-          <input type="text" name="query" placeholder="Find folder...">
-        </label>
-        <input type="submit" value="">
-      </form>
-
-    </aside>
 
     <section class="primary-body">
 
@@ -126,44 +63,6 @@
         <% end %>
 
       <% end %>
-
-    <aside class="related-folders">
-
-      <section>
-
-        <ul>
-
-          <% if @parent_folder %>
-
-            <li class="summary">
-              <a href="/folders/<%== @parent_folder['id'] %>">
-                <ul>
-                  <li><%== @parent_folder['name'] %></li>
-                  <li>#<%== @parent_folder['type'] %></li>
-                </ul>
-              </a>
-            </li>
-
-          <% end %>
-
-          <% @related_folders.each do |folder| %>
-
-            <li class="summary">
-              <a href="/folders/<%== folder[:folder_id] %>">
-                <ul>
-                  <li><%== folder[:folder_name] %></li>
-                  <li>#<%== folder[:folder_type] %></li>
-                </ul>
-              </a>
-            </li>
-
-          <% end %>
-
-        </ul>
-
-      </section>
-
-    </aside>
 
   </main>
 
