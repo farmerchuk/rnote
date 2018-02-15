@@ -76,6 +76,12 @@ p {
   font-size: 1.3rem;
 }
 
+pre {
+  white-space: pre-wrap;
+  line-height: 2;
+  font-size: 1.3rem;
+}
+
 a {
   text-decoration: none;
 }
@@ -256,6 +262,7 @@ section.primary-body article h3 {
 section.primary-body article time {
   float: right;
   padding-top: 10px;
+  font-size: 1.2rem;
 }
 
 section.primary-body form {

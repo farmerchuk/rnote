@@ -42,7 +42,7 @@
             <select name="filter_by_type" id="filter_by_type">
               <option value="all_types">All types</option>
               <% @folder_types.each do |type| %>
-                <option value="<%= type %>" <%= "selected" if params[:filter_by_type] == type %>><%= type.capitalize %></option>
+                <option value="<%= type %>" <%== "selected" if params[:filter_by_type] == type %>><%= type.capitalize %></option>
               <% end %>
             </select>
           </dd>
@@ -53,8 +53,8 @@
           <dd>
             <select name="sort" id="sort">
               <option value="no_sort">No sort</option>
-              <option value="recently_created_first" <%= "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
-              <option value="recently_created_last" <%= "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
+              <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
+              <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
             </select>
           </dd>
 
@@ -66,7 +66,7 @@
       </form>
 
       <form class="find" action="/folders/find_folder" method="get">
-        <p>Search or hit 'enter' for all folders</p>
+        <small>Search or hit 'enter' for all folders</small>
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
