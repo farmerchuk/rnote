@@ -27,7 +27,7 @@
         </p>
 
         <p>
-          Folder types can help you quickly identify what kind of folder this
+          Folder tagss can help you quickly identify what kind of folder this
           is. Also very useful for when filtering search results.
         </p>
 
@@ -43,7 +43,7 @@
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
-        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="filter_by_tags" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
@@ -69,10 +69,10 @@
 
             <div class="form-row">
               <dt>
-                <label for="type">What type of folder is this?</label>
+                <label for="tags">Tags:</label>
               </dt>
               <dd>
-                <input type="text" name="type" id="type" value="<%= @folder_type %>">
+                <input type="text" name="tags" id="tags" value="<%= @folder_tags_string %>">
               </dd>
             </div>
 

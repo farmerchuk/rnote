@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE folders (
   id serial PRIMARY KEY,
   name text UNIQUE NOT NULL,
-  type text NOT NULL CHECK (type ~ '^[a-z0-9 _-]+$'),
+  tags text NOT NULL CHECK (tags ~ '^[a-z0-9 _-]+$'),
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   dt timestamptz NOT NULL DEFAULT now()
 );

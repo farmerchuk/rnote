@@ -36,13 +36,13 @@
         <dl>
 
           <dt>
-            <label for="filter_by_type">Filter by Folder Type:</label>
+            <label for="filter_by_tag">Filter by Folder Tag:</label>
           </dt>
           <dd>
-            <select name="filter_by_type" id="filter_by_type">
-              <option value="all_types">All types</option>
-              <% @folder_types.each do |type| %>
-                <option value="<%= type %>" <%== "selected" if params[:filter_by_type] == type %>><%= type.capitalize %></option>
+            <select name="filter_by_tag" id="filter_by_tag">
+              <option value="all_tags">All tags</option>
+              <% @folder_tags.each do |tag| %>
+                <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
               <% end %>
             </select>
           </dd>
@@ -70,7 +70,7 @@
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
-        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="filter_by_tag" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
@@ -87,7 +87,7 @@
             <a href="/folders/<%= folder[:folder_id] %>">
               <ul>
                 <li><%= folder[:folder_name] %></li>
-                <li><%= format_folder_types_as_string(folder[:folder_type]) %></li>
+                <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
               </ul>
             </a>
           </li>

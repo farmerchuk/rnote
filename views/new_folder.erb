@@ -23,9 +23,9 @@
         <h2>Tips:</h2>
 
         <p>
-          Folder types can help you quickly identify what kind of folder this
+          Folder tags can help you quickly identify what kind of folder this
           is. Also very useful for when filtering search results. Enter
-          multiple types separated by a space.
+          multiple tags separated by a space.
         </p>
 
         <p>
@@ -40,7 +40,7 @@
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
-        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="filter_by_tag" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
@@ -66,10 +66,10 @@
 
             <div class="form-row">
               <dt>
-                <label for="type">What type of folder is this?</label>
+                <label for="tags">Tags:</label>
               </dt>
               <dd>
-                <input type="text" name="type" id="type" placeholder="Account, Contact, Event, etc.">
+                <input type="text" name="tags" id="tags" placeholder="Account, Contact, Event, etc.">
               </dd>
             </div>
 
@@ -144,7 +144,7 @@
               <div id="link-folders" class="form-row">
 
                 <input type="checkbox" name="parent_id" id="parent_id" value="<%= @parent_id %>">
-                <label for="parent_id">Link this new record to <%= @parent_name %>?</label>
+                <label for="parent_id">Link this new folder to <%= @parent_name %>?</label>
 
               </div>
 

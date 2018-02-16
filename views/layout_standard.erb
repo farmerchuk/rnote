@@ -30,8 +30,8 @@
 
           <h1><%= @folder_name %></h1>
 
-          <% @folder_types.each do |type| %>
-            <h2>#<%= type.upcase %></h2>
+          <% @folder_tags.each do |tag| %>
+            <h2>#<%= tag.upcase %></h2>
           <% end %>
 
         </a>
@@ -72,7 +72,7 @@
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
-        <input type="hidden" name="filter_by_type" value="all_types">
+        <input type="hidden" name="filter_by_tag" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
       </form>
@@ -93,7 +93,9 @@
               <a href="/folders/<%= @parent_folder['id'] %>">
                 <ul>
                   <li><%= @parent_folder['name'] %></li>
-                  <li>#<%= @parent_folder['type'] %></li>
+                  <% format_folder_tags_as_array(@parent_folder['tags']).each do |tag| %>
+                    <li><%= tag.upcase %></li>
+                  <% end %>
                 </ul>
               </a>
             </li>
@@ -106,8 +108,8 @@
               <a href="/folders/<%= folder[:folder_id] %>">
                 <ul>
                   <li><%= folder[:folder_name] %></li>
-                  <% format_folder_types_as_array(folder[:folder_type]).each do |type| %>
-                    <li><%= type.upcase %></li>
+                  <% format_folder_tags_as_array(folder[:folder_tags]).each do |tag| %>
+                    <li><%= tag.upcase %></li>
                   <% end %>
                 </ul>
               </a>

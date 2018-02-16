@@ -47,21 +47,21 @@ def pass_form_validations?
   true
 end
 
-def parse_folder_types(raw_folder_types)
-  raw_folder_types.map { |type| type.split(' ') }.flatten.uniq.sort
+def parse_folder_tags(raw_folder_tags)
+  raw_folder_tags.map { |tags| tags.split(' ') }.flatten.uniq.sort
 end
 
-def format_folder_types_as_string(folder_types)
-  folder_types.split(' ').map { |type| "##{type}"}.sort.join(' ')
+def format_folder_tags_as_string(folder_tags)
+  folder_tags.split(' ').map { |tags| "##{tags}"}.sort.join(' ')
 end
 
-def format_folder_types_as_array(folder_types)
-  folder_types.split(' ').map { |type| "##{type}"}.sort
+def format_folder_tags_as_array(folder_tags)
+  folder_tags.split(' ').map { |tags| "##{tags}"}.sort
 end
 
-def filter_sort_folders(folders, filter_by_type, sort)
-  if filter_by_type != "all_types" && filter_by_type != nil
-    folders = folders.select { |folder| folder[:folder_type].include?(filter_by_type) }
+def filter_sort_folders(folders, filter_by_tag, sort)
+  if filter_by_tag != "all_tags" && filter_by_tag != nil
+    folders = folders.select { |folder| folder[:folder_tags].include?(filter_by_tag) }
   end
   if sort == "recently_created_first" || sort == "recently_created_last"
     folders = folders.sort_by { |folder| folder[:date_time] }
@@ -76,15 +76,15 @@ end
 # ---------------------------------------
 
 get "/" do
-  redirect "/folders/1"
+  redirect "/folders/new"
 end
 
 get "/folders/find_folder" do
   @query = params[:query] || ""
   @all_folders = @storage.find_folders(@user_id, @query)
-  @raw_folder_types = @storage.list_folder_types(@user_id)
-  @folder_types = parse_folder_types(@raw_folder_types)
-  @folders = filter_sort_folders(@all_folders, params[:filter_by_type], params[:sort])
+  @raw_folder_tags = @storage.list_folder_tags(@user_id)
+  @folder_tags = parse_folder_tags(@raw_folder_tags)
+  @folders = filter_sort_folders(@all_folders, params[:filter_by_tag], params[:sort])
 
   erb :find_folder, layout: :layout
 end
@@ -99,7 +99,7 @@ end
 post "/folders/new" do
   if pass_form_validations?
     new_folder_params = [
-      params['name'], params['type'].downcase, params['attr1'], params['value1'],
+      params['name'], params['tags'].downcase, params['attr1'], params['value1'],
       params['attr2'], params['value2'], params['attr3'], params['value3'], @user_id
     ]
 
@@ -121,7 +121,7 @@ get "/folders/:id" do
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
-  @folder_types = folder.first[:folder_type].split(' ')
+  @folder_tags = folder.first[:folder_tags].split(' ')
 
   @folder_attributes = []
   folder.each_with_index do |row, idx|
@@ -144,8 +144,7 @@ get "/folders/:id/edit" do
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
-  @folder_type = folder.first[:folder_type]
-  @folder_types = folder.first[:folder_type].split(' ')
+  @folder_tags_string = folder.first[:folder_tags]
 
   @folder_attributes = []
   folder.each_with_index do |row, idx|
@@ -162,7 +161,7 @@ post "/folders/:id/edit" do
   if pass_form_validations?
     folder_id = params[:id]
     folder_name = params[:name]
-    folder_type = params[:type].downcase
+    folder_tags = params[:tags].downcase
     folder_attr1 = params[:attr1]
     folder_value1 = params[:value1]
     folder_attr2 = params[:attr2]
@@ -170,7 +169,7 @@ post "/folders/:id/edit" do
     folder_attr3 = params[:attr3]
     folder_value3 =  params[:value3]
 
-    @storage.update_folder(@user_id, folder_id, folder_name, folder_type,
+    @storage.update_folder(@user_id, folder_id, folder_name, folder_tags,
                            folder_attr1, folder_value1,
                            folder_attr2, folder_value2,
                            folder_attr3, folder_value3)
@@ -186,7 +185,7 @@ get "/folders/:id/notes/new" do
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
-  @folder_types = folder.first[:folder_type].split(' ')
+  @folder_tags = folder.first[:folder_tags].split(' ')
 
   @folder_attributes = []
   folder.each_with_index do |row, idx|
@@ -223,7 +222,7 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
-  @folder_types = folder.first[:folder_type].split(' ')
+  @folder_tags = folder.first[:folder_tags].split(' ')
 
   @folder_attributes = []
   folder.each_with_index do |row, idx|
@@ -262,7 +261,7 @@ get "/folders/:folder_id/all_related_notes" do
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
-  @folder_types = folder.first[:folder_type].split(' ')
+  @folder_tags = folder.first[:folder_tags].split(' ')
 
   @folder_attributes = []
   folder.each_with_index do |row, idx|

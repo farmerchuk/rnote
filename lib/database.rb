@@ -30,22 +30,22 @@ class Database
       {
         folder_id: tuple["id"],
         folder_name: tuple["name"],
-        folder_type: tuple["type"],
+        folder_tags: tuple["tags"],
         date_time: tuple["dt"]
       }
     end
   end
 
-  def list_folder_types(user_id)
-    sql = "SELECT DISTINCT type FROM folders WHERE user_id = $1"
+  def list_folder_tags(user_id)
+    sql = "SELECT DISTINCT tags FROM folders WHERE user_id = $1"
 
     result = query(sql, user_id)
-    result.map { |tuple| tuple["type"] }
+    result.map { |tuple| tuple["tags"] }
   end
 
   def load_folder(user_id, folder_id)
     sql = <<~SQL
-      SELECT folders.name AS folder_name, folders.type AS folder_type, attributes.name AS attr_name, attributes.value AS attr_value
+      SELECT folders.name AS folder_name, folders.tags AS folder_tags, attributes.name AS attr_name, attributes.value AS attr_value
       FROM folders
       LEFT OUTER JOIN attributes ON folders.id = attributes.folder_id
       WHERE folders.user_id = $1 AND folders.id = $2;
@@ -55,16 +55,16 @@ class Database
     result.map do |tuple|
       {
         folder_name: tuple["folder_name"],
-        folder_type: tuple["folder_type"],
+        folder_tags: tuple["folder_tags"],
         attr_name: tuple["attr_name"],
         attr_value: tuple["attr_value"]
       }
     end
   end
 
-  def create_folder(name, type, attr1, value1, attr2, value2, attr3, value3, user_id)
-    sql_new_folder = "INSERT INTO folders (name, type, user_id) VALUES ($1, $2, $3);"
-    query(sql_new_folder, name, type, user_id)
+  def create_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id)
+    sql_new_folder = "INSERT INTO folders (name, tags, user_id) VALUES ($1, $2, $3);"
+    query(sql_new_folder, name, tags, user_id)
 
     sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
     folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
@@ -93,9 +93,9 @@ class Database
     folder_id
   end
 
-  def create_related_folder(name, type, attr1, value1, attr2, value2, attr3, value3, user_id, parent_id)
-    sql_new_folder = "INSERT INTO folders (name, type, user_id) VALUES ($1, $2, $3);"
-    query(sql_new_folder, name, type, user_id)
+  def create_related_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id, parent_id)
+    sql_new_folder = "INSERT INTO folders (name, tags, user_id) VALUES ($1, $2, $3);"
+    query(sql_new_folder, name, tags, user_id)
 
     sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
     folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
@@ -124,9 +124,9 @@ class Database
     folder_id
   end
 
-  def update_folder(user_id, folder_id, folder_name, folder_type, attr1, value1, attr2, value2, attr3, value3)
-    sql_folder = "UPDATE folders SET (name, type) = ($1, $2) WHERE id = $3 AND user_id = $4;"
-    query(sql_folder, folder_name, folder_type, folder_id, user_id)
+  def update_folder(user_id, folder_id, folder_name, folder_tags, attr1, value1, attr2, value2, attr3, value3)
+    sql_folder = "UPDATE folders SET (name, tags) = ($1, $2) WHERE id = $3 AND user_id = $4;"
+    query(sql_folder, folder_name, folder_tags, folder_id, user_id)
 
     sql_attr1 = "UPDATE attributes SET (name, value) = ($1, $2) WHERE position = 1 AND folder_id = $3;"
     query(sql_attr1, attr1, value1, folder_id)
@@ -140,7 +140,7 @@ class Database
 
   def load_parent_folder(user_id, child_folder_id)
     sql = <<~SQL
-      SELECT folders.id, folders.name, folders.type
+      SELECT folders.id, folders.name, folders.tags
       FROM relations
       INNER JOIN folders ON relations.parent_id = folders.id
       WHERE relations.child_id = $1 AND folders.user_id = $2;
@@ -151,7 +151,7 @@ class Database
 
   def load_related_child_folders(user_id, folder_id)
     sql_child_folder_ids = <<~SQL
-      SELECT id, name, type FROM folders WHERE id = ANY (
+      SELECT id, name, tags FROM folders WHERE id = ANY (
         SELECT relations.child_id AS child_folders
         FROM folders
         INNER JOIN relations ON relations.parent_id = folders.id
@@ -163,7 +163,7 @@ class Database
       {
         folder_id: tuple["id"],
         folder_name: tuple["name"],
-        folder_type: tuple["type"]
+        folder_tags: tuple["tags"]
       }
     end
   end
@@ -205,7 +205,7 @@ class Database
 
   def load_all_related_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name, folders.type AS folder_type, notes.title AS note_title, notes.body AS note_body, notes.dt AS note_date_time
+      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name, folders.tags AS folder_tags, notes.title AS note_title, notes.body AS note_body, notes.dt AS note_date_time
       FROM notes
       INNER JOIN folders ON notes.folder_id = folders.id
       WHERE folder_id = ANY (
@@ -228,7 +228,7 @@ class Database
         note_id: tuple["note_id"],
         folder_id: tuple["folder_id"],
         folder_name: tuple["folder_name"],
-        folder_type: tuple["folder_type"],
+        folder_tags: tuple["folder_tags"],
         note_title: tuple["note_title"],
         note_body: tuple["note_body"],
         note_date_time: tuple["note_date_time"]
