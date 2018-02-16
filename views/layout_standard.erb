@@ -30,7 +30,9 @@
 
           <h1><%= @folder_name %></h1>
 
-          <h2>#<%= @folder_type.upcase %></h2>
+          <% @folder_types.each do |type| %>
+            <h2>#<%= type.upcase %></h2>
+          <% end %>
 
         </a>
 
@@ -54,9 +56,6 @@
         <ul>
           <li>
             <a href="/folders/<%= @folder_id %>/edit">EDIT FOLDER</a>
-          </li>
-          <li>
-            <a href="#">ADD TO-DO</a>
           </li>
           <li>
             <a href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">CREATE NEW FOLDER</a>
@@ -107,7 +106,9 @@
               <a href="/folders/<%= folder[:folder_id] %>">
                 <ul>
                   <li><%= folder[:folder_name] %></li>
-                  <li>#<%= folder[:folder_type] %></li>
+                  <% format_folder_types_as_array(folder[:folder_type]).each do |type| %>
+                    <li><%= type.upcase %></li>
+                  <% end %>
                 </ul>
               </a>
             </li>

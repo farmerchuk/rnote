@@ -87,7 +87,7 @@
             <a href="/folders/<%= folder[:folder_id] %>">
               <ul>
                 <li><%= folder[:folder_name] %></li>
-                <li>#<%= folder[:folder_type] %></li>
+                <li><%= format_folder_types_as_string(folder[:folder_type]) %></li>
               </ul>
             </a>
           </li>
