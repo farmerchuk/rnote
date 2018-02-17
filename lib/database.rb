@@ -208,6 +208,11 @@ class Database
     query(sql, note_title, note_body, note_id, folder_id, user_id)
   end
 
+  def delete_note(user_id, folder_id, note_id)
+    sql = "DELETE FROM notes WHERE user_id = $1 AND folder_id = $2 AND id = $3;"
+    query(sql, user_id, folder_id, note_id)
+  end
+
   def load_all_related_notes(user_id, folder_id)
     sql = <<~SQL
       SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name, folders.tags AS folder_tags, notes.title AS note_title, notes.body AS note_body, notes.dt AS note_date_time

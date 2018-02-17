@@ -366,6 +366,16 @@ Button Styles
   color: #97a7b1;
 }
 
+.btn-delete {
+  color: #97a7b1;
+  border: 1px solid #97a7b1;
+}
+
+.btn-delete:hover {
+  color: #c2563f;
+  border: 1px solid #c2563f;
+}
+
 /*
 ==============================
 Create New Folder Page Styles
@@ -418,13 +428,6 @@ Create New Folder Page Styles
   position: fixed;
   bottom: 20px;
   left: 390px;
-  color: #97a7b1;
-  border: 1px solid #97a7b1;
-}
-
-#create-new-folder form input.delete-folder:hover {
-  color: #c2563f;
-  border: 1px solid #c2563f;
 }
 
 #create-new-folder #link-folders {
@@ -491,6 +494,10 @@ Edit Note Page Styles
 
 #edit-note form input.form-submit {
   float: right;
+}
+
+#edit-note form input.note-delete {
+  float: left;
 }
 
 #edit-note section.primary-body form {

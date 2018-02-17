@@ -248,18 +248,29 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   erb :edit_note, layout: :layout_standard
 end
 
+# Updates or Deletes note
+
 post "/folders/:folder_id/notes/:note_id/edit" do
-  if pass_form_validations?
+  if params[:action] == "Update Note"
+    if pass_form_validations?
+      folder_id = params[:folder_id]
+      note_id = params[:note_id]
+      note_title = params[:title]
+      note_body = params[:body]
+
+      @storage.update_note(@user_id, folder_id, note_id, note_title, note_body)
+
+      redirect "/folders/#{folder_id}"
+    else
+      erb :edit_folder, layout: :layout
+    end
+  elsif params[:action] == "Delete Note"
     folder_id = params[:folder_id]
     note_id = params[:note_id]
-    note_title = params[:title]
-    note_body = params[:body]
 
-    @storage.update_note(@user_id, folder_id, note_id, note_title, note_body)
+    @storage.delete_note(@user_id, folder_id, note_id)
 
     redirect "/folders/#{folder_id}"
-  else
-    erb :edit_folder, layout: :layout
   end
 end
 
