@@ -108,7 +108,7 @@ header.primary-header {
   left: 0;
   right: 0;
   height: 100px;
-  padding: 20px 3vw 0 3vw;
+  padding: 20px 40px 0 40px;
   margin-left: 350px;
   margin-right: 300px;
   background: #fff;
@@ -235,7 +235,7 @@ header.primary-header a:last-of-type {
 section.primary-body {
   margin: 0 300px 0 350px;
   line-height: 1.5;
-  padding: 20px 3vw;
+  padding: 20px 40px;
 }
 
 section.primary-body article {
@@ -384,7 +384,7 @@ Create New Folder Page Styles
 
 #create-new-folder section.primary-body {
   margin-right: 0;
-  padding: 20px 3vw;
+  padding: 20px 40px;
 }
 
 #create-new-folder form div.form-row:nth-of-type(2) {
@@ -412,6 +412,19 @@ Create New Folder Page Styles
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+#create-new-folder form input.delete-folder {
+  position: fixed;
+  bottom: 20px;
+  left: 390px;
+  color: #97a7b1;
+  border: 1px solid #97a7b1;
+}
+
+#create-new-folder form input.delete-folder:hover {
+  color: #c2563f;
+  border: 1px solid #c2563f;
 }
 
 #create-new-folder #link-folders {
@@ -559,7 +572,7 @@ Find Folder Page Styles
 
 #find-folder section.primary-body {
   margin-right: 0;
-  padding: 20px 3vw;
+  padding: 20px 40px;
 }
 
 #find-folder section.primary-body a {

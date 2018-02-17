@@ -180,6 +180,13 @@ post "/folders/:id/edit" do
   end
 end
 
+post "/folders/:id/delete" do
+  folder_id = params[:id]
+  @storage.delete_folder(@user_id, folder_id)
+
+  redirect "/"
+end
+
 get "/folders/:id/notes/new" do
   @folder_id = params[:id].to_i
   folder = @storage.load_folder(@user_id, @folder_id)

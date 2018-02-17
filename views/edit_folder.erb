@@ -23,12 +23,9 @@
         <h2>Tips:</h2>
 
         <p>
-          You can think of folders as people, places or things.
-        </p>
-
-        <p>
-          Folder tagss can help you quickly identify what kind of folder this
-          is. Also very useful for when filtering search results.
+          Folder tags can help you quickly identify what kind of folder this
+          is. Also very useful for when filtering search results. Separate
+          multiple tags with a space.
         </p>
 
         <p>
@@ -147,6 +144,12 @@
         </fieldset>
 
         <input class="btn form-submit" type="submit" value="Save Changes">
+
+      </form>
+
+      <form action="/folders/<%= @folder_id %>/delete" method="post">
+
+        <input class="btn delete-folder" type="submit" value="Delete Folder">
 
       </form>
 

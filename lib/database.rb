@@ -138,6 +138,11 @@ class Database
     query(sql_attr3, attr3, value3, folder_id)
   end
 
+  def delete_folder(user_id, folder_id)
+    sql = "DELETE FROM folders WHERE user_id = $1 AND id = $2;"
+    query(sql, user_id, folder_id)
+  end
+
   def load_parent_folder(user_id, child_folder_id)
     sql = <<~SQL
       SELECT folders.id, folders.name, folders.tags
