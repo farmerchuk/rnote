@@ -52,6 +52,11 @@ class Database
     result.map { |tuple| tuple["tags"] }
   end
 
+  def link_folders(from_folder_id, to_folder_id)
+    sql = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2);"
+    query(sql, to_folder_id, from_folder_id);
+  end
+
   def load_folder(user_id, folder_id)
     sql = <<~SQL
       SELECT folders.name AS folder_name, folders.tags AS folder_tags, attributes.name AS attr_name, attributes.value AS attr_value
@@ -152,27 +157,16 @@ class Database
     query(sql, user_id, folder_id)
   end
 
-  def load_parent_folder(user_id, child_folder_id)
+  def load_related_folders(user_id, folder_id)
     sql = <<~SQL
-      SELECT folders.id, folders.name, folders.tags
-      FROM relations
-      INNER JOIN folders ON relations.parent_id = folders.id
-      WHERE relations.child_id = $1 AND folders.user_id = $2;
+      SELECT id, name, tags FROM folders
+      WHERE id = ANY (SELECT child_id FROM relations WHERE parent_id = $2) AND user_id = $1
+      UNION
+      SELECT id, name, tags FROM folders
+      WHERE id = ANY (SELECT parent_id FROM relations WHERE child_id = $2) AND user_id = $1;
     SQL
 
-    query(sql, child_folder_id, user_id).first
-  end
-
-  def load_related_child_folders(user_id, folder_id)
-    sql_child_folder_ids = <<~SQL
-      SELECT id, name, tags FROM folders WHERE id = ANY (
-        SELECT relations.child_id AS child_folders
-        FROM folders
-        INNER JOIN relations ON relations.parent_id = folders.id
-        WHERE folders.user_id = $1 and folders.id = $2);
-    SQL
-
-    result = query(sql_child_folder_ids, user_id, folder_id)
+    result = query(sql, user_id, folder_id)
     result.map do |tuple|
       {
         folder_id: tuple["id"],

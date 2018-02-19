@@ -167,7 +167,6 @@ aside.folder-menu {
 
 aside.folder-menu a {
   color: #fff;
-  font-size: 1.2rem;
 }
 
 aside.folder-menu a:hover {
@@ -190,14 +189,6 @@ section.folder-attributes dd {
   padding-left: 1rem;
   font-size: 1.1rem;
   color: #dadada;
-}
-
-section.folder-actions {
-  padding-top: 30px;
-}
-
-section.folder-actions li {
-  padding-bottom: 1.5rem;
 }
 
 aside.folder-menu form.find {
@@ -389,6 +380,16 @@ Button Styles
 .btn-delete:hover {
   color: #c2563f;
   border: 1px solid #c2563f;
+}
+
+#folder-command {
+  float: right;
+  margin-left: 10px;
+  border: 1px solid #dadada;
+}
+
+#folder-command:hover {
+  border: 1px solid #bad0df;
 }
 
 /*
@@ -633,6 +634,12 @@ Find Folder Page Styles
   font-size: 1.1rem;
 }
 
+#find-folder section.primary-body form input[type="text"] {
+  padding: 10px;
+  font-size: 1.5rem;
+  width: 500px;
+}
+
 /*
 ==============================
 Link Folder Page Styles
@@ -642,6 +649,12 @@ Link Folder Page Styles
 #link-folder section.primary-body li.summary ul:hover {
   color: #97a7b1;
   cursor: pointer;
+}
+
+#link-folder section.primary-body form input[type="text"] {
+  padding: 10px;
+  font-size: 1.5rem;
+  width: 500px;
 }
 
 #link-folder form.find-folder-filters {

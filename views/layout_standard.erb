@@ -24,6 +24,10 @@
         <img src="/images/logo.png" alt="logo">
       </a>
 
+      <a class="btn" id="folder-command" href="/folders/<%= @folder_id %>/edit">Edit</a>
+
+      <a class="btn" id="folder-command" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New</a>
+
       <header>
 
         <a href="/folders/<%= @folder_id %>">
@@ -51,19 +55,6 @@
 
       </section>
 
-      <section class="folder-actions">
-
-        <ul>
-          <li>
-            <a href="/folders/<%= @folder_id %>/edit">EDIT FOLDER</a>
-          </li>
-          <li>
-            <a href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">CREATE NEW FOLDER</a>
-          </li>
-        </ul>
-
-      </section>
-
       <form class="find" action="/folders/find_folder" method="get">
         <small>Search or hit 'enter' for all folders</small>
         <label>
@@ -83,21 +74,6 @@
       <section>
 
         <ul>
-
-          <% if @parent_folder %>
-
-            <li class="summary">
-              <a href="/folders/<%= @parent_folder['id'] %>">
-                <ul>
-                  <li><%= @parent_folder['name'] %></li>
-                  <% format_folder_tags_as_array(@parent_folder['tags']).each do |tag| %>
-                    <li><%= tag.upcase %></li>
-                  <% end %>
-                </ul>
-              </a>
-            </li>
-
-          <% end %>
 
           <% @related_folders.each do |folder| %>
 

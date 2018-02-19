@@ -81,7 +81,7 @@ end
 # ---------------------------------------
 
 get "/" do
-  redirect "/folders/new"
+  redirect "/folders/find_folder"
 end
 
 get "/folders/find_folder" do
@@ -137,9 +137,7 @@ get "/folders/:id" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
-
-  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
-  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
+  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
 
   erb :folder, layout: :layout_standard
 end
@@ -213,6 +211,8 @@ post "/folders/:from_folder_id/link/:to_folder_id" do
   @from_folder_id = params[:from_folder_id].to_i
   @to_folder_id = params[:to_folder_id].to_i
 
+  @storage.link_folders(@from_folder_id, @to_folder_id)
+
   redirect "/folders/#{@from_folder_id}"
 end
 
@@ -232,9 +232,7 @@ get "/folders/:id/notes/new" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
-
-  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
-  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
+  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
 
   erb :new_note, layout: :layout_standard
 end
@@ -271,8 +269,7 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
   @note_id = params[:note_id].to_i
 
-  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
-  @parent_folder = @storage.load_parent_folder(@user_id, @folder_id)
+  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
 
   erb :edit_note, layout: :layout_standard
 end
@@ -318,8 +315,7 @@ get "/folders/:folder_id/all_related_notes" do
     }
   end
 
-  @related_folders = @storage.load_related_child_folders(@user_id, @folder_id)
-
+  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
   @notes = @storage.load_all_related_notes(@user_id, @folder_id).reverse
 
   erb :all_related_notes, layout: :layout_standard
