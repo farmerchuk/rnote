@@ -71,6 +71,11 @@ def filter_sort_folders(folders, filter_by_tag, sort)
   folders
 end
 
+def select_valid_folders_for_link(folders, from_folder_id)
+  invalid_folder_ids = @storage.linked_folder_ids(from_folder_id) << from_folder_id.to_s
+  folders.reject { |folder| invalid_folder_ids.include?(folder[:folder_id]) }
+end
+
 # ---------------------------------------
 # ROUTES
 # ---------------------------------------
@@ -184,7 +189,31 @@ post "/folders/:id/delete" do
   folder_id = params[:id]
   @storage.delete_folder(@user_id, folder_id)
 
-  redirect "/"
+  redirect "/folders/find_folder"
+end
+
+get "/folders/:from_folder_id/link" do
+  @from_folder_id = params[:from_folder_id].to_i
+  from_folder = @storage.load_folder(@user_id, @from_folder_id)
+  @from_folder_name = from_folder.first[:folder_name]
+  @from_folder_tags_string = from_folder.first[:folder_tags]
+
+  @query = params[:query] || ""
+  @all_folders = @storage.find_folders(@user_id, @query)
+  @valid_folders = select_valid_folders_for_link(@all_folders, @from_folder_id)
+  @folders = filter_sort_folders(@valid_folders, params[:filter_by_tag], params[:sort])
+
+  @raw_folder_tags = @storage.list_folder_tags(@user_id)
+  @folder_tags = parse_folder_tags(@raw_folder_tags)
+
+  erb :link_folder, layout: :layout
+end
+
+post "/folders/:from_folder_id/link/:to_folder_id" do
+  @from_folder_id = params[:from_folder_id].to_i
+  @to_folder_id = params[:to_folder_id].to_i
+
+  redirect "/folders/#{@from_folder_id}"
 end
 
 get "/folders/:id/notes/new" do

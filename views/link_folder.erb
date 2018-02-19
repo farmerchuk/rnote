@@ -1,16 +1,8 @@
-<div id="find-folder">
+<div id="link-folder">
 
   <header class="primary-header">
 
-    <% if @query.empty? %>
-
-      <h3>Listing All Folders</h3>
-
-    <% else %>
-
-      <h3>Searching for '<%= @query %>'</h3>
-
-    <% end %>
+    <h3>Link '<%= @from_folder_name %>' to:</h3>
 
   </header>
 
@@ -32,7 +24,7 @@
 
       </header>
 
-      <form class="find-folder-filters" action="/folders/find_folder" method="get">
+      <form class="find-folder-filters" action="/folders/<%= @from_folder_id %>/link" method="get">
         <dl>
 
           <dt>
@@ -81,7 +73,7 @@
 
       <header>
 
-        <form class="find" action="/folders/find_folder" method="get">
+        <form class="find" action="/folders/<%= @from_folder_id %>/link" method="get">
           <label>
             <input type="text" name="query" placeholder="Find folder...">
           </label>
@@ -92,22 +84,50 @@
 
       </header>
 
-      <ul>
+      <% @folders.each do |folder| %>
 
-        <% @folders.each do |folder| %>
+        <label for="popout-<%= folder[:folder_id] %>">
 
-          <li class="summary">
-            <a href="/folders/<%= folder[:folder_id] %>">
-              <ul>
-                <li><%= folder[:folder_name] %></li>
-                <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
-              </ul>
-            </a>
-          </li>
+            <ul>
+              <li><%= folder[:folder_name] %></li>
+              <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
+            </ul>
 
-        <% end %>
+          <input type="checkbox" name="popout" id="popout-<%= folder[:folder_id] %>">
 
-      </ul>
+          <div class="popout-confirm">
+
+            <form class="popout-confirm" action="/folders/<%= @from_folder_id %>/link/<%= folder[:folder_id] %>" method="post">
+
+              <h3>Confirm?</h3>
+
+              <a href="/folders/<%= @from_folder_id %>">
+                <ul>
+                  <li><%= @from_folder_name %></li>
+                  <li><%= format_folder_tags_as_string(@from_folder_tags_string) %></li>
+                </ul>
+              </a>
+
+              <img src="/images/icon_link.png" alt="Linked chains">
+
+              <a href="/folders/<%= folder[:folder_id] %>">
+                <ul>
+                  <li><%= folder[:folder_name] %></li>
+                  <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
+                </ul>
+              </a>
+
+              <input class="btn form-submit confirm" type="submit" value="Link Folders">
+
+              <a class="btn form-submit cancel">Cancel</a>
+
+            </form>
+
+          </div>
+
+        </label>
+
+      <% end %>
 
     </section>
 

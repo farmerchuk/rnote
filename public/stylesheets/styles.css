@@ -39,6 +39,8 @@ html {
 
 body {
   padding-top: 100px;
+  position: relative;
+  z-index: 0;
 }
 
 h1 {
@@ -113,6 +115,7 @@ header.primary-header {
   margin-right: 300px;
   background: #fff;
   box-shadow: 0 20px 10px -3px #fff;
+  z-index: 1;
 }
 
 header.primary-header::after {
@@ -128,6 +131,7 @@ header.user-settings {
   height: 100px;
   padding: 20px;
   box-shadow: 0 20px 10px -3px #fff;
+  z-index: 2;
 }
 
 header.user-settings a {
@@ -158,6 +162,7 @@ aside.folder-menu {
   padding: 20px;
   background: #363636;
   color: #fff;
+  z-index: 2;
 }
 
 aside.folder-menu a {
@@ -277,6 +282,14 @@ section.primary-body form input[type="text"] {
   width: 400px;
 }
 
+section.primary-body form.find {
+  padding-bottom: 30px;
+}
+
+section.primary-body form.find input[type="submit"] {
+  display: none;
+}
+
 section.primary-body form textarea {
   padding: 0.5rem 10px;
   font-size: 1.3rem;
@@ -294,6 +307,7 @@ aside.related-folders {
   bottom: 0;
   width: 300px;
   overflow: scroll;
+  z-index: 1;
 }
 
 aside.related-folders a {
@@ -356,6 +370,7 @@ Button Styles
   border: 1px solid #363636;
   border-radius: 4px;
   color: #363636;
+  background: inherit;
   text-decoration: none;
   cursor: pointer;
   text-transform: uppercase;
@@ -395,6 +410,12 @@ Create New Folder Page Styles
 #create-new-folder section.primary-body {
   margin-right: 0;
   padding: 20px 40px;
+}
+
+#create-new-folder a.link-folder {
+  position: fixed;
+  bottom: 20px;
+  left: 550px;
 }
 
 #create-new-folder form div.form-row:nth-of-type(2) {
@@ -608,6 +629,191 @@ Find Folder Page Styles
 }
 
 #find-folder section.primary-body li.summary ul li:last-of-type {
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+/*
+==============================
+Link Folder Page Styles
+==============================
+*/
+
+#link-folder section.primary-body li.summary ul:hover {
+  color: #97a7b1;
+  cursor: pointer;
+}
+
+#link-folder form.find-folder-filters {
+  padding-top: 40px;
+}
+
+#link-folder form.find-folder-filters label {
+  color: #bad0df;
+  font-size: 1.1rem;
+}
+
+#link-folder form.find-folder-filters dl {
+  padding-bottom: 20px;
+}
+
+#link-folder form.find-folder-filters dd {
+  padding-bottom: 20px;
+}
+
+#link-folder form.find-folder-filters select,
+#link-folder form.find-folder-filters input[type="submit"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  color: #fff;
+  background: #363636;
+}
+
+#link-folder form.find-folder-filters input[type="submit"] {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#link-folder form.find-folder-filters input[type="submit"]:hover {
+  border: 1px solid #bad0df;
+  color: #bad0df;
+}
+
+#link-folder header.primary-header h3 {
+  display: inline;
+}
+
+#link-folder section.primary-body {
+  margin-right: 0;
+  padding: 20px 40px;
+}
+
+#link-folder section.primary-body a {
+  color: #363636;
+}
+
+#link-folder section.primary-body ul {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+#link-folder section.primary-body ul:hover {
+  color: #97a7b1;
+}
+
+#link-folder section.primary-body ul li {
+  padding-bottom: 5px;
+}
+
+#link-folder section.primary-body ul li:first-of-type {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+#link-folder section.primary-body ul li:last-of-type {
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+#link-folder div.popout-confirm form {
+  display: none;
+  position: absolute;
+  top: -250px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50vh;
+  padding: 20px;
+  width: 500px;
+  background: #fff;
+  border-radius: 4px;
+  z-index: 3;
+  overflow: hidden;
+}
+
+#link-folder div.popout-confirm form ul {
+  border: 1px solid #dadada;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+#link-folder div.popout-confirm form h3 {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+#link-folder div.popout-confirm form img {
+  display: block;
+  margin: -20px auto 0 auto;
+}
+
+#link-folder div.popout-confirm input.confirm {
+  float: right;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+#link-folder div.popout-confirm a.cancel {
+  float: right;
+  margin-top: 20px;
+}
+
+#link-folder input[type="checkbox"] {
+  display: none;
+}
+
+#link-folder input[type="checkbox"]:checked + div.popout-confirm form {
+  display: block;
+}
+
+#link-folder input[type="checkbox"]:checked + div.popout-confirm::before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.4;
+  z-index: 2;
+}
+
+/*
+==============================
+Link Folder Confirm Page Styles
+==============================
+*/
+
+#link-folder-confirm form input.form-submit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#link-folder-confirm section.primary-body ul {
+  margin-bottom: 20px;
+}
+
+#link-folder-confirm section.primary-body ul {
+  display: inline-block;
+}
+
+#link-folder-confirm section.primary-body ul li {
+  padding-bottom: 5px;
+}
+
+#link-folder-confirm section.primary-body ul li:first-of-type {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+#link-folder-confirm section.primary-body ul li:last-of-type {
   text-transform: uppercase;
   font-size: 1.1rem;
 }

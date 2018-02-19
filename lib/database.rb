@@ -36,6 +36,15 @@ class Database
     end
   end
 
+  def linked_folder_ids(folder_id)
+    sql = <<~SQL
+      SELECT child_id FROM relations WHERE parent_id = $1
+      UNION SELECT parent_id FROM relations WHERE child_id = $1;
+    SQL
+
+    result = query(sql, folder_id).values.flatten.compact
+  end
+
   def list_folder_tags(user_id)
     sql = "SELECT DISTINCT tags FROM folders WHERE user_id = $1"
 
