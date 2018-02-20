@@ -2,7 +2,7 @@
 
   <div id="link-folder">
 
-    <header class="primary-header">
+    <header class="main-header">
 
       <h3>Link '<%= @from_folder_name %>' to:</h3>
 
@@ -18,7 +18,7 @@
 
       </header>
 
-      <section class="filter-sort">
+      <section>
 
         <h2>Filter & Sort Options:</h2>
 
@@ -61,65 +61,84 @@
 
     </aside>
 
-    <section class="primary-body">
+    <section class="main-body">
 
-      <header>
+      <form class="find" action="/folders/<%= @from_folder_id %>/link" method="get">
 
-        <form class="find" action="/folders/<%= @from_folder_id %>/link" method="get">
-          <label>
-            <input type="text" name="query" placeholder="Find folder...">
-          </label>
-          <input type="hidden" name="filter_by_tag" value="all_tags">
-          <input type="hidden" name="sort" value="no_sort">
-          <input type="submit" value="">
-        </form>
+        <label>
+          <input type="text" name="query" placeholder="Find folder...">
+        </label>
 
-      </header>
+        <input type="hidden" name="filter_by_tag" value="all_tags">
+        <input type="hidden" name="sort" value="no_sort">
+        <input type="submit" value="">
 
-      <% @folders.each do |folder| %>
+      </form>
 
-        <label for="popout-<%= folder[:folder_id] %>">
+      <ul>
 
-            <ul>
-              <li><%= folder[:folder_name] %></li>
-              <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
-            </ul>
+        <% @folders.each do |folder| %>
 
-          <input type="checkbox" name="popout" id="popout-<%= folder[:folder_id] %>">
+          <li class="folder-summary">
 
-          <div class="popout-confirm">
+            <label for="popout-<%= folder[:folder_id] %>">
 
-            <form class="popout-confirm" action="/folders/<%= @from_folder_id %>/link/<%= folder[:folder_id] %>" method="post">
-
-              <h3>Confirm link?</h3>
-
-              <a href="/folders/<%= @from_folder_id %>">
-                <ul>
-                  <li><%= @from_folder_name %></li>
-                  <li><%= format_folder_tags_as_string(@from_folder_tags_string) %></li>
-                </ul>
-              </a>
-
-              <img src="/images/icon_link.png" alt="Linked chains">
-
-              <a href="/folders/<%= folder[:folder_id] %>">
                 <ul>
                   <li><%= folder[:folder_name] %></li>
                   <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
                 </ul>
-              </a>
 
-              <input class="btn form-submit confirm" type="submit" value="Link Folders">
+              <input type="checkbox" name="popout" id="popout-<%= folder[:folder_id] %>">
 
-              <a class="btn form-submit cancel">Cancel</a>
+              <div class="popout">
 
-            </form>
+                <form action="/folders/<%= @from_folder_id %>/link/<%= folder[:folder_id] %>" method="post">
 
-          </div>
+                  <h3>Confirm link?</h3>
 
-        </label>
+                    <div class="folder-summary">
 
-      <% end %>
+                      <a href="/folders/<%= @from_folder_id %>">
+
+                        <ul>
+                          <li><%= @from_folder_name %></li>
+                          <li><%= format_folder_tags_as_string(@from_folder_tags_string) %></li>
+                        </ul>
+
+                      </a>
+
+                    </div>
+
+                    <img src="/images/icon_link.png" alt="Linked chains">
+
+                    <div class="folder-summary">
+
+                      <a href="/folders/<%= folder[:folder_id] %>">
+
+                        <ul>
+                          <li><%= folder[:folder_name] %></li>
+                          <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
+                        </ul>
+
+                      </a>
+
+                    </div>
+
+                  <input class="btn form-submit confirm" type="submit" value="Link Folders">
+
+                  <a class="btn form-submit cancel">Cancel</a>
+
+                </form>
+
+              </div>
+
+            </label>
+
+          </li>
+
+        <% end %>
+
+      </ul>
 
     </section>
 

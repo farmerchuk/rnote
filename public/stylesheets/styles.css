@@ -33,7 +33,6 @@ Standard Element Styles
 
 html {
   font: normal 14px "Raleway", sans-serif;
-  letter-spacing: 0.05em;
   color: #363636;
 }
 
@@ -58,7 +57,6 @@ h2 {
 h3 {
   font-size: 2rem;
   font-weight: bold;
-  padding-right: 20px;
 }
 
 h4 {
@@ -104,7 +102,27 @@ Custom Styles
 ==============================
 */
 
-header.primary-header {
+.folder-summary ul {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.folder-summary ul:hover {
+  color: #97a7b1;
+}
+
+.folder-summary ul li:first-of-type {
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding-bottom: 5px;
+}
+
+.folder-summary ul li:last-of-type {
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+header.main-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -118,7 +136,7 @@ header.primary-header {
   z-index: 1;
 }
 
-header.primary-header::after {
+header.main-header::after {
   clear: both;
 }
 
@@ -220,52 +238,52 @@ aside.folder-menu form.find input[type="submit"] {
   display: none;
 }
 
-header.primary-header a:first-of-type {
+header.main-header a:first-of-type {
   float: left;
 }
 
-header.primary-header a:last-of-type {
+header.main-header a:last-of-type {
   float: right;
 }
 
-section.primary-body {
+section.main-body {
   margin: 0 300px 0 350px;
   line-height: 1.5;
   padding: 20px 40px;
 }
 
-section.primary-body article {
+section.main-body article {
   padding-bottom: 50px;
 }
 
-section.primary-body article header {
+section.main-body article header {
   padding-bottom: 20px;
   overflow: hidden;
 }
 
-section.primary-body article header a {
+section.main-body article header a {
   color: #363636;
 }
 
-section.primary-body article header a:hover {
+section.main-body article header a:hover {
   color: #97a7b1;
 }
 
-section.primary-body article h3 {
+section.main-body article h3 {
 
 }
 
-section.primary-body article time {
+section.main-body article time {
   float: right;
   padding-top: 10px;
   font-size: 1.2rem;
 }
 
-section.primary-body form {
+section.main-body form {
   overflow: hidden;
 }
 
-section.primary-body form input[type="text"] {
+section.main-body form input[type="text"] {
   padding: 0.5rem 10px;
   font-size: 1.2rem;
   border: 1px solid #dadada;
@@ -273,15 +291,15 @@ section.primary-body form input[type="text"] {
   width: 400px;
 }
 
-section.primary-body form.find {
+section.main-body form.find {
   padding-bottom: 30px;
 }
 
-section.primary-body form.find input[type="submit"] {
+section.main-body form.find input[type="submit"] {
   display: none;
 }
 
-section.primary-body form textarea {
+section.main-body form textarea {
   padding: 0.5rem 10px;
   font-size: 1.3rem;
   line-height: 2;
@@ -313,27 +331,17 @@ aside.related-folders section {
   padding: 20px;
 }
 
-aside.related-folders ul li.summary {
+aside.related-folders li.folder-summary {
   margin-bottom: 30px;
 }
 
-aside.related-folders ul li.summary ul {
+aside.related-folders li.folder-summary ul {
   border-left: 3px solid #dadada;
   padding-left: 10px;
 }
 
-aside.related-folders li.summary ul li {
+aside.related-folders li.folder-summary ul li {
   padding-bottom: 5px;
-}
-
-aside.related-folders li.summary ul li:first-of-type {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-aside.related-folders li.summary ul li:last-of-type {
-  text-transform: uppercase;
-  font-size: 1.1rem;
 }
 
 a.logo {
@@ -398,7 +406,7 @@ Create New Folder Page Styles
 ==============================
 */
 
-#create-new-folder header.primary-header h3 {
+#create-new-folder header.main-header h3 {
   display: inline;
 }
 
@@ -408,7 +416,7 @@ Create New Folder Page Styles
   color: #dadada;
 }
 
-#create-new-folder section.primary-body {
+#create-new-folder section.main-body {
   margin-right: 0;
   padding: 20px 40px;
 }
@@ -483,7 +491,7 @@ Edit Folder Page Styles
 ==============================
 */
 
-#edit-folder header.primary-header h3 {
+#edit-folder header.main-header h3 {
   display: inline;
 }
 
@@ -493,7 +501,7 @@ Edit Folder Page Styles
   color: #dadada;
 }
 
-#edit-folder section.primary-body {
+#edit-folder section.main-body {
   margin-right: 0;
   padding: 20px 40px;
 }
@@ -568,7 +576,7 @@ Create New Note Page Styles
 ==============================
 */
 
-#create-new-note header.primary-header h3 {
+#create-new-note header.main-header h3 {
   display: inline;
 }
 
@@ -576,11 +584,11 @@ Create New Note Page Styles
   float: right;
 }
 
-#create-new-note section.primary-body form {
+#create-new-note section.main-body form {
   padding-bottom: 20px;
 }
 
-#create-new-note section.primary-body article:first-of-type {
+#create-new-note section.main-body article:first-of-type {
   padding-top: 50px;
 }
 
@@ -595,7 +603,7 @@ Edit Note Page Styles
 ==============================
 */
 
-#edit-note header.primary-header h3 {
+#edit-note header.main-header h3 {
   display: inline;
 }
 
@@ -607,7 +615,7 @@ Edit Note Page Styles
   float: left;
 }
 
-#edit-note section.primary-body form {
+#edit-note section.main-body form {
   padding-bottom: 20px;
 }
 
@@ -627,7 +635,7 @@ View All Related Notes Page Styles
 ==============================
 */
 
-#all-related-notes header.primary-header h3 {
+#all-related-notes header.main-header h3 {
   display: inline;
 }
 
@@ -680,46 +688,28 @@ Find Folder Page Styles
   color: #bad0df;
 }
 
-#find-folder header.primary-header h3 {
+#find-folder header.main-header h3 {
   display: inline;
 }
 
-#find-folder section.primary-body {
+#find-folder section.main-body {
   margin-right: 0;
   padding: 20px 40px;
 }
 
-#find-folder section.primary-body a {
+#find-folder section.main-body a {
   color: #363636;
 }
 
-#find-folder section.primary-body a:hover {
+#find-folder section.main-body a:hover {
   color: #97a7b1;
 }
 
-#find-folder section.primary-body ul li.summary {
+#find-folder section.main-body li.folder-summary {
   margin-bottom: 20px;
 }
 
-#find-folder section.primary-body li.summary ul {
-  display: inline-block;
-}
-
-#find-folder section.primary-body li.summary ul li {
-  padding-bottom: 5px;
-}
-
-#find-folder section.primary-body li.summary ul li:first-of-type {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-#find-folder section.primary-body li.summary ul li:last-of-type {
-  text-transform: uppercase;
-  font-size: 1.1rem;
-}
-
-#find-folder section.primary-body form input[type="text"] {
+#find-folder section.main-body form input[type="text"] {
   padding: 10px;
   font-size: 1.5rem;
   width: 500px;
@@ -731,12 +721,7 @@ Link Folder Page Styles
 ==============================
 */
 
-#link-folder section.primary-body li.summary ul:hover {
-  color: #97a7b1;
-  cursor: pointer;
-}
-
-#link-folder section.primary-body form input[type="text"] {
+#link-folder section.main-body form input[type="text"] {
   padding: 10px;
   font-size: 1.5rem;
   width: 500px;
@@ -781,43 +766,24 @@ Link Folder Page Styles
   color: #bad0df;
 }
 
-#link-folder header.primary-header h3 {
+#link-folder header.main-header h3 {
   display: inline;
 }
 
-#link-folder section.primary-body {
+#link-folder section.main-body {
   margin-right: 0;
   padding: 20px 40px;
 }
 
-#link-folder section.primary-body a {
+#link-folder section.main-body a {
   color: #363636;
 }
 
-#link-folder section.primary-body ul {
-  cursor: pointer;
-  margin-bottom: 20px;
+#link-folder section.main-body li.folder-summary {
+  padding-bottom: 20px;
 }
 
-#link-folder section.primary-body ul:hover {
-  color: #97a7b1;
-}
-
-#link-folder section.primary-body ul li {
-  padding-bottom: 5px;
-}
-
-#link-folder section.primary-body ul li:first-of-type {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-#link-folder section.primary-body ul li:last-of-type {
-  text-transform: uppercase;
-  font-size: 1.1rem;
-}
-
-#link-folder div.popout-confirm form {
+#link-folder div.popout form {
   display: none;
   position: absolute;
   top: -250px;
@@ -834,29 +800,29 @@ Link Folder Page Styles
   overflow: hidden;
 }
 
-#link-folder div.popout-confirm form ul {
+#link-folder div.popout div.folder-summary {
   border: 1px solid #dadada;
   padding: 20px;
   border-radius: 4px;
 }
 
-#link-folder div.popout-confirm form h3 {
+#link-folder div.popout form h3 {
   text-align: center;
   padding-bottom: 20px;
 }
 
-#link-folder div.popout-confirm form img {
+#link-folder div.popout form img {
   display: block;
-  margin: -20px auto 0 auto;
+  margin: 0 auto;
 }
 
-#link-folder div.popout-confirm input.confirm {
+#link-folder div.popout input.confirm {
   float: right;
   margin-left: 20px;
   margin-top: 20px;
 }
 
-#link-folder div.popout-confirm a.cancel {
+#link-folder div.popout a.cancel {
   float: right;
   margin-top: 20px;
 }
@@ -865,11 +831,11 @@ Link Folder Page Styles
   display: none;
 }
 
-#link-folder input[type="checkbox"]:checked + div.popout-confirm form {
+#link-folder input[type="checkbox"]:checked + div.popout form {
   display: block;
 }
 
-#link-folder input[type="checkbox"]:checked + div.popout-confirm::before {
+#link-folder input[type="checkbox"]:checked + div.popout::before {
   content: "";
   display: block;
   position: fixed;

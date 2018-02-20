@@ -1,6 +1,6 @@
 <div id="all-related-notes">
 
-  <header class="primary-header">
+  <header class="main-header">
 
     <h3>All Related Notes</h3>
 
@@ -8,59 +8,79 @@
 
   </header>
 
-  <section class="primary-body">
+  <section class="main-body">
 
     <% if @notes.empty? %>
 
-      <article>
+      <ul>
 
-        <header>
-          <a href="#">
-            <h3>Welcome!</h3>
-          </a>
-        </header>
+        <li>
 
-        <section class="note">
+          <article>
 
-          <p>
-            To start adding notes to your folder, simply click or tap the
-            'ADD NEW NOTE' button above. As you add new notes to your folder,
-            they will appear here. Your latest notes will be at the top.
-          </p>
+            <header>
 
-          <p>
-            Happy writing!
-          </p>
+              <a href="#"><h3>Welcome!</h3></a>
 
-        </section>
+            </header>
 
-      </article>
+            <section>
+
+              <p>
+                To start adding notes to your folder, simply click or tap the
+                'ADD NEW NOTE' button above. As you add new notes to your folder,
+                they will appear here. Your latest notes will be at the top.
+              </p>
+
+              <p>
+                Happy writing!
+              </p>
+
+            </section>
+
+          </article>
+
+        </li>
+
+      </ul>
 
     <% else %>
 
-      <% @notes.each do |note| %>
+      <ul>
 
-        <article>
+        <% @notes.each do |note| %>
 
-          <header>
-            <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
-            <h3>
-              <a href="/folders/<%= note[:folder_id] %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
-            </h3>
-            <h5><%= note[:folder_name] %></h5>
-          </header>
+          <li>
 
-          <section class="note">
+            <article>
 
-            <p>
-              <pre><%= note[:note_body] %></pre>
-            </p>
+              <header>
 
-          </section>
+                <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
-        </article>
+                <h3>
+                  <a href="/folders/<%= note[:folder_id] %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+                </h3>
 
-      <% end %>
+                <h5><%= note[:folder_name] %></h5>
+
+              </header>
+
+              <section>
+
+                <p>
+                  <pre><%= note[:note_body] %></pre>
+                </p>
+
+              </section>
+
+            </article>
+
+          </li>
+
+        <% end %>
+
+      </ul>
 
     <% end %>
 

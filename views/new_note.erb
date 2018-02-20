@@ -1,6 +1,6 @@
 <div id="create-new-note">
 
-  <header class="primary-header">
+  <header class="main-header">
 
     <h3>Add New Note</h3>
 
@@ -8,7 +8,7 @@
 
   </header>
 
-  <section class="primary-body">
+  <section class="main-body">
 
     <form action="/folders/<%= @folder_id %>/notes/new" method="post">
 
@@ -44,28 +44,39 @@
 
     <% if !@notes.empty? %>
 
-      <% @notes.each do |note| %>
+      <ul>
 
-        <article>
+        <% @notes.each do |note| %>
 
-          <header>
-            <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
-            <h3>
-              <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
-            </h3>
-          </header>
+          <li>
 
-          <section class="note">
+            <article>
 
-            <p>
-              <pre><%= note[:note_body] %></pre>
-            </p>
+              <header>
 
-          </section>
+                <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
-        </article>
+                <h3>
+                  <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+                </h3>
 
-      <% end %>
+              </header>
+
+              <section>
+
+                <p>
+                  <pre><%= note[:note_body] %></pre>
+                </p>
+
+              </section>
+
+            </article>
+
+          </li>
+
+        <% end %>
+
+      </ul>
 
     <% end %>
 

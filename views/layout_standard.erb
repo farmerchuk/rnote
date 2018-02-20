@@ -32,7 +32,7 @@
 
       </header>
 
-      <section>
+      <section class="folder-title">
 
         <a href="/folders/<%= @folder_id %>">
 
@@ -60,13 +60,17 @@
       </section>
 
       <form class="find" action="/folders/find_folder" method="get">
+
         <small>Search or hit 'enter' for all folders</small>
+
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
+
         <input type="hidden" name="filter_by_tag" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
+
       </form>
 
     </aside>
@@ -85,15 +89,22 @@
 
           <% @related_folders.each do |folder| %>
 
-            <li class="summary">
+            <li class="folder-summary">
+
               <a href="/folders/<%= folder[:folder_id] %>">
+
                 <ul>
+
                   <li><%= folder[:folder_name] %></li>
+                  
                   <% format_folder_tags_as_array(folder[:folder_tags]).each do |tag| %>
                     <li><%= tag.upcase %></li>
                   <% end %>
+
                 </ul>
+
               </a>
+
             </li>
 
           <% end %>

@@ -2,7 +2,7 @@
 
   <div id="edit-folder">
 
-    <header class="primary-header">
+    <header class="main-header">
 
       <h3>Edit Folder / <%= @folder_name %></h3>
 
@@ -36,18 +36,22 @@
       </section>
 
       <form class="find" action="/folders/find_folder" method="get">
+
         <small>Search or hit 'enter' for all folders</small>
+
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
+        
         <input type="hidden" name="filter_by_tags" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
+
       </form>
 
     </aside>
 
-    <section class="primary-body">
+    <section class="main-body">
 
       <form action="/folders/<%= @folder_id %>/edit" method="post">
 
