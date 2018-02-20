@@ -91,14 +91,14 @@ get "/folders/find_folder" do
   @folder_tags = parse_folder_tags(@raw_folder_tags)
   @folders = filter_sort_folders(@all_folders, params[:filter_by_tag], params[:sort])
 
-  erb :find_folder, layout: :layout
+  erb :find_folder, layout: :layout_flexible
 end
 
 get "/folders/new" do
   @parent_id = params[:parent_id]
   @parent_name = params[:parent_name]
 
-  erb :new_folder, layout: :layout
+  erb :new_folder, layout: :layout_flexible
 end
 
 post "/folders/new" do
@@ -117,7 +117,7 @@ post "/folders/new" do
 
     redirect "/folders/#{folder_id}"
   else
-    erb :new_folder, layout: :layout
+    erb :new_folder, layout: :layout_flexible
   end
 end
 
@@ -157,7 +157,7 @@ get "/folders/:id/edit" do
     }
   end
 
-  erb :edit_folder, layout: :layout
+  erb :edit_folder, layout: :layout_flexible
 end
 
 post "/folders/:id/edit" do
@@ -179,7 +179,7 @@ post "/folders/:id/edit" do
 
     redirect "/folders/#{folder_id}"
   else
-    erb :edit_folder, layout: :layout
+    erb :edit_folder, layout: :layout_flexible
   end
 end
 
@@ -204,7 +204,7 @@ get "/folders/:from_folder_id/link" do
   @raw_folder_tags = @storage.list_folder_tags(@user_id)
   @folder_tags = parse_folder_tags(@raw_folder_tags)
 
-  erb :link_folder, layout: :layout
+  erb :link_folder, layout: :layout_flexible
 end
 
 post "/folders/:from_folder_id/link/:to_folder_id" do
@@ -247,7 +247,7 @@ post "/folders/:id/notes/new" do
 
     redirect "/folders/#{folder_id}"
   else
-    erb :new_note, layout: :layout
+    erb :new_note, layout: :layout_flexible
   end
 end
 
@@ -288,7 +288,7 @@ post "/folders/:folder_id/notes/:note_id/edit" do
 
       redirect "/folders/#{folder_id}"
     else
-      erb :edit_folder, layout: :layout
+      erb :edit_folder, layout: :layout_flexible
     end
   elsif params[:action] == "Delete Note"
     folder_id = params[:folder_id]

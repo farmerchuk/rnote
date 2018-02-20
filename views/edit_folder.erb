@@ -1,24 +1,24 @@
-<div id="create-new-folder">
+<main>
 
-  <header class="primary-header">
+  <div id="edit-folder">
 
-    <h3>Edit Folder / <%= @folder_name %></h3>
+    <header class="primary-header">
 
-  </header>
+      <h3>Edit Folder / <%= @folder_name %></h3>
 
-  <header class="user-settings">
-    <a href="#">Jason</a>
-  </header>
-
-  <main>
+    </header>
 
     <aside class="folder-menu">
 
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="logo">
-      </a>
-
       <header>
+
+        <a class="logo" href="/">
+          <img src="/images/logo.png" alt="logo">
+        </a>
+
+      </header>
+
+      <section>
 
         <h2>Tips:</h2>
 
@@ -33,7 +33,7 @@
           information.
         </p>
 
-      </header>
+      </section>
 
       <form class="find" action="/folders/find_folder" method="get">
         <small>Search or hit 'enter' for all folders</small>
@@ -157,6 +157,6 @@
 
     </section>
 
-  </main>
+  </div>
 
-</div>
+</main>

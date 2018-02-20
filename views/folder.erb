@@ -7,11 +7,9 @@
 
   </header>
 
-  <main>
+  <section class="primary-body">
 
-    <section class="primary-body">
-
-      <% if @notes.empty? %>
+    <% if @notes.empty? %>
 
       <article>
 
@@ -37,33 +35,33 @@
 
       </article>
 
-      <% else %>
+    <% else %>
 
-        <% @notes.each do |note| %>
+      <% @notes.each do |note| %>
 
-          <article>
+        <article>
 
-            <header>
-              <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
-              <h3>
-                <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
-              </h3>
-            </header>
+          <header>
+            <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+            <h3>
+              <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+            </h3>
+          </header>
 
-            <section class="note">
+          <section class="note">
 
-              <p>
-                <pre><%= note[:note_body] %></pre>
-              </p>
+            <p>
+              <pre><%= note[:note_body] %></pre>
+            </p>
 
-            </section>
+          </section>
 
-          </article>
-
-        <% end %>
+        </article>
 
       <% end %>
 
-  </main>
+    <% end %>
+
+  </section>
 
 </div>

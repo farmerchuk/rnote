@@ -1,61 +1,63 @@
-<div id="link-folder">
+<main>
 
-  <header class="primary-header">
+  <div id="link-folder">
 
-    <h3>Link '<%= @from_folder_name %>' to:</h3>
+    <header class="primary-header">
 
-  </header>
+      <h3>Link '<%= @from_folder_name %>' to:</h3>
 
-  <header class="user-settings">
-    <a href="#">Jason</a>
-  </header>
-
-  <main>
+    </header>
 
     <aside class="folder-menu">
 
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="logo">
-      </a>
-
       <header>
 
-        <h2>Filter & Sort Options:</h2>
+        <a class="logo" href="/">
+          <img src="/images/logo.png" alt="logo">
+        </a>
 
       </header>
 
-      <form class="find-folder-filters" action="/folders/<%= @from_folder_id %>/link" method="get">
-        <dl>
+      <section class="filter-sort">
 
-          <dt>
-            <label for="filter_by_tag">Filter by Folder Tag:</label>
-          </dt>
-          <dd>
-            <select name="filter_by_tag" id="filter_by_tag">
-              <option value="all_tags">All tags</option>
-              <% @folder_tags.each do |tag| %>
-                <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
-              <% end %>
-            </select>
-          </dd>
+        <h2>Filter & Sort Options:</h2>
 
-          <dt>
-            <label for="sort">Sort by:</label>
-          </dt>
-          <dd>
-            <select name="sort" id="sort">
-              <option value="no_sort">No sort</option>
-              <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
-              <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
-            </select>
-          </dd>
+        <form class="find-folder-filters" action="/folders/<%= @from_folder_id %>/link" method="get">
 
-          <input type="hidden" name="query" value="<%= @query %>">
+          <dl>
 
-        </dl>
+            <dt>
+              <label for="filter_by_tag">Filter by Folder Tag:</label>
+            </dt>
+            <dd>
+              <select name="filter_by_tag" id="filter_by_tag">
+                <option value="all_tags">All tags</option>
+                <% @folder_tags.each do |tag| %>
+                  <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
+                <% end %>
+              </select>
+            </dd>
 
-        <input type="submit" value="Apply Filters">
-      </form>
+            <dt>
+              <label for="sort">Sort by:</label>
+            </dt>
+            <dd>
+              <select name="sort" id="sort">
+                <option value="no_sort">No sort</option>
+                <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
+                <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
+              </select>
+            </dd>
+
+            <input type="hidden" name="query" value="<%= @query %>">
+
+          </dl>
+
+          <input type="submit" value="Apply Filters">
+
+        </form>
+
+      </section>
 
     </aside>
 
@@ -89,7 +91,7 @@
 
             <form class="popout-confirm" action="/folders/<%= @from_folder_id %>/link/<%= folder[:folder_id] %>" method="post">
 
-              <h3>Confirm?</h3>
+              <h3>Confirm link?</h3>
 
               <a href="/folders/<%= @from_folder_id %>">
                 <ul>
@@ -121,6 +123,6 @@
 
     </section>
 
-  </main>
+  </div>
 
-</div>
+</main>

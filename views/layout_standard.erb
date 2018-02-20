@@ -20,15 +20,19 @@
 
     <aside class="folder-menu">
 
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="logo">
-      </a>
-
-      <a class="btn" id="folder-command" href="/folders/<%= @folder_id %>/edit">Edit</a>
-
-      <a class="btn" id="folder-command" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New</a>
-
       <header>
+
+        <a class="logo" href="/">
+          <img src="/images/logo.png" alt="logo">
+        </a>
+
+        <a class="btn" id="folder-command" href="/folders/<%= @folder_id %>/edit">Edit</a>
+
+        <a class="btn" id="folder-command" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New</a>
+
+      </header>
+
+      <section>
 
         <a href="/folders/<%= @folder_id %>">
 
@@ -40,7 +44,7 @@
 
         </a>
 
-      </header>
+      </section>
 
       <section class="folder-attributes">
 
@@ -67,7 +71,11 @@
 
     </aside>
 
-    <%== yield %>
+    <main>
+
+      <%== yield %>
+
+    </main>
 
     <aside class="related-folders">
 

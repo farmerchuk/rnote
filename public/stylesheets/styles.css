@@ -479,6 +479,91 @@ Create New Folder Page Styles
 
 /*
 ==============================
+Edit Folder Page Styles
+==============================
+*/
+
+#edit-folder header.primary-header h3 {
+  display: inline;
+}
+
+#edit-folder p {
+  padding-top: 20px;
+  font-size: 1.2rem;
+  color: #dadada;
+}
+
+#edit-folder section.primary-body {
+  margin-right: 0;
+  padding: 20px 40px;
+}
+
+#edit-folder a.link-folder {
+  position: fixed;
+  bottom: 20px;
+  left: 550px;
+}
+
+#edit-folder form div.form-row:nth-of-type(2) {
+  padding-bottom: 40px;
+}
+
+#edit-folder form div.col-1 {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+#edit-folder form div.col-1 input[type="text"] {
+  width: 200px;
+}
+
+#edit-folder form div.col-2 {
+  display: inline-block;
+}
+
+#edit-folder form div.col-2 input[type="text"] {
+  width: 300px;
+}
+
+#edit-folder form input.form-submit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#edit-folder form input.delete-folder {
+  position: fixed;
+  bottom: 20px;
+  left: 390px;
+}
+
+#edit-folder #link-folders {
+  padding-top: 20px;
+  color: #c2563f;
+}
+
+#edit-folder #link-folders input[type="checkbox"] {
+  display: none;
+}
+
+#edit-folder #link-folders label::before {
+  content: "";
+  display: inline-block;
+  height: 21px;
+  width: 21px;
+  margin-right: 20px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  vertical-align: -4px;
+  cursor: pointer;
+}
+
+#edit-folder #link-folders input[type="checkbox"]:checked + label::before {
+  background: transparent url("../images/bg_checked.png");
+}
+
+/*
+==============================
 Create New Note Page Styles
 ==============================
 */
@@ -795,38 +880,4 @@ Link Folder Page Styles
   background: #000;
   opacity: 0.4;
   z-index: 2;
-}
-
-/*
-==============================
-Link Folder Confirm Page Styles
-==============================
-*/
-
-#link-folder-confirm form input.form-submit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#link-folder-confirm section.primary-body ul {
-  margin-bottom: 20px;
-}
-
-#link-folder-confirm section.primary-body ul {
-  display: inline-block;
-}
-
-#link-folder-confirm section.primary-body ul li {
-  padding-bottom: 5px;
-}
-
-#link-folder-confirm section.primary-body ul li:first-of-type {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-#link-folder-confirm section.primary-body ul li:last-of-type {
-  text-transform: uppercase;
-  font-size: 1.1rem;
 }
