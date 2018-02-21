@@ -11,6 +11,7 @@ CSS Reset
   padding: 0;
   font: inherit;
   font-size: 100%;
+  line-height: inherit;
   box-sizing: border-box;
   vertical-align: baseline;
 }
@@ -33,6 +34,7 @@ Standard Element Styles
 
 html {
   font: normal 14px "Raleway", sans-serif;
+  line-height: 1.3;
   color: #363636;
 }
 
@@ -45,39 +47,24 @@ body {
 h1 {
   font-size: 2rem;
   font-weight: bold;
-  padding-bottom: 10px;
-  color: #bad0df;
 }
 
 h2 {
   font-size: 1.5rem;
-  color: #dadada;
 }
 
 h3 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 h4 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #97a7b1;
-}
-
-h5 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
 p {
   padding-bottom: 1rem;
-  line-height: 2;
-  font-size: 1.3rem;
-}
-
-pre {
-  white-space: pre-wrap;
   line-height: 2;
   font-size: 1.3rem;
 }
@@ -88,218 +75,42 @@ a {
 
 fieldset {
   border: none;
-  padding-bottom: 20px;
 }
 
-form label {
+label {
   font-size: 1.3rem;
   font-weight: bold;
 }
 
-/*
-==============================
-Custom Styles
-==============================
-*/
-
-.folder-summary ul {
-  display: inline-block;
-  cursor: pointer;
-}
-
-.folder-summary ul:hover {
-  color: #97a7b1;
-}
-
-.folder-summary ul li:first-of-type {
-  font-weight: bold;
-  font-size: 1.5rem;
-  padding-bottom: 5px;
-}
-
-.folder-summary ul li:last-of-type {
-  text-transform: uppercase;
-  font-size: 1.1rem;
-}
-
-header.main-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  padding: 20px 40px 0 40px;
-  margin-left: 350px;
-  margin-right: 300px;
-  background: #fff;
-  box-shadow: 0 20px 10px -3px #fff;
-  z-index: 1;
-}
-
-header.main-header::after {
-  clear: both;
-}
-
-header.user-settings {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  width: 300px;
-  height: 100px;
-  padding: 20px;
-  box-shadow: 0 20px 10px -3px #fff;
-  z-index: 2;
-}
-
-header.user-settings a {
-  display: inline-block;
-  float: right;
-  font-size: 1.5rem;
-  color: #363636;
-}
-
-header.user-settings a::after {
-  content: '';
-  display: inline-block;
-  background: transparent url("../images/icon_menu.png") 0 0 no-repeat;
-  background-size: 30px 30px;
-  height: 30px;
-  width: 30px;
-  vertical-align: text-bottom;
-  margin-left: 20px;
-}
-
-aside.folder-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-  width: 350px;
-  padding: 20px;
-  background: #363636;
-  color: #fff;
-  z-index: 2;
-}
-
-aside.folder-menu a {
-  color: #fff;
-}
-
-aside.folder-menu a:hover {
-  color: #bad0df;
-}
-
-section.folder-attributes {
-  padding-top: 40px;
-}
-
-section.folder-attributes dt {
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding-bottom: 0.5rem;
-  color: #bad0df;
-}
-
-section.folder-attributes dd {
-  padding-bottom: 1.5rem;
-  padding-left: 1rem;
-  font-size: 1.1rem;
-  color: #dadada;
-}
-
-aside.folder-menu form.find {
-  position: fixed;
-  z-index: -1;
-  bottom: 20px;
-  width: 310px;
-}
-
-aside.folder-menu form.find small {
-  display: block;
-  font-size: 1rem;
-  color: #dadada;
-  padding-bottom: 8px;
-  padding-left: 5px;
-}
-
-aside.folder-menu form.find input[name="query"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  color: #fff;
-  background: #363636;
-}
-
-aside.folder-menu form.find input[type="submit"] {
-  display: none;
-}
-
-header.main-header a:first-of-type {
-  float: left;
-}
-
-header.main-header a:last-of-type {
-  float: right;
-}
-
-section.main-body {
-  margin: 0 300px 0 350px;
-  line-height: 1.5;
-  padding: 20px 40px;
-}
-
-section.main-body article {
+article {
   padding-bottom: 50px;
 }
 
-section.main-body article header {
+article header {
   padding-bottom: 20px;
   overflow: hidden;
 }
 
-section.main-body article header a {
-  color: #363636;
-}
-
-section.main-body article header a:hover {
-  color: #97a7b1;
-}
-
-section.main-body article h3 {
-
-}
-
-section.main-body article time {
+article time {
   float: right;
   padding-top: 10px;
   font-size: 1.2rem;
 }
 
-section.main-body form {
+form {
   overflow: hidden;
 }
 
-section.main-body form input[type="text"] {
+form dt {
+  padding-bottom: 10px;
+}
+
+form input[type="text"] {
   padding: 0.5rem 10px;
   font-size: 1.2rem;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  width: 400px;
 }
 
-section.main-body form.find {
-  padding-bottom: 30px;
-}
-
-section.main-body form.find input[type="submit"] {
-  display: none;
-}
-
-section.main-body form textarea {
+form textarea {
   padding: 0.5rem 10px;
   font-size: 1.3rem;
   line-height: 2;
@@ -309,52 +120,25 @@ section.main-body form textarea {
   resize: vertical;
 }
 
-aside.related-folders {
-  position: fixed;
-  top: 100px;
-  right: 0;
-  bottom: 0;
-  width: 300px;
-  overflow: scroll;
-  z-index: 1;
-}
+/*
+==============================
+Custom Styles
+==============================
+*/
 
-aside.related-folders a {
-  color: #363636;
-}
-
-aside.related-folders a:hover {
-  color: #97a7b1;
-}
-
-aside.related-folders section {
-  padding: 20px;
-}
-
-aside.related-folders li.folder-summary {
-  margin-bottom: 30px;
-}
-
-aside.related-folders li.folder-summary ul {
-  border-left: 3px solid #dadada;
-  padding-left: 10px;
-}
-
-aside.related-folders li.folder-summary ul li {
-  padding-bottom: 5px;
-}
-
-a.logo {
+.logo {
   display: inline-block;
   margin-bottom: 50px;
 }
 
-form div.form-row {
-  padding-bottom: 20px;
+.display-note-body {
+  white-space: pre-wrap;
+  line-height: 2;
+  font-size: 1.3rem;
 }
 
-form dt {
-  padding-bottom: 10px;
+.form-row {
+  padding-bottom: 20px;
 }
 
 /*
@@ -366,38 +150,366 @@ Button Styles
 .btn {
   display: inline-block;
   padding: 10px 15px;
-  border: 1px solid #363636;
   border-radius: 4px;
-  color: #363636;
+  font-size: 1rem;
   background: inherit;
   text-decoration: none;
   cursor: pointer;
   text-transform: uppercase;
 }
 
-.btn:hover {
+/*
+==============================
+User Settings Styles
+==============================
+*/
+
+.user-settings {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 300px;
+  height: 100px;
+  padding: 20px;
+  box-shadow: 0 20px 10px -3px #fff;
+  overflow: hidden;
+}
+
+.user-settings a {
+  display: inline-block;
+  float: right;
+  font-size: 1.5rem;
+  color: #363636;
+}
+
+.user-settings a::after {
+  content: '';
+  display: inline-block;
+  background: transparent url("../images/icon_menu.png") 0 0 no-repeat;
+  background-size: 30px 30px;
+  height: 30px;
+  width: 30px;
+  vertical-align: text-bottom;
+  margin-left: 20px;
+}
+
+/*
+==============================
+Main Header Styles
+==============================
+*/
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  padding: 20px 40px 0 40px;
+  margin-left: 350px;
+  margin-right: 300px;
+  background: #fff;
+  box-shadow: 0 20px 10px -3px #fff;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.main-header h1 {
+  float: left;
+}
+
+.main-header .btn {
+  float: right;
+  margin-left: 20px;
+  border: 1px solid #363636;
+  color: #363636;
+}
+
+.main-header .btn:hover {
   border: 1px solid #97a7b1;
   color: #97a7b1;
 }
 
-.btn-delete {
-  color: #97a7b1;
-  border: 1px solid #97a7b1;
+/*
+==============================
+Folder Menu Styles
+==============================
+*/
+
+.folder-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 350px;
+  padding: 20px;
+  background: #363636;
+  color: #dadada;
+  z-index: 2;
 }
 
-.btn-delete:hover {
+.folder-menu h1 {
+  padding-bottom: 10px;
+  color: #bad0df;
+}
+
+.folder-menu h2 {
+  color: #dadada;
+}
+
+.folder-menu .folder-attributes {
+  padding-top: 40px;
+}
+
+.folder-menu .folder-attributes h4 {
+  padding-bottom: 0.5rem;
+  color: #bad0df;
+}
+
+.folder-menu .folder-attributes dd {
+  padding-bottom: 1.5rem;
+  padding-left: 1rem;
+  font-size: 1.1rem;
+}
+
+.folder-menu .find {
+  position: fixed;
+  z-index: -1;
+  bottom: 20px;
+  width: 310px;
+}
+
+.folder-menu .find small {
+  display: block;
+  font-size: 1rem;
+  padding-bottom: 8px;
+  padding-left: 5px;
+}
+
+.folder-menu .find input[name="query"] {
+  border: 1px solid #dadada;
+  background: inherit;
+}
+
+.folder-menu .btn {
+  border: 1px solid #dadada;
+  color: #dadada;
+}
+
+.folder-menu .btn:hover {
+  border: 1px solid #bad0df;
+  color: #bad0df;
+}
+
+.folder-menu .folder-action {
+  margin-left: 20px;
+  float: right;
+}
+
+/*
+==============================
+Find Folder Styles
+==============================
+*/
+
+.find input[name="query"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+}
+
+.find input[type="submit"] {
+  display: none;
+}
+
+/*
+==============================
+Filter-Sort Styles
+==============================
+*/
+
+.filter-sort form {
+  padding-top: 40px;
+}
+
+.filter-sort label {
+  color: #bad0df;
+  font-size: 1.1rem;
+}
+
+.filter-sort dl,
+.filter-sort dd {
+  padding-bottom: 20px;
+}
+
+.filter-sort select {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  color: #dadada;
+  background: #363636;
+}
+
+.filter-sort input[type="submit"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/*
+==============================
+Folder Summary Styles
+==============================
+*/
+
+.folder-summary {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.folder-summary:hover {
+  color: #97a7b1;
+}
+
+.folder-summary ul {
+  font-size: 1rem;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.folder-summary h3 {
+  padding-bottom: 5px;
+}
+
+/*
+==============================
+Main Body Styles
+==============================
+*/
+
+.main-body {
+  margin: 0 300px 0 350px;
+  padding: 20px 40px;
+}
+
+.main-body a {
+  color: #363636;
+}
+
+.main-body a:hover {
+  color: #97a7b1;
+}
+
+.main-body form input[type="text"] {
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  background: inherit;
+  width: 400px;
+}
+
+.main-body form.find {
+  padding-bottom: 30px;
+}
+
+.main-body .btn {
+  border: 1px solid #363636;
+  color: #363636;
+}
+
+.main-body .btn:hover {
+  border: 1px solid #97a7b1;
+  color: #97a7b1;
+}
+
+.main-body .btn-delete {
+  border: 1px solid #97a7b1;
+  color: #97a7b1;
+}
+
+.main-body .btn-delete:hover {
   color: #c2563f;
   border: 1px solid #c2563f;
 }
 
-#folder-command {
-  float: right;
-  margin-left: 10px;
-  border: 1px solid #dadada;
+/*
+==============================
+Related Folders Styles
+==============================
+*/
+
+.related-folders {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  overflow: scroll;
+  z-index: 1;
 }
 
-#folder-command:hover {
-  border: 1px solid #bad0df;
+.related-folders a {
+  color: #363636;
+}
+
+.related-folders a:hover {
+  color: #97a7b1;
+}
+
+.related-folders > ul {
+  padding: 20px;
+}
+
+.related-folders .folder-summary {
+  margin-bottom: 30px;
+  border-left: 3px solid #dadada;
+  padding-left: 10px;
+}
+
+/*
+==============================
+Folder Form Styles
+==============================
+*/
+
+.folder-form .main-body {
+  margin-right: 0;
+  padding: 20px 40px;
+}
+
+.folder-form .folder-menu h2 {
+  padding-bottom: 20px;
+}
+
+.folder-form .form-row:nth-of-type(2) {
+  padding-bottom: 40px;
+}
+
+.folder-form .col-1 {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+.folder-form .col-1 input[type="text"] {
+  width: 200px;
+}
+
+.folder-form .col-2 {
+  display: inline-block;
+}
+
+.folder-form .col-2 input[type="text"] {
+  width: 300px;
+}
+
+.folder-form .form-submit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 
 /*
@@ -406,70 +518,16 @@ Create New Folder Page Styles
 ==============================
 */
 
-#create-new-folder header.main-header h3 {
-  display: inline;
-}
-
-#create-new-folder p {
-  padding-top: 20px;
-  font-size: 1.2rem;
-  color: #dadada;
-}
-
-#create-new-folder section.main-body {
-  margin-right: 0;
-  padding: 20px 40px;
-}
-
-#create-new-folder a.link-folder {
-  position: fixed;
-  bottom: 20px;
-  left: 550px;
-}
-
-#create-new-folder form div.form-row:nth-of-type(2) {
-  padding-bottom: 40px;
-}
-
-#create-new-folder form div.col-1 {
-  display: inline-block;
-  padding-right: 30px;
-}
-
-#create-new-folder form div.col-1 input[type="text"] {
-  width: 200px;
-}
-
-#create-new-folder form div.col-2 {
-  display: inline-block;
-}
-
-#create-new-folder form div.col-2 input[type="text"] {
-  width: 300px;
-}
-
-#create-new-folder form input.form-submit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#create-new-folder form input.delete-folder {
-  position: fixed;
-  bottom: 20px;
-  left: 390px;
-}
-
-#create-new-folder #link-folders {
+#create-new-folder .optional-link {
   padding-top: 20px;
   color: #c2563f;
 }
 
-#create-new-folder #link-folders input[type="checkbox"] {
+#create-new-folder .optional-link input[type="checkbox"] {
   display: none;
 }
 
-#create-new-folder #link-folders label::before {
+#create-new-folder .optional-link label::before {
   content: "";
   display: inline-block;
   height: 21px;
@@ -481,7 +539,7 @@ Create New Folder Page Styles
   cursor: pointer;
 }
 
-#create-new-folder #link-folders input[type="checkbox"]:checked + label::before {
+#create-new-folder .optional-link input[type="checkbox"]:checked + label::before {
   background: transparent url("../images/bg_checked.png");
 }
 
@@ -491,83 +549,35 @@ Edit Folder Page Styles
 ==============================
 */
 
-#edit-folder header.main-header h3 {
-  display: inline;
-}
-
-#edit-folder p {
-  padding-top: 20px;
-  font-size: 1.2rem;
-  color: #dadada;
-}
-
-#edit-folder section.main-body {
-  margin-right: 0;
-  padding: 20px 40px;
-}
-
-#edit-folder a.link-folder {
+#edit-folder .link-folder {
   position: fixed;
   bottom: 20px;
   left: 550px;
 }
 
-#edit-folder form div.form-row:nth-of-type(2) {
-  padding-bottom: 40px;
-}
-
-#edit-folder form div.col-1 {
-  display: inline-block;
-  padding-right: 30px;
-}
-
-#edit-folder form div.col-1 input[type="text"] {
-  width: 200px;
-}
-
-#edit-folder form div.col-2 {
-  display: inline-block;
-}
-
-#edit-folder form div.col-2 input[type="text"] {
-  width: 300px;
-}
-
-#edit-folder form input.form-submit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#edit-folder form input.delete-folder {
+#edit-folder .delete-folder {
   position: fixed;
   bottom: 20px;
   left: 390px;
 }
 
-#edit-folder #link-folders {
-  padding-top: 20px;
-  color: #c2563f;
+/*
+==============================
+Note Form Styles
+==============================
+*/
+
+.note-form .form-submit {
+  float: right;
 }
 
-#edit-folder #link-folders input[type="checkbox"] {
-  display: none;
+.note-form .main-body form {
+  padding-bottom: 20px;
 }
 
-#edit-folder #link-folders label::before {
-  content: "";
-  display: inline-block;
-  height: 21px;
-  width: 21px;
-  margin-right: 20px;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  vertical-align: -4px;
-  cursor: pointer;
-}
-
-#edit-folder #link-folders input[type="checkbox"]:checked + label::before {
-  background: transparent url("../images/bg_checked.png");
+.note-form textarea {
+  width: 100%;
+  height: 50vh;
 }
 
 /*
@@ -576,23 +586,11 @@ Create New Note Page Styles
 ==============================
 */
 
-#create-new-note header.main-header h3 {
-  display: inline;
-}
-
-#create-new-note form input.form-submit {
-  float: right;
-}
-
-#create-new-note section.main-body form {
-  padding-bottom: 20px;
-}
-
-#create-new-note section.main-body article:first-of-type {
+#create-new-note .main-body .notes li:first-of-type {
   padding-top: 50px;
 }
 
-#create-new-note form textarea {
+#create-new-note .main-body textarea {
   width: 100%;
   height: 50vh;
 }
@@ -603,25 +601,8 @@ Edit Note Page Styles
 ==============================
 */
 
-#edit-note header.main-header h3 {
-  display: inline;
-}
-
-#edit-note form input.form-submit {
-  float: right;
-}
-
-#edit-note form input.note-delete {
+#edit-note .note-delete {
   float: left;
-}
-
-#edit-note section.main-body form {
-  padding-bottom: 20px;
-}
-
-#edit-note form textarea {
-  width: 100%;
-  height: 50vh;
 }
 
 #edit-note #active-note {
@@ -631,159 +612,36 @@ Edit Note Page Styles
 
 /*
 ==============================
-View All Related Notes Page Styles
+Find Folder / Link Folder Styles
 ==============================
 */
 
-#all-related-notes header.main-header h3 {
-  display: inline;
-}
-
-#all-related-notes h5 {
-  display: inline;
-}
-
-/*
-==============================
-Find Folder Page Styles
-==============================
-*/
-
-#find-folder form.find-folder-filters {
-  padding-top: 40px;
-}
-
-#find-folder form.find-folder-filters label {
-  color: #bad0df;
-  font-size: 1.1rem;
-}
-
-#find-folder form.find-folder-filters dl {
-  padding-bottom: 20px;
-}
-
-#find-folder form.find-folder-filters dd {
-  padding-bottom: 20px;
-}
-
-#find-folder form.find-folder-filters select,
-#find-folder form.find-folder-filters input[type="submit"] {
-  -webkit-appearance: none;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  color: #fff;
-  background: #363636;
-}
-
-#find-folder form.find-folder-filters input[type="submit"] {
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-#find-folder form.find-folder-filters input[type="submit"]:hover {
-  border: 1px solid #bad0df;
-  color: #bad0df;
-}
-
-#find-folder header.main-header h3 {
-  display: inline;
-}
-
-#find-folder section.main-body {
+.find-link .main-body {
   margin-right: 0;
   padding: 20px 40px;
 }
 
-#find-folder section.main-body a {
-  color: #363636;
+.find-link .main-body input[type="text"] {
+  font-size: 1.5rem;
+  width: 500px;
 }
 
-#find-folder section.main-body a:hover {
-  color: #97a7b1;
-}
-
-#find-folder section.main-body li.folder-summary {
+.find-link .main-body .results-list > li {
   margin-bottom: 20px;
 }
 
-#find-folder section.main-body form input[type="text"] {
-  padding: 10px;
-  font-size: 1.5rem;
-  width: 500px;
-}
-
 /*
 ==============================
-Link Folder Page Styles
+Link Folder Popout Page Styles
 ==============================
 */
 
-#link-folder section.main-body form input[type="text"] {
-  padding: 10px;
-  font-size: 1.5rem;
-  width: 500px;
-}
-
-#link-folder form.find-folder-filters {
-  padding-top: 40px;
-}
-
-#link-folder form.find-folder-filters label {
-  color: #bad0df;
-  font-size: 1.1rem;
-}
-
-#link-folder form.find-folder-filters dl {
+#link-folder .popout h1 {
+  text-align: center;
   padding-bottom: 20px;
 }
 
-#link-folder form.find-folder-filters dd {
-  padding-bottom: 20px;
-}
-
-#link-folder form.find-folder-filters select,
-#link-folder form.find-folder-filters input[type="submit"] {
-  -webkit-appearance: none;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  color: #fff;
-  background: #363636;
-}
-
-#link-folder form.find-folder-filters input[type="submit"] {
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-#link-folder form.find-folder-filters input[type="submit"]:hover {
-  border: 1px solid #bad0df;
-  color: #bad0df;
-}
-
-#link-folder header.main-header h3 {
-  display: inline;
-}
-
-#link-folder section.main-body {
-  margin-right: 0;
-  padding: 20px 40px;
-}
-
-#link-folder section.main-body a {
-  color: #363636;
-}
-
-#link-folder section.main-body li.folder-summary {
-  padding-bottom: 20px;
-}
-
-#link-folder div.popout form {
+#link-folder .popout form {
   display: none;
   position: absolute;
   top: -250px;
@@ -800,29 +658,25 @@ Link Folder Page Styles
   overflow: hidden;
 }
 
-#link-folder div.popout div.folder-summary {
+#link-folder .popout img {
+  display: block;
+  margin: 0 auto;
+}
+
+#link-folder .popout .folder-summary {
+  width: 100%;
   border: 1px solid #dadada;
   padding: 20px;
   border-radius: 4px;
 }
 
-#link-folder div.popout form h3 {
-  text-align: center;
-  padding-bottom: 20px;
-}
-
-#link-folder div.popout form img {
-  display: block;
-  margin: 0 auto;
-}
-
-#link-folder div.popout input.confirm {
+#link-folder .popout .btn-confirm {
   float: right;
   margin-left: 20px;
   margin-top: 20px;
 }
 
-#link-folder div.popout a.cancel {
+#link-folder .popout .btn-cancel {
   float: right;
   margin-top: 20px;
 }

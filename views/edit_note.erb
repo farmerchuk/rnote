@@ -1,8 +1,8 @@
-<div id="edit-note">
+<div id="edit-note" class="note-form">
 
   <header class="main-header">
 
-    <h3>Edit Note</h3>
+    <h1>Edit Note</h1>
 
     <a class="btn" href="/folders/<%= @folder_id %>/all_related_notes">VIEW ALL RELATED NOTES</a>
 
@@ -10,7 +10,7 @@
 
   <section class="main-body">
 
-    <ul>
+    <ul class="notes">
 
       <% @notes.each do |note| %>
 
@@ -22,7 +22,7 @@
 
                 <header>
 
-                  <h3><%= note[:note_title] %></h3>
+                  <h1><%= note[:note_title] %></h1>
 
                 </header>
 
@@ -70,16 +70,16 @@
 
                   <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
-                  <h3>
+                  <h1>
                     <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
-                  </h3>
+                  </h1>
 
                 </header>
 
                 <section>
 
                   <p>
-                    <pre><%= note[:note_body] %></pre>
+                    <pre class="display-note-body"><%= note[:note_body] %></pre>
                   </p>
 
                 </section>

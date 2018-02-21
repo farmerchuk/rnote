@@ -19,7 +19,7 @@
 
             <header>
 
-              <a href="#"><h3>Welcome!</h3></a>
+              <a href="#"><h1>Welcome!</h1></a>
 
             </header>
 
@@ -57,16 +57,16 @@
 
                 <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
-                <h3>
+                <h1>
                   <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
-                </h3>
+                </h1>
 
               </header>
 
               <section>
 
                 <p>
-                  <pre><%= note[:note_body] %></pre>
+                  <pre class="display-note-body"><%= note[:note_body] %></pre>
                 </p>
 
               </section>

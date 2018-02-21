@@ -1,16 +1,16 @@
 <main>
 
-  <div id="find-folder">
+  <div id="find-folder" class="find-link">
 
     <header class="main-header">
 
       <% if @query.empty? %>
 
-        <h3>Listing All Folders</h3>
+        <h1>Listing All Folders</h1>
 
       <% else %>
 
-        <h3>Searching for '<%= @query %>'</h3>
+        <h1>Searching for '<%= @query %>'</h1>
 
       <% end %>
 
@@ -26,11 +26,11 @@
 
       </header>
 
-      <section>
+      <section class="filter-sort">
 
         <h2>Filter & Sort Options:</h2>
 
-        <form class="find-folder-filters" action="/folders/find_folder" method="get">
+        <form action="/folders/find_folder" method="get">
 
           <dl>
 
@@ -61,7 +61,7 @@
 
           </dl>
 
-          <input type="submit" value="Apply Filters">
+          <input class="btn" type="submit" value="Apply Filters">
 
         </form>
 
@@ -83,20 +83,25 @@
 
       </form>
 
-      <ul>
+      <ul class="results-list">
 
         <% @folders.each do |folder| %>
 
-          <li class="folder-summary">
+          <li>
 
-            <a href="/folders/<%= folder[:folder_id] %>">
+            <div class="folder-summary">
 
-              <ul>
-                <li><%= folder[:folder_name] %></li>
-                <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
-              </ul>
+              <a href="/folders/<%= folder[:folder_id] %>">
 
-            </a>
+                <h3><%= folder[:folder_name] %></h3>
+
+                <ul>
+                  <li><%= format_folder_tags_as_string(folder[:folder_tags]) %></li>
+                </ul>
+
+              </a>
+
+            </div>
 
           </li>
 

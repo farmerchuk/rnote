@@ -1,10 +1,10 @@
 <main>
 
-  <div id="edit-folder">
+  <div id="edit-folder" class="folder-form">
 
     <header class="main-header">
 
-      <h3>Edit Folder / <%= @folder_name %></h3>
+      <h1>Edit Folder / <%= @folder_name %></h1>
 
     </header>
 
@@ -42,7 +42,7 @@
         <label>
           <input type="text" name="query" placeholder="Find folder...">
         </label>
-        
+
         <input type="hidden" name="filter_by_tags" value="all_tags">
         <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">

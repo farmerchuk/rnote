@@ -2,15 +2,15 @@
 
 <html lang="en-US">
 
-<head>
-  <meta charset="utf-8">
-  <title>r.note</title>
-  <link rel="stylesheet" href="/stylesheets/styles.css">
-  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>r.note</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
 
   <body>
 
@@ -26,9 +26,9 @@
           <img src="/images/logo.png" alt="logo">
         </a>
 
-        <a class="btn" id="folder-command" href="/folders/<%= @folder_id %>/edit">Edit</a>
+        <a class="btn folder-action" href="/folders/<%= @folder_id %>/edit">Edit</a>
 
-        <a class="btn" id="folder-command" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New</a>
+        <a class="btn folder-action" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New</a>
 
       </header>
 
@@ -51,7 +51,7 @@
         <dl>
           <% @folder_attributes.each do |attribute| %>
             <% unless attribute[:name].empty? || attribute[:value].empty? %>
-              <dt><%= attribute[:name] %>:</dt>
+              <dt><h4><%= attribute[:name] %>:</h4></dt>
               <dd><%= attribute[:value] %></dd>
             <% end %>
           <% end %>
@@ -83,35 +83,37 @@
 
     <aside class="related-folders">
 
-      <section>
+      <ul>
 
-        <ul>
+        <% @related_folders.each do |folder| %>
 
-          <% @related_folders.each do |folder| %>
+          <li>
 
-            <li class="folder-summary">
+            <div class="folder-summary">
 
               <a href="/folders/<%= folder[:folder_id] %>">
 
+                <h3><%= folder[:folder_name] %></h3>
+
                 <ul>
 
-                  <li><%= folder[:folder_name] %></li>
-                  
                   <% format_folder_tags_as_array(folder[:folder_tags]).each do |tag| %>
-                    <li><%= tag.upcase %></li>
+
+                    <li><%= tag %></li>
+
                   <% end %>
 
                 </ul>
 
               </a>
 
-            </li>
+            </div>
 
-          <% end %>
+          </li>
 
-        </ul>
+        <% end %>
 
-      </section>
+      </ul>
 
     </aside>
 
