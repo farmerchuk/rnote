@@ -158,13 +158,6 @@ class Database
     sort_folders(sort_method, folders)
   end
 
-  def list_folder_tags(user_id)
-    sql = "SELECT DISTINCT tags FROM folders WHERE user_id = $1"
-
-    result = query(sql, user_id)
-    result.map { |tuple| tuple["tags"] }
-  end
-
   def link_folders(from_folder_id, to_folder_id)
     sql = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2);"
     query(sql, to_folder_id, from_folder_id);
@@ -298,7 +291,9 @@ class Database
 
   def load_all_related_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name, folders.tags AS folder_tags, notes.title AS note_title, notes.body AS note_body, notes.dt AS note_date_time
+      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name,
+        folders.tags AS folder_tags, notes.title AS note_title, notes.body AS note_body,
+        notes.dt AS note_date_time
       FROM notes
       INNER JOIN folders ON notes.folder_id = folders.id
       WHERE folder_id = ANY (

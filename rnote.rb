@@ -47,8 +47,10 @@ def pass_form_validations?
   true
 end
 
-def parse_folder_tags(raw_folder_tags)
-  raw_folder_tags.map { |tags| tags.split(' ') }.flatten.uniq.sort
+def parse_folder_tags(folders)
+  folders.map do |folder|
+    folder[:folder_tags].split(' ')
+  end.flatten.uniq.sort
 end
 
 def format_folder_tags_as_string(folder_tags)
@@ -76,8 +78,7 @@ get "/folders/find_folder" do
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || ""
   @folders = @storage.load_folders(@user_id, @query, type_filter, sort_method)
-  @raw_folder_tags = @storage.list_folder_tags(@user_id)
-  @folder_tags = parse_folder_tags(@raw_folder_tags)
+  @folder_tags = parse_folder_tags(@folders)
 
   erb :find_folder, layout: :layout_flexible
 end
@@ -189,9 +190,7 @@ get "/folders/:from_folder_id/link" do
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || ""
   @folders = @storage.load_linkable_folders(@query, @from_folder_id, type_filter, sort_method)
-
-  @raw_folder_tags = @storage.list_folder_tags(@user_id)
-  @folder_tags = parse_folder_tags(@raw_folder_tags)
+  @folder_tags = parse_folder_tags(@folders)
 
   erb :link_folder, layout: :layout_flexible
 end
@@ -206,9 +205,7 @@ get "/folders/:from_folder_id/unlink" do
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || ""
   @folders = @storage.load_related_folders_with_query(@user_id, @from_folder_id, @query, type_filter, sort_method)
-
-  @raw_folder_tags = @storage.list_folder_tags(@user_id)
-  @folder_tags = parse_folder_tags(@raw_folder_tags)
+  @folder_tags = parse_folder_tags(@folders)
 
   erb :unlink_folder, layout: :layout_flexible
 end
