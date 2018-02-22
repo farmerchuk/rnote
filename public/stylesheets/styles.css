@@ -562,6 +562,12 @@ Edit Folder Page Styles
   left: 550px;
 }
 
+#edit-folder .unlink-folder {
+  position: fixed;
+  bottom: 20px;
+  left: 690px;
+}
+
 #edit-folder .delete-folder {
   position: fixed;
   bottom: 20px;
@@ -639,7 +645,7 @@ Find Folder / Link Folder Styles
 
 /*
 ==============================
-Link Folder Popout Page Styles
+Link / Unlink Folder Popout Page Styles
 ==============================
 */
 

@@ -59,21 +59,8 @@ def format_folder_tags_as_array(folder_tags)
   folder_tags.split(' ').map { |tags| "##{tags}"}.sort
 end
 
-def filter_sort_folders(folders, filter_by_tag, sort)
-  if filter_by_tag != "all_tags" && filter_by_tag != nil
-    folders = folders.select { |folder| folder[:folder_tags].include?(filter_by_tag) }
-  end
-  if sort == "recently_created_first" || sort == "recently_created_last"
-    folders = folders.sort_by { |folder| folder[:date_time] }
-    folders.reverse! if sort == "recently_created_first"
-  end
-
-  folders
-end
-
-def select_valid_folders_for_link(folders, from_folder_id)
-  invalid_folder_ids = @storage.linked_folder_ids(from_folder_id) << from_folder_id.to_s
-  folders.reject { |folder| invalid_folder_ids.include?(folder[:folder_id]) }
+def sort_folders_alphabetically(folders)
+  folders.sort_by { |folder| folder[:folder_name] }
 end
 
 # ---------------------------------------
@@ -86,10 +73,11 @@ end
 
 get "/folders/find_folder" do
   @query = params[:query] || ""
-  @all_folders = @storage.find_folders(@user_id, @query)
+  type_filter = params[:filter_by_tag] || ""
+  sort_method = params[:sort] || ""
+  @folders = @storage.load_folders(@user_id, @query, type_filter, sort_method)
   @raw_folder_tags = @storage.list_folder_tags(@user_id)
   @folder_tags = parse_folder_tags(@raw_folder_tags)
-  @folders = filter_sort_folders(@all_folders, params[:filter_by_tag], params[:sort])
 
   erb :find_folder, layout: :layout_flexible
 end
@@ -137,7 +125,8 @@ get "/folders/:id" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
-  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
 
   erb :folder, layout: :layout_standard
 end
@@ -197,9 +186,9 @@ get "/folders/:from_folder_id/link" do
   @from_folder_tags_string = from_folder.first[:folder_tags]
 
   @query = params[:query] || ""
-  @all_folders = @storage.find_folders(@user_id, @query)
-  @valid_folders = select_valid_folders_for_link(@all_folders, @from_folder_id)
-  @folders = filter_sort_folders(@valid_folders, params[:filter_by_tag], params[:sort])
+  type_filter = params[:filter_by_tag] || ""
+  sort_method = params[:sort] || ""
+  @folders = @storage.load_linkable_folders(@query, @from_folder_id, type_filter, sort_method)
 
   @raw_folder_tags = @storage.list_folder_tags(@user_id)
   @folder_tags = parse_folder_tags(@raw_folder_tags)
@@ -207,11 +196,37 @@ get "/folders/:from_folder_id/link" do
   erb :link_folder, layout: :layout_flexible
 end
 
+get "/folders/:from_folder_id/unlink" do
+  @from_folder_id = params[:from_folder_id].to_i
+  from_folder = @storage.load_folder(@user_id, @from_folder_id)
+  @from_folder_name = from_folder.first[:folder_name]
+  @from_folder_tags_string = from_folder.first[:folder_tags]
+
+  @query = params[:query] || ""
+  type_filter = params[:filter_by_tag] || ""
+  sort_method = params[:sort] || ""
+  @folders = @storage.load_related_folders_with_query(@user_id, @from_folder_id, @query, type_filter, sort_method)
+
+  @raw_folder_tags = @storage.list_folder_tags(@user_id)
+  @folder_tags = parse_folder_tags(@raw_folder_tags)
+
+  erb :unlink_folder, layout: :layout_flexible
+end
+
 post "/folders/:from_folder_id/link/:to_folder_id" do
   @from_folder_id = params[:from_folder_id].to_i
   @to_folder_id = params[:to_folder_id].to_i
 
   @storage.link_folders(@from_folder_id, @to_folder_id)
+
+  redirect "/folders/#{@from_folder_id}"
+end
+
+post "/folders/:from_folder_id/unlink/:to_folder_id" do
+  @from_folder_id = params[:from_folder_id].to_i
+  @to_folder_id = params[:to_folder_id].to_i
+
+  @storage.unlink_folders(@from_folder_id, @to_folder_id)
 
   redirect "/folders/#{@from_folder_id}"
 end
@@ -232,7 +247,8 @@ get "/folders/:id/notes/new" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
-  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
 
   erb :new_note, layout: :layout_standard
 end
@@ -269,7 +285,8 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
   @note_id = params[:note_id].to_i
 
-  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
 
   erb :edit_note, layout: :layout_standard
 end
@@ -315,7 +332,8 @@ get "/folders/:folder_id/all_related_notes" do
     }
   end
 
-  @related_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
   @notes = @storage.load_all_related_notes(@user_id, @folder_id).reverse
 
   erb :all_related_notes, layout: :layout_standard

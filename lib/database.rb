@@ -19,43 +19,30 @@ class Database
     @db.close
   end
 
-  def find_folders(user_id, search_query)
-    search_query = "%" + search_query + "%"
-    sql = <<~SQL
-      SELECT * FROM folders WHERE user_id = $1 AND name ILIKE $2;
-    SQL
+  # Helper methods
 
-    result = query(sql, user_id, search_query)
-    result.map do |tuple|
-      {
-        folder_id: tuple["id"],
-        folder_name: tuple["name"],
-        folder_tags: tuple["tags"],
-        date_time: tuple["dt"]
-      }
+  def sort_folders(sort_method, folders)
+    if sort_method == "recently_created_first" || sort_method == "recently_created_last"
+      folders = sort_folders_by_created_date(folders)
+      folders.reverse! if sort_method == "recently_created_first"
     end
+    if sort_method == "alphabetical" || sort_method == "reverse_alphabetical"
+      folders = sort_folders_alphabetically(folders)
+      folders.reverse! if sort_method == "reverse_alphabetical"
+    end
+
+    folders
   end
 
-  def linked_folder_ids(folder_id)
-    sql = <<~SQL
-      SELECT child_id FROM relations WHERE parent_id = $1
-      UNION SELECT parent_id FROM relations WHERE child_id = $1;
-    SQL
-
-    result = query(sql, folder_id).values.flatten.compact
+  def sort_folders_by_created_date(folders)
+    folders.sort_by { |folder| folder[:date_time] }
   end
 
-  def list_folder_tags(user_id)
-    sql = "SELECT DISTINCT tags FROM folders WHERE user_id = $1"
-
-    result = query(sql, user_id)
-    result.map { |tuple| tuple["tags"] }
+  def sort_folders_alphabetically(folders)
+    folders.sort_by { |folder| folder[:folder_name] }
   end
 
-  def link_folders(from_folder_id, to_folder_id)
-    sql = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2);"
-    query(sql, to_folder_id, from_folder_id);
-  end
+  # Database methods
 
   def load_folder(user_id, folder_id)
     sql = <<~SQL
@@ -74,6 +61,118 @@ class Database
         attr_value: tuple["attr_value"]
       }
     end
+  end
+
+  def load_folders(user_id, search_query, tag_filter, sort_method)
+    search_query = "%" + search_query + "%"
+    tag_filter = "%" + tag_filter + "%"
+
+    sql = <<~SQL
+      SELECT * FROM folders WHERE user_id = $1 AND name ILIKE $2 AND tags ILIKE $3;
+    SQL
+
+    result = query(sql, user_id, search_query, tag_filter)
+    folders = result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_tags: tuple["tags"],
+        date_time: tuple["dt"]
+      }
+    end
+
+    sort_folders(sort_method, folders)
+  end
+
+  def load_linkable_folders(search_query, folder_id, tag_filter, sort_method)
+    search_query = "%" + search_query + "%"
+    tag_filter = "%" + tag_filter + "%"
+
+    sql = <<~SQL
+      SELECT * FROM folders
+      WHERE NOT id = ANY (
+        SELECT child_id FROM relations WHERE parent_id = $1
+        UNION SELECT parent_id FROM relations WHERE child_id = $1
+        UNION SELECT $1)
+      AND name ILIKE $2 AND tags ILIKE $3;
+    SQL
+
+    result = query(sql, folder_id, search_query, tag_filter)
+    folders = result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_tags: tuple["tags"],
+        date_time: tuple["dt"]
+      }
+    end
+
+    sort_folders(sort_method, folders)
+  end
+
+  def load_related_folders(user_id, folder_id)
+    sql = <<~SQL
+      SELECT id, name, tags FROM folders
+      WHERE id = ANY (SELECT child_id FROM relations WHERE parent_id = $2) AND user_id = $1
+      UNION
+      SELECT id, name, tags FROM folders
+      WHERE id = ANY (SELECT parent_id FROM relations WHERE child_id = $2) AND user_id = $1;
+    SQL
+
+    result = query(sql, user_id, folder_id)
+    result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_tags: tuple["tags"]
+      }
+    end
+  end
+
+  def load_related_folders_with_query(user_id, folder_id, search_query, tag_filter, sort_method)
+    search_query = "%" + search_query + "%"
+    tag_filter = "%" + tag_filter + "%"
+
+    sql = <<~SQL
+      SELECT id, name, tags FROM folders
+      WHERE name ILIKE $3
+      AND tags ILIKE $4
+      AND id = ANY (
+        SELECT child_id FROM relations
+        WHERE parent_id = $2 AND user_id = $1
+        UNION SELECT parent_id FROM relations
+          WHERE child_id = $2 AND user_id = $1
+      );
+    SQL
+
+    result = query(sql, user_id, folder_id, search_query, tag_filter)
+    folders = result.map do |tuple|
+      {
+        folder_id: tuple["id"],
+        folder_name: tuple["name"],
+        folder_tags: tuple["tags"],
+        date_time: tuple["dt"]
+      }
+    end
+
+    sort_folders(sort_method, folders)
+  end
+
+  def list_folder_tags(user_id)
+    sql = "SELECT DISTINCT tags FROM folders WHERE user_id = $1"
+
+    result = query(sql, user_id)
+    result.map { |tuple| tuple["tags"] }
+  end
+
+  def link_folders(from_folder_id, to_folder_id)
+    sql = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2);"
+    query(sql, to_folder_id, from_folder_id);
+  end
+
+  def unlink_folders(from_folder_id, to_folder_id)
+    sql = "DELETE FROM relations WHERE (parent_id = $1 AND child_id = $2) OR (child_id = $1 AND parent_id = $2);"
+    query(sql, to_folder_id, from_folder_id);
   end
 
   def create_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id)
@@ -155,25 +254,6 @@ class Database
   def delete_folder(user_id, folder_id)
     sql = "DELETE FROM folders WHERE user_id = $1 AND id = $2;"
     query(sql, user_id, folder_id)
-  end
-
-  def load_related_folders(user_id, folder_id)
-    sql = <<~SQL
-      SELECT id, name, tags FROM folders
-      WHERE id = ANY (SELECT child_id FROM relations WHERE parent_id = $2) AND user_id = $1
-      UNION
-      SELECT id, name, tags FROM folders
-      WHERE id = ANY (SELECT parent_id FROM relations WHERE child_id = $2) AND user_id = $1;
-    SQL
-
-    result = query(sql, user_id, folder_id)
-    result.map do |tuple|
-      {
-        folder_id: tuple["id"],
-        folder_name: tuple["name"],
-        folder_tags: tuple["tags"]
-      }
-    end
   end
 
   def load_notes(user_id, folder_id)

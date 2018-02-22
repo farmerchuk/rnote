@@ -43,8 +43,6 @@
           <input type="text" name="query" placeholder="Find folder...">
         </label>
 
-        <input type="hidden" name="filter_by_tags" value="all_tags">
-        <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
 
       </form>
@@ -158,6 +156,8 @@
       </form>
 
       <a class="btn link-folder" href="/folders/<%= @folder_id %>/link">Link Folder</a>
+
+      <a class="btn unlink-folder" href="/folders/<%= @folder_id %>/unlink">Unlink Folder</a>
 
     </section>
 

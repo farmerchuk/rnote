@@ -41,7 +41,7 @@
             </dt>
             <dd>
               <select name="filter_by_tag" id="filter_by_tag">
-                <option value="all_tags">All tags</option>
+                <option value="">All tags</option>
                 <% @folder_tags.each do |tag| %>
                   <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
                 <% end %>
@@ -53,9 +53,11 @@
             </dt>
             <dd>
               <select name="sort" id="sort">
-                <option value="no_sort">No sort</option>
+                <option value="">No sort</option>
                 <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
                 <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
+                <option value="alphabetical" <%== "selected" if params[:sort] == "alphabetical" %>>Alphabetical</option>
+                <option value="reverse_alphabetical" <%== "selected" if params[:sort] == "reverse_alphabetical" %>>Reverse Alphabetical</option>
               </select>
             </dd>
 
@@ -79,17 +81,21 @@
           <input type="text" name="query" placeholder="Find folder...">
         </label>
 
-        <input type="hidden" name="filter_by_tag" value="all_tags">
-        <input type="hidden" name="sort" value="no_sort">
         <input type="submit" value="">
 
       </form>
 
       <ul class="results-list">
 
-        <% @folders.each do |folder| %>
+        <% if @folders.empty? %>
 
-          <li>
+          <h3>Alas, no results...</h3>
+
+        <% else %>
+
+          <% @folders.each do |folder| %>
+
+            <li>
 
             <div class="folder-summary">
 
@@ -106,6 +112,8 @@
             </div>
 
           </li>
+
+          <% end %>
 
         <% end %>
 
