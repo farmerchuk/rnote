@@ -91,8 +91,8 @@ class Database
     sql = <<~SQL
       SELECT * FROM folders
       WHERE NOT id = ANY (
-        SELECT child_id FROM relations WHERE parent_id = $1
-        UNION SELECT parent_id FROM relations WHERE child_id = $1
+        SELECT child_id FROM relations WHERE parent_id = $1 AND child_id IS NOT NULL
+        UNION SELECT parent_id FROM relations WHERE child_id = $1 AND parent_id IS NOT NULL
         UNION SELECT $1)
       AND name ILIKE $2 AND tags ILIKE $3;
     SQL
