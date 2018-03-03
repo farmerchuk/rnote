@@ -1,0 +1,54 @@
+<section class="filter-sort">
+
+  <h2>Filter & Sort Options:</h2>
+
+  <% if @page_type == :find_folder %>
+
+    <form action="/folders/find_folder" method="get">
+
+  <% elsif @page_type == :link_folder %>
+
+    <form action="/folders/<%= @from_folder_id %>/link" method="get">
+
+  <% elsif @page_type == :unlink_folder %>
+
+    <form action="/folders/<%= @from_folder_id %>/unlink" method="get">
+
+  <% end %>
+
+    <dl>
+
+      <dt>
+        <label for="filter_by_tag">Filter by Folder Tag:</label>
+      </dt>
+      <dd>
+        <select name="filter_by_tag" id="filter_by_tag">
+          <option value="">All tags</option>
+          <% @folder_tags.each do |tag| %>
+            <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
+          <% end %>
+        </select>
+      </dd>
+
+      <dt>
+        <label for="sort">Sort by:</label>
+      </dt>
+      <dd>
+        <select name="sort" id="sort">
+          <option value="">No sort</option>
+          <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
+          <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
+          <option value="alphabetical" <%== "selected" if params[:sort] == "alphabetical" %>>Alphabetical</option>
+          <option value="reverse_alphabetical" <%== "selected" if params[:sort] == "reverse_alphabetical" %>>Reverse Alphabetical</option>
+        </select>
+      </dd>
+
+      <input type="hidden" name="query" value="<%= @query %>">
+
+    </dl>
+
+    <input class="btn" type="submit" value="Apply Filters">
+
+  </form>
+
+</section>

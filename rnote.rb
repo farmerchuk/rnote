@@ -74,6 +74,7 @@ get "/" do
 end
 
 get "/folders/find_folder" do
+  @page_type = :find_folder
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || ""
@@ -181,6 +182,7 @@ post "/folders/:id/delete" do
 end
 
 get "/folders/:from_folder_id/link" do
+  @page_type = :link_folder
   @from_folder_id = params[:from_folder_id].to_i
   from_folder = @storage.load_folder(@user_id, @from_folder_id)
   @from_folder_name = from_folder.first[:folder_name]
@@ -196,6 +198,7 @@ get "/folders/:from_folder_id/link" do
 end
 
 get "/folders/:from_folder_id/unlink" do
+  @page_type = :unlink_folder
   @from_folder_id = params[:from_folder_id].to_i
   from_folder = @storage.load_folder(@user_id, @from_folder_id)
   @from_folder_name = from_folder.first[:folder_name]
@@ -260,7 +263,7 @@ post "/folders/:id/notes/new" do
 
     redirect "/folders/#{folder_id}"
   else
-    erb :new_note, layout: :layout_flexible
+    erb :new_note, layout: :layout_standard
   end
 end
 

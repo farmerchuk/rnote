@@ -20,48 +20,7 @@
 
       </header>
 
-      <section class="filter-sort">
-
-        <h2>Filter & Sort Options:</h2>
-
-        <form action="/folders/<%= @from_folder_id %>/link" method="get">
-
-          <dl>
-
-            <dt>
-              <label for="filter_by_tag">Filter by Folder Tag:</label>
-            </dt>
-            <dd>
-              <select name="filter_by_tag" id="filter_by_tag">
-                <option value="">All tags</option>
-                <% @folder_tags.each do |tag| %>
-                  <option value="<%= tag %>" <%== "selected" if params[:filter_by_tag] == tag %>><%= tag.capitalize %></option>
-                <% end %>
-              </select>
-            </dd>
-
-            <dt>
-              <label for="sort">Sort by:</label>
-            </dt>
-            <dd>
-              <select name="sort" id="sort">
-                <option value="">No sort</option>
-                <option value="recently_created_first" <%== "selected" if params[:sort] == "recently_created_first" %>>Recently Created First</option>
-                <option value="recently_created_last" <%== "selected" if params[:sort] == "recently_created_last" %>>Recently Created Last</option>
-                <option value="alphabetical" <%== "selected" if params[:sort] == "alphabetical" %>>Alphabetical</option>
-                <option value="reverse_alphabetical" <%== "selected" if params[:sort] == "reverse_alphabetical" %>>Reverse Alphabetical</option>
-              </select>
-            </dd>
-
-            <input type="hidden" name="query" value="<%= @query %>">
-
-          </dl>
-
-          <input class="btn" type="submit" value="Apply Filters">
-
-        </form>
-
-      </section>
+      <%== erb :_filter_sort_widget %>
 
     </aside>
 
