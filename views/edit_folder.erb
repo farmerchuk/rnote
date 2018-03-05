@@ -41,28 +41,58 @@
 
     <section class="main-body">
 
-      <form action="/folders/<%= @folder_id %>/edit" method="post">
+      <form action="/folders/<%= params[:id] || @folder_id %>/edit" method="post">
 
         <fieldset>
 
           <dl>
 
             <div class="form-row">
+
               <dt>
                 <label for="name">What should this folder be called?</label>
               </dt>
+
               <dd>
-                <input type="text" name="name" id="name" value="<%= @folder_name %>">
+                <input type="text" name="name" id="name" value="<%= params[:name] || @folder_name %>">
               </dd>
+
+              <% if @errors %>
+
+                <ul>
+                  <% @errors[:folder_name].each do |error| %>
+                    <li>
+                      <small class="form-error"><%= error %></small>
+                    </li>
+                  <% end %>
+                </ul>
+
+              <% end %>
+
             </div>
 
             <div class="form-row">
+
               <dt>
                 <label for="tags">Tags:</label>
               </dt>
+
               <dd>
-                <input type="text" name="tags" id="tags" value="<%= @folder_tags_string %>">
+                <input type="text" name="tags" id="tags" value="<%= params[:tags] || @folder_tags_string %>">
               </dd>
+
+              <% if @errors %>
+
+                <ul>
+                  <% @errors[:folder_tags].each do |error| %>
+                    <li>
+                      <small class="form-error"><%= error %></small>
+                    </li>
+                  <% end %>
+                </ul>
+
+              <% end %>
+
             </div>
 
             <div class="form-row">
@@ -72,7 +102,7 @@
                   <label for="attr1">Attribute 1</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr1" id="attr1" value="<%= @folder_attributes[0][:name] %>">
+                  <input type="text" name="attr1" id="attr1" value="<%= params[:attr1] || @folder_attributes[0][:name] %>">
                 </dd>
               </div><!--
 
@@ -81,7 +111,7 @@
                   <label for="value1"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value1" id="value1" value="<%= @folder_attributes[0][:value] %>">
+                  <input type="text" name="value1" id="value1" value="<%= params[:value1] || @folder_attributes[0][:value] %>">
                 </dd>
               </div>
 
@@ -94,7 +124,7 @@
                   <label for="attr2">Attribute 2</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr2" id="attr2" value="<%= @folder_attributes[1][:name] %>">
+                  <input type="text" name="attr2" id="attr2" value="<%= params[:attr2] || @folder_attributes[1][:name] %>">
                 </dd>
               </div><!--
 
@@ -103,7 +133,7 @@
                   <label for="value2"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value2" id="value2" value="<%= @folder_attributes[1][:value] %>">
+                  <input type="text" name="value2" id="value2" value="<%= params[:value2] || @folder_attributes[1][:value] %>">
                 </dd>
               </div>
 
@@ -116,7 +146,7 @@
                   <label for="attr3">Attribute 3</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr3" id="attr3" value="<%= @folder_attributes[2][:name] %>">
+                  <input type="text" name="attr3" id="attr3" value="<%= params[:attr3] || @folder_attributes[2][:name] %>">
                 </dd>
               </div><!--
 
@@ -125,7 +155,7 @@
                   <label for="value3"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value3" id="value3" value="<%= @folder_attributes[2][:value] %>">
+                  <input type="text" name="value3" id="value3" value="<%= params[:value3] || @folder_attributes[2][:value] %>">
                 </dd>
               </div>
 

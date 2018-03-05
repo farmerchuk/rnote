@@ -44,6 +44,11 @@ class Database
 
   # Database methods
 
+  def folder_name_by_id(folder_id)
+    sql = "SELECT name FROM folders WHERE id = $1;"
+    query(sql, folder_id).first["name"]
+  end
+
   def load_folder(user_id, folder_id)
     sql = <<~SQL
       SELECT folders.name AS folder_name, folders.tags AS folder_tags, attributes.name AS attr_name, attributes.value AS attr_value
@@ -156,6 +161,12 @@ class Database
     end
 
     sort_folders(sort_method, folders)
+  end
+
+  def load_folder_names_by_user(user_id)
+    sql = "SELECT name FROM folders WHERE user_id = $1;"
+    result = query(sql, user_id)
+    result.map { |tuple| tuple["name"].downcase }
   end
 
   def link_folders(from_folder_id, to_folder_id)

@@ -48,21 +48,51 @@
           <dl>
 
             <div class="form-row">
+
               <dt>
                 <label for="name">What should this folder be called?</label>
               </dt>
+
               <dd>
-                <input type="text" name="name" id="name" placeholder="Person, Place or Thing">
+                <input type="text" name="name" id="name" placeholder="Person, Place or Thing" value="<%= params[:name]%>">
               </dd>
+
+              <% if @errors %>
+
+                <ul>
+                  <% @errors[:folder_name].each do |error| %>
+                    <li>
+                      <small class="form-error"><%= error %></small>
+                    </li>
+                  <% end %>
+                </ul>
+
+              <% end %>
+
             </div>
 
             <div class="form-row">
+
               <dt>
                 <label for="tags">Tags:</label>
               </dt>
+
               <dd>
-                <input type="text" name="tags" id="tags" placeholder="Account, Contact, Event, etc.">
+                <input type="text" name="tags" id="tags" placeholder="Account, Contact, Event, etc." value="<%= params[:tags]%>">
               </dd>
+
+              <% if @errors %>
+
+                <ul>
+                  <% @errors[:folder_tags].each do |error| %>
+                    <li>
+                      <small class="form-error"><%= error %></small>
+                    </li>
+                  <% end %>
+                </ul>
+
+              <% end %>
+
             </div>
 
             <div class="form-row">
@@ -72,7 +102,7 @@
                   <label for="attr1">Attribute 1:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr1" id="attr1" placeholder="Title">
+                  <input type="text" name="attr1" id="attr1" placeholder="Title" value="<%= params[:attr1]%>">
                 </dd>
               </div><!--
 
@@ -81,7 +111,7 @@
                   <label for="value1"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value1" id="value1" placeholder="VP of Product">
+                  <input type="text" name="value1" id="value1" placeholder="VP of Product" value="<%= params[:value1]%>">
                 </dd>
               </div>
 
@@ -94,7 +124,7 @@
                   <label for="attr2">Attribute 2:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr2" id="attr2" placeholder="Email">
+                  <input type="text" name="attr2" id="attr2" placeholder="Email" value="<%= params[:attr2]%>">
                 </dd>
               </div><!--
 
@@ -103,7 +133,7 @@
                   <label for="value2"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value2" id="value2" placeholder="jane@gmail.com">
+                  <input type="text" name="value2" id="value2" placeholder="jane@gmail.com" value="<%= params[:value2]%>">
                 </dd>
               </div>
 
@@ -116,7 +146,7 @@
                   <label for="attr3">Attribute 3:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr3" id="attr3" placeholder="">
+                  <input type="text" name="attr3" id="attr3" placeholder="" value="<%= params[:attr3]%>">
                 </dd>
               </div><!--
 
@@ -125,7 +155,7 @@
                   <label for="value3"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value3" id="value3" placeholder="">
+                  <input type="text" name="value3" id="value3" placeholder="" value="<%= params[:value3]%>">
                 </dd>
               </div>
 

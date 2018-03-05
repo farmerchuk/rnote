@@ -47,6 +47,71 @@ def pass_form_validations?
   true
 end
 
+def new_folder_validations(params)
+  errors = {
+    folder_name: [], folder_tags: [], folder_attr1: [],
+    folder_attr2: [], folder_attr3: []
+  }
+
+  if folder_name_exists?(params['name'])
+    errors[:folder_name] << 'Folder name already exists.'
+  end
+
+  if params['name'].length < 3
+    errors[:folder_name] << 'Folder name must be at least 3 characters.'
+  end
+
+  if params['name'].length == 0
+    errors[:folder_name] << 'Folder name cannot be blank.'
+  end
+
+  if params['tags'].length == 0
+    errors[:folder_tags] << 'Enter at least one tag.'
+  end
+
+  if !params['tags'].match(/^[a-z0-9 _-]+$/)
+    errors[:folder_tags] << 'Alpha-numeric characters, spaces, underscores and hyphens only.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
+end
+
+def edit_folder_validations(params, folder_id)
+  errors = {
+    folder_name: [], folder_tags: [], folder_attr1: [],
+    folder_attr2: [], folder_attr3: []
+  }
+  new_folder_name = params['name']
+  current_folder_name = @storage.folder_name_by_id(folder_id)
+
+  if folder_name_exists?(new_folder_name) && new_folder_name != current_folder_name
+    errors[:folder_name] << 'Folder name already exists.'
+  end
+
+  if params['name'].length < 3
+    errors[:folder_name] << 'Folder name must be at least 3 characters.'
+  end
+
+  if params['name'].length == 0
+    errors[:folder_name] << 'Folder name cannot be blank.'
+  end
+
+  if params['tags'].length == 0
+    errors[:folder_tags] << 'Enter at least one tag.'
+  end
+
+  if !params['tags'].match(/^[a-z0-9 _-]+$/)
+    errors[:folder_tags] << 'Alpha-numeric characters, spaces, underscores and hyphens only.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
+end
+
+def folder_name_exists?(new_folder_name)
+  existing_folder_names = @storage.load_folder_names_by_user(@user_id)
+  existing_folder_names.any? { |folder_name| folder_name == new_folder_name.downcase}
+end
+
 def parse_folder_tags(folders)
   folders.map do |folder|
     folder[:folder_tags].split(' ')
@@ -92,7 +157,9 @@ get "/folders/new" do
 end
 
 post "/folders/new" do
-  if pass_form_validations?
+  @errors = new_folder_validations(params)
+
+  if !@errors
     new_folder_params = [
       params['name'], params['tags'].downcase, params['attr1'], params['value1'],
       params['attr2'], params['value2'], params['attr3'], params['value3'], @user_id
@@ -152,7 +219,9 @@ get "/folders/:id/edit" do
 end
 
 post "/folders/:id/edit" do
-  if pass_form_validations?
+  @errors = edit_folder_validations(params, params[:id].to_i)
+
+  if !@errors
     folder_id = params[:id]
     folder_name = params[:name]
     folder_tags = params[:tags].downcase
