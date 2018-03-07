@@ -73,6 +73,10 @@ a {
   text-decoration: none;
 }
 
+strong {
+  font-weight: bold;
+}
+
 fieldset {
   border: none;
 }
@@ -129,6 +133,22 @@ Custom Styles
 .logo {
   display: inline-block;
   margin-bottom: 50px;
+}
+
+.welcome-new-note {
+  display: block;
+  max-width: 500px;
+  height: 300px;
+  border: 3px dashed #dadada;
+  border-radius: 4px;
+  margin: 10vh auto 0 auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.welcome-new-note h1 {
+  padding-bottom: 30px;
+  padding-top: 23px;
 }
 
 .display-note-body {
