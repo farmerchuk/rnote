@@ -537,7 +537,7 @@ Folder Form Styles
 }
 
 .folder-form .col-2 input[type="text"] {
-  width: 300px;
+  width: 500px;
 }
 
 .folder-form .form-submit {
@@ -655,16 +655,6 @@ Edit Note Page Styles
 Find Folder / Link Folder Styles
 ==============================
 */
-
-.find-link .main-body {
-  margin-right: 0;
-  padding: 20px 40px;
-}
-
-.find-link .main-body input[type="text"] {
-  font-size: 1.5rem;
-  width: 500px;
-}
 
 .find-link .main-body .results-list > li {
   margin-bottom: 20px;

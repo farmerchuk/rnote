@@ -2,7 +2,7 @@
 
   <h2>Filter & Sort Options:</h2>
 
-  <% if @page_type == :find_folder %>
+  <% if @page_type == nil %>
 
     <form action="/folders/find_folder" method="get">
 

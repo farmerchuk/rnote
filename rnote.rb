@@ -139,7 +139,6 @@ get "/" do
 end
 
 get "/folders/find_folder" do
-  @page_type = :find_folder
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || ""

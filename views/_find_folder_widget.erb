@@ -1,4 +1,16 @@
-<form class="find" action="/folders/find_folder" method="get">
+<% if @page_type == nil %>
+
+  <form class="find" action="/folders/find_folder" method="get">
+
+<% elsif @page_type == :link_folder %>
+
+  <form class="find" action="/folders/<%= @from_folder_id %>/link" method="get">
+
+<% elsif @page_type == :unlink_folder %>
+
+  <form class="find" action="/folders/<%= @from_folder_id %>/unlink" method="get">
+
+<% end %>
 
   <small>Search or hit 'enter' for all folders</small>
 
