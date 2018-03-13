@@ -4,7 +4,7 @@
 
     <h1>All Related Notes</h1>
 
-    <a class="btn btn-right" href="/folders/<%= @folder_id %>/notes/new">Add New Note</a>
+    <a class="btn btn-right" href="/folders/<%= @folder_uuid %>/notes/new">Add New Note</a>
 
   </header>
 
@@ -12,37 +12,32 @@
 
     <% if @notes.empty? %>
 
-      <ul>
+    <ul>
 
-        <li>
+      <li>
 
-          <article>
+        <article>
 
-            <header>
+          <section>
 
-              <a href="#"><h1>Welcome!</h1></a>
+            <div class="welcome-new-note">
 
-            </header>
-
-            <section>
+              <h1>There are no related notes!</h1>
 
               <p>
-                To start adding notes to your folder, simply click or tap the
-                'ADD NEW NOTE' button above. As you add new notes to your folder,
-                they will appear here. Your latest notes will be at the top.
+                To start adding notes, simply click the <strong>'NEW NOTE'</strong> button
+                above. As you add notes, they will appear here, listed newest to oldest.
               </p>
 
-              <p>
-                Happy writing!
-              </p>
+            </div>
 
-            </section>
+          </section>
 
-          </article>
+        </article>
 
-        </li>
+      </li>
 
-      </ul>
+    </ul>
 
     <% else %>
 
@@ -59,7 +54,7 @@
                 <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
                 <h1>
-                  <a href="/folders/<%= note[:folder_id] %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+                  <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
                 </h1>
 
                 <h3><%= note[:folder_name] %></h3>

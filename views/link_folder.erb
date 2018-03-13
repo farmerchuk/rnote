@@ -40,7 +40,7 @@
 
             <li>
 
-              <label for="popout-<%= folder[:folder_id] %>">
+              <label for="popout-<%= folder[:folder_uuid] %>">
 
                 <div class="folder-summary">
 
@@ -52,17 +52,17 @@
 
                 </div>
 
-                <input type="checkbox" name="popout" id="popout-<%= folder[:folder_id] %>">
+                <input type="checkbox" name="popout" id="popout-<%= folder[:folder_uuid] %>">
 
                 <div class="popout">
 
-                  <form action="/folders/<%= @from_folder_id %>/link/<%= folder[:folder_id] %>" method="post">
+                  <form action="/folders/<%= @from_folder_uuid %>/link/<%= folder[:folder_uuid] %>" method="post">
 
                     <h1>Confirm link?</h1>
 
                     <div class="folder-summary">
 
-                      <a href="/folders/<%= @from_folder_id %>">
+                      <a href="/folders/<%= @from_folder_uuid %>">
 
                         <h3><%= @from_folder_name %></h3>
 
@@ -78,7 +78,7 @@
 
                     <div class="folder-summary">
 
-                      <a href="/folders/<%= folder[:folder_id] %>">
+                      <a href="/folders/<%= folder[:folder_uuid] %>">
 
                         <h3><%= folder[:folder_name] %></h3>
 

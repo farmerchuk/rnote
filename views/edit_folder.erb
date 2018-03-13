@@ -24,8 +24,11 @@
 
         <p>
           Folder tags can help you quickly identify what kind of folder this
-          is. Also very useful for when filtering search results. Separate
-          multiple tags with a space.
+          is. Also very useful for when filtering search results.
+        </p>
+
+        <p>
+          Separate multiple tags with a space.
         </p>
 
         <p>
@@ -41,7 +44,7 @@
 
     <section class="main-body">
 
-      <form action="/folders/<%= params[:id] || @folder_id %>/edit" method="post">
+      <form action="/folders/<%= @folder_uuid %>/edit" method="post">
 
         <fieldset>
 
@@ -169,15 +172,15 @@
 
       </form>
 
-      <form action="/folders/<%= @folder_id %>/delete" method="post">
+      <form action="/folders/<%= @folder_uuid %>/delete" method="post">
 
         <input class="btn btn-delete delete-folder" type="submit" value="Delete Folder">
 
       </form>
 
-      <a class="btn link-folder" href="/folders/<%= @folder_id %>/link">Link Folder</a>
+      <a class="btn link-folder" href="/folders/<%= @folder_uuid %>/link">Link Folder</a>
 
-      <a class="btn unlink-folder" href="/folders/<%= @folder_id %>/unlink">Unlink Folder</a>
+      <a class="btn unlink-folder" href="/folders/<%= @folder_uuid %>/unlink">Unlink Folder</a>
 
     </section>
 

@@ -8,11 +8,11 @@
 
   <% elsif @page_type == :link_folder %>
 
-    <form action="/folders/<%= @from_folder_id %>/link" method="get">
+    <form action="/folders/<%= @from_folder_uuid %>/link" method="get">
 
   <% elsif @page_type == :unlink_folder %>
 
-    <form action="/folders/<%= @from_folder_id %>/unlink" method="get">
+    <form action="/folders/<%= @from_folder_uuid %>/unlink" method="get">
 
   <% end %>
 

@@ -38,6 +38,10 @@ html {
   color: #363636;
 }
 
+main {
+  min-width: 1200px;
+}
+
 body {
   padding-top: 100px;
   position: relative;
@@ -207,6 +211,7 @@ User Settings Styles
   width: 300px;
   height: 100px;
   padding: 20px;
+  background: #fff;
   box-shadow: 0 20px 10px -3px #fff;
   overflow: hidden;
 }
@@ -241,6 +246,7 @@ Main Header Styles
   left: 0;
   right: 0;
   height: 100px;
+  min-width: 550px;
   padding: 20px 40px 0 40px;
   margin-left: 350px;
   margin-right: 300px;
@@ -482,6 +488,7 @@ Related Folders Styles
   right: 0;
   bottom: 0;
   width: 300px;
+  background: #fff;
   overflow: scroll;
   z-index: 1;
 }

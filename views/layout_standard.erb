@@ -25,15 +25,15 @@
           <img src="/images/logo.png" alt="logo">
         </a>
 
-        <a class="btn folder-action" href="/folders/<%= @folder_id %>/edit">&#9998;</a>
+        <a class="btn folder-action" href="/folders/<%= @folder_uuid %>/edit">&#9998;</a>
 
-        <a class="btn folder-action" href="/folders/new?parent_id=<%= @folder_id %>&parent_name=<%= @folder_name %>">New Folder</a>
+        <a class="btn folder-action" href="/folders/new?parent_uuid=<%= @folder_uuid %>&parent_name=<%= @folder_name %>">New Folder</a>
 
       </header>
 
       <section class="folder-title">
 
-        <a href="/folders/<%= @folder_id %>">
+        <a href="/folders/<%= @folder_uuid %>">
 
           <h1><%= @folder_name %></h1>
 
@@ -70,37 +70,57 @@
 
     <aside class="related-folders">
 
-      <ul>
+      <% if @related_folders.empty? %>
 
-        <% @related_folders.each do |folder| %>
+        <!-- <ul>
 
           <li>
 
             <div class="folder-summary">
 
-              <a href="/folders/<%= folder[:folder_id] %>">
-
-                <h3><%= folder[:folder_name] %></h3>
-
-                <ul>
-
-                  <% format_folder_tags_as_array(folder[:folder_tags]).each do |tag| %>
-
-                    <li><%= tag %></li>
-
-                  <% end %>
-
-                </ul>
-
-              </a>
+              <h3>No related folders</h3>
 
             </div>
 
           </li>
 
-        <% end %>
+        </ul> -->
 
-      </ul>
+      <% else %>
+
+        <ul>
+
+          <% @related_folders.each do |folder| %>
+
+            <li>
+
+              <div class="folder-summary">
+
+                <a href="/folders/<%= folder[:folder_uuid] %>">
+
+                  <h3><%= folder[:folder_name] %></h3>
+
+                  <ul>
+
+                    <% format_folder_tags_as_array(folder[:folder_tags]).each do |tag| %>
+
+                      <li><%= tag %></li>
+
+                    <% end %>
+
+                  </ul>
+
+                </a>
+
+              </div>
+
+            </li>
+
+          <% end %>
+
+        </ul>
+
+      <% end %>
 
     </aside>
 

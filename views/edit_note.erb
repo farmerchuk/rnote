@@ -4,7 +4,7 @@
 
     <h1>Edit Note</h1>
 
-    <a class="btn btn-right" href="/folders/<%= @folder_id %>/all_related_notes">VIEW ALL RELATED NOTES</a>
+    <a class="btn btn-right" href="/folders/<%= @folder_uuid %>/all_related_notes">VIEW ALL RELATED NOTES</a>
 
   </header>
 
@@ -26,7 +26,7 @@
 
                 </header>
 
-                <form action="/folders/<%= @folder_id %>/notes/<%= @note_id %>/edit" method="post">
+                <form action="/folders/<%= @folder_uuid %>/notes/<%= @note_uuid %>/edit" method="post">
 
                   <fieldset>
 
@@ -71,7 +71,7 @@
                   <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
                   <h1>
-                    <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+                    <a href="/folders/<%= @folder_uuid %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
                   </h1>
 
                 </header>

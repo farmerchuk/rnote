@@ -44,6 +44,11 @@ class Database
 
   # Database methods
 
+  def folder_id_by_uuid(uuid)
+    sql = "SELECT id FROM folders WHERE uuid = $1;"
+    query(sql, uuid).first["id"]
+  end
+
   def folder_name_by_id(folder_id)
     sql = "SELECT name FROM folders WHERE id = $1;"
     query(sql, folder_id).first["name"]
@@ -80,6 +85,7 @@ class Database
     folders = result.map do |tuple|
       {
         folder_id: tuple["id"],
+        folder_uuid: tuple["uuid"].delete('-'),
         folder_name: tuple["name"],
         folder_tags: tuple["tags"],
         date_time: tuple["dt"]
@@ -106,6 +112,7 @@ class Database
     folders = result.map do |tuple|
       {
         folder_id: tuple["id"],
+        folder_uuid: tuple["uuid"].delete('-'),
         folder_name: tuple["name"],
         folder_tags: tuple["tags"],
         date_time: tuple["dt"]
@@ -117,10 +124,10 @@ class Database
 
   def load_related_folders(user_id, folder_id)
     sql = <<~SQL
-      SELECT id, name, tags FROM folders
+      SELECT id, uuid, name, tags FROM folders
       WHERE id = ANY (SELECT child_id FROM relations WHERE parent_id = $2) AND user_id = $1
       UNION
-      SELECT id, name, tags FROM folders
+      SELECT id, uuid, name, tags FROM folders
       WHERE id = ANY (SELECT parent_id FROM relations WHERE child_id = $2) AND user_id = $1;
     SQL
 
@@ -128,6 +135,7 @@ class Database
     result.map do |tuple|
       {
         folder_id: tuple["id"],
+        folder_uuid: tuple["uuid"].delete('-'),
         folder_name: tuple["name"],
         folder_tags: tuple["tags"]
       }
@@ -139,7 +147,7 @@ class Database
     tag_filter = "%" + tag_filter + "%"
 
     sql = <<~SQL
-      SELECT id, name, tags FROM folders
+      SELECT id, uuid, name, tags FROM folders
       WHERE name ILIKE $3
       AND tags ILIKE $4
       AND id = ANY (
@@ -154,6 +162,7 @@ class Database
     folders = result.map do |tuple|
       {
         folder_id: tuple["id"],
+        folder_uuid: tuple["uuid"].delete('-'),
         folder_name: tuple["name"],
         folder_tags: tuple["tags"],
         date_time: tuple["dt"]
@@ -179,12 +188,14 @@ class Database
     query(sql, to_folder_id, from_folder_id);
   end
 
-  def create_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id)
-    sql_new_folder = "INSERT INTO folders (name, tags, user_id) VALUES ($1, $2, $3);"
-    query(sql_new_folder, name, tags, user_id)
+  def create_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id, uuid)
+    sql_new_folder = "INSERT INTO folders (name, tags, user_id, uuid) VALUES ($1, $2, $3, $4);"
+    query(sql_new_folder, name, tags, user_id, uuid)
 
-    sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
-    folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
+    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 AND name = $2"
+    sql_folder_ids_result = query(sql_folder_ids, user_id, name)
+    folder_id = sql_folder_ids_result.first["id"].to_i
+    folder_uuid = sql_folder_ids_result.first["uuid"]
 
     sql_attr_1 = <<~SQL
       INSERT INTO attributes (name, value, position, folder_id)
@@ -207,15 +218,17 @@ class Database
     sql_relations = "INSERT INTO relations (parent_id) VALUES ($1)"
     query(sql_relations, folder_id)
 
-    folder_id
+    folder_uuid.delete('-')
   end
 
-  def create_related_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id, parent_id)
-    sql_new_folder = "INSERT INTO folders (name, tags, user_id) VALUES ($1, $2, $3);"
-    query(sql_new_folder, name, tags, user_id)
+  def create_related_folder(name, tags, attr1, value1, attr2, value2, attr3, value3, user_id, uuid, parent_id)
+    sql_new_folder = "INSERT INTO folders (name, tags, user_id, uuid) VALUES ($1, $2, $3, $4);"
+    query(sql_new_folder, name, tags, user_id, uuid)
 
-    sql_folder_id = "SELECT id FROM folders WHERE user_id = $1 AND name = $2"
-    folder_id = query(sql_folder_id, user_id, name).first["id"].to_i
+    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 AND name = $2"
+    sql_folder_ids_result = query(sql_folder_ids, user_id, name)
+    folder_id = sql_folder_ids_result.first["id"].to_i
+    folder_uuid = sql_folder_ids_result.first["uuid"]
 
     sql_attr_1 = <<~SQL
       INSERT INTO attributes (name, value, position, folder_id)
@@ -238,7 +251,7 @@ class Database
     sql_relations = "INSERT INTO relations (parent_id, child_id) VALUES ($1, $2)"
     query(sql_relations, parent_id, folder_id)
 
-    folder_id
+    folder_uuid.delete('-')
   end
 
   def update_folder(user_id, folder_id, folder_name, folder_tags, attr1, value1, attr2, value2, attr3, value3)
@@ -260,9 +273,14 @@ class Database
     query(sql, user_id, folder_id)
   end
 
+  def note_id_by_uuid(uuid)
+    sql = "SELECT id FROM notes WHERE uuid = $1;"
+    query(sql, uuid).first["id"]
+  end
+
   def load_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT id AS note_id, title AS note_title, body AS note_body, dt AS note_date_time
+      SELECT id AS note_id, uuid AS note_uuid, title AS note_title, body AS note_body, dt AS note_date_time
       FROM notes
       WHERE user_id = $1 AND folder_id = $2
       ORDER BY dt ASC;
@@ -272,6 +290,7 @@ class Database
     result.map do |tuple|
       {
         note_id: tuple["note_id"],
+        note_uuid: tuple["note_uuid"].delete('-'),
         note_title: tuple["note_title"],
         note_body: tuple["note_body"],
         note_date_time: tuple["note_date_time"]
@@ -279,13 +298,13 @@ class Database
     end
   end
 
-  def create_note(title, body, user_id, folder_id)
+  def create_note(title, body, user_id, folder_id, uuid)
     sql = <<~SQL
-      INSERT INTO notes (title, body, user_id, folder_id)
-      VALUES ($1, $2, $3, $4);
+      INSERT INTO notes (title, body, user_id, folder_id, uuid)
+      VALUES ($1, $2, $3, $4, $5);
     SQL
 
-    query(sql, title, body, user_id, folder_id)
+    query(sql, title, body, user_id, folder_id, uuid)
   end
 
   def update_note(user_id, folder_id, note_id, note_title, note_body)
@@ -302,8 +321,10 @@ class Database
 
   def load_all_related_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT notes.id AS note_id, folders.id AS folder_id, folders.name AS folder_name,
-        folders.tags AS folder_tags, notes.title AS note_title, notes.body AS note_body,
+      SELECT notes.id AS note_id, notes.uuid AS note_uuid,
+        folders.id AS folder_id, folders.uuid AS folder_uuid,
+        folders.name AS folder_name, folders.tags AS folder_tags,
+        notes.title AS note_title, notes.body AS note_body,
         notes.dt AS note_date_time
       FROM notes
       INNER JOIN folders ON notes.folder_id = folders.id
@@ -325,7 +346,9 @@ class Database
     result.map do |tuple|
       {
         note_id: tuple["note_id"],
+        note_uuid: tuple["note_uuid"].delete('-'),
         folder_id: tuple["folder_id"],
+        folder_uuid: tuple["folder_uuid"].delete('-'),
         folder_name: tuple["folder_name"],
         folder_tags: tuple["folder_tags"],
         note_title: tuple["note_title"],

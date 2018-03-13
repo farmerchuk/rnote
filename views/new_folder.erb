@@ -24,8 +24,11 @@
 
         <p>
           Folder tags can help you quickly identify what kind of folder this
-          is. Also very useful for when filtering search results. Separate
-          multiple tags with a space.
+          is. Also very useful for when filtering search results.
+        </p>
+
+        <p>
+          Separate multiple tags with a space.
         </p>
 
         <p>
@@ -161,12 +164,12 @@
 
             </div>
 
-            <% if @parent_id %>
+            <% if @parent_uuid %>
 
               <div class="optional-link" class="form-row">
 
-                <input type="checkbox" name="parent_id" id="parent_id" value="<%= @parent_id %>">
-                <label for="parent_id">Link this new folder to <%= @parent_name %>?</label>
+                <input type="checkbox" name="parent_uuid" id="parent_uuid" value="<%= @parent_uuid %>">
+                <label for="parent_uuid">Link this new folder to <%= @parent_name %>?</label>
 
               </div>
 

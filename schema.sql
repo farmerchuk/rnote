@@ -2,6 +2,7 @@ set time zone 'UTC';
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
+  uuid uuid UNIQUE NOT NULL,
   name text NOT NULL,
   email text UNIQUE NOT NULL,
   password text NOT NULL,
@@ -10,6 +11,7 @@ CREATE TABLE users (
 
 CREATE TABLE folders (
   id serial PRIMARY KEY,
+  uuid uuid UNIQUE NOT NULL,
   name text UNIQUE NOT NULL,
   tags text NOT NULL CHECK (tags ~ '^[a-z0-9 _-]+$'),
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
@@ -18,6 +20,7 @@ CREATE TABLE folders (
 
 CREATE TABLE notes (
   id serial PRIMARY KEY,
+  uuid uuid UNIQUE NOT NULL,
   title text NOT NULL,
   body text,
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
@@ -42,4 +45,4 @@ CREATE TABLE relations (
   UNIQUE (parent_id, child_id)
 );
 
-INSERT INTO users (name, email, password) VALUES ('Jason', 'jason@gmail.com', 'secret');
+INSERT INTO users (name, uuid, email, password) VALUES ('Jason', '1c5a3880-0625-0136-c75a-784f43a699ea', 'jason@gmail.com', 'secret');

@@ -2,8 +2,8 @@
 
   <header class="main-header">
 
-    <a class="btn btn-left" href="/folders/<%= @folder_id %>/notes/new">New Note</a><!--
-    --><a class="btn btn-right" href="/folders/<%= @folder_id %>/all_related_notes">View All Related Notes</a>
+    <a class="btn btn-left" href="/folders/<%= @folder_uuid %>/notes/new">New Note</a><!--
+    --><a class="btn btn-right" href="/folders/<%= @folder_uuid %>/all_related_notes">View All Related Notes</a>
 
   </header>
 
@@ -18,8 +18,6 @@
           <article>
 
             <section>
-
-              <!-- <img class="welcome-new-note" src="/images/img_new_note_alt.png" alt="Create new note"> -->
 
               <div class="welcome-new-note">
 
@@ -55,7 +53,7 @@
                 <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
 
                 <h1>
-                  <a href="/folders/<%= @folder_id %>/notes/<%= note[:note_id] %>/edit#active-note"><%= note[:note_title] %></a>
+                  <a href="/folders/<%= @folder_uuid %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
                 </h1>
 
               </header>

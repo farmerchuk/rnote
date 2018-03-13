@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
+require "uuid"
 require "pry"
 
 require_relative "lib/database"
@@ -47,6 +48,18 @@ def pass_form_validations?
   true
 end
 
+def generate_uuid
+  UUID.new.generate
+end
+
+def get_folder_id_from_uuid(uuid)
+  uuid ? @storage.folder_id_by_uuid(uuid).to_i : nil
+end
+
+def get_note_id_from_uuid(uuid)
+  uuid ? @storage.note_id_by_uuid(uuid).to_i : nil
+end
+
 def new_folder_validations(params)
   errors = {
     folder_name: [], folder_tags: [], folder_attr1: [],
@@ -69,7 +82,7 @@ def new_folder_validations(params)
     errors[:folder_tags] << 'Enter at least one tag.'
   end
 
-  if !params['tags'].match(/^[a-z0-9 _-]+$/)
+  if !params['tags'].match(/^[a-z0-9 _-]+$/i)
     errors[:folder_tags] << 'Alpha-numeric characters, spaces, underscores and hyphens only.'
   end
 
@@ -100,7 +113,7 @@ def edit_folder_validations(params, folder_id)
     errors[:folder_tags] << 'Enter at least one tag.'
   end
 
-  if !params['tags'].match(/^[a-z0-9 _-]+$/)
+  if !params['tags'].match(/^[a-z0-9 _-]+$/i)
     errors[:folder_tags] << 'Alpha-numeric characters, spaces, underscores and hyphens only.'
   end
 
@@ -141,7 +154,7 @@ end
 get "/folders/find_folder" do
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
-  sort_method = params[:sort] || ""
+  sort_method = params[:sort] || "alphabetical"
   @folders = @storage.load_folders(@user_id, @query, type_filter, sort_method)
   @folder_tags = parse_folder_tags(@folders)
 
@@ -149,7 +162,7 @@ get "/folders/find_folder" do
 end
 
 get "/folders/new" do
-  @parent_id = params[:parent_id]
+  @parent_uuid = params[:parent_uuid]
   @parent_name = params[:parent_name]
 
   erb :new_folder, layout: :layout_flexible
@@ -159,32 +172,37 @@ post "/folders/new" do
   @errors = new_folder_validations(params)
 
   if !@errors
+    uuid = generate_uuid
     new_folder_params = [
       params['name'], params['tags'].downcase, params['attr1'], params['value1'],
-      params['attr2'], params['value2'], params['attr3'], params['value3'], @user_id
+      params['attr2'], params['value2'], params['attr3'], params['value3'], @user_id, uuid
     ]
 
-    if params[:parent_id]
-      new_folder_params << params['parent_id'].to_i
-      folder_id = @storage.create_related_folder(*new_folder_params)
+    if params[:parent_uuid]
+      parent_id = get_folder_id_from_uuid(params[:parent_uuid])
+      new_folder_params << parent_id
+      folder_uuid = @storage.create_related_folder(*new_folder_params)
     else
-      folder_id = @storage.create_folder(*new_folder_params)
+      folder_uuid = @storage.create_folder(*new_folder_params)
     end
 
-    redirect "/folders/#{folder_id}"
+    redirect "/folders/#{folder_uuid}"
   else
     erb :new_folder, layout: :layout_flexible
   end
 end
 
-get "/folders/:id" do
-  @folder_id = params[:id].to_i
+get "/folders/:uuid" do
+  @folder_id = get_folder_id_from_uuid(params[:uuid])
+  @folder_uuid = params[:uuid]
+
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
   @folder_tags = folder.first[:folder_tags].split(' ')
 
   @folder_attributes = []
+
   folder.each_with_index do |row, idx|
     @folder_attributes << {
       name: folder[idx][:attr_name],
@@ -199,8 +217,10 @@ get "/folders/:id" do
   erb :folder, layout: :layout_standard
 end
 
-get "/folders/:id/edit" do
-  @folder_id = params[:id].to_i
+get "/folders/:uuid/edit" do
+  @folder_id = get_folder_id_from_uuid(params[:uuid])
+  @folder_uuid = params[:uuid]
+
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
@@ -217,11 +237,13 @@ get "/folders/:id/edit" do
   erb :edit_folder, layout: :layout_flexible
 end
 
-post "/folders/:id/edit" do
-  @errors = edit_folder_validations(params, params[:id].to_i)
+post "/folders/:uuid/edit" do
+  @folder_uuid = params[:uuid]
+  folder_id = get_folder_id_from_uuid(@folder_uuid)
+
+  @errors = edit_folder_validations(params, folder_id)
 
   if !@errors
-    folder_id = params[:id]
     folder_name = params[:name]
     folder_tags = params[:tags].downcase
     folder_attr1 = params[:attr1]
@@ -236,71 +258,78 @@ post "/folders/:id/edit" do
                            folder_attr2, folder_value2,
                            folder_attr3, folder_value3)
 
-    redirect "/folders/#{folder_id}"
+    redirect "/folders/#{@folder_uuid}"
   else
     erb :edit_folder, layout: :layout_flexible
   end
 end
 
-post "/folders/:id/delete" do
-  folder_id = params[:id]
+post "/folders/:uuid/delete" do
+  folder_id = get_folder_id_from_uuid(params[:uuid])
   @storage.delete_folder(@user_id, folder_id)
 
   redirect "/folders/find_folder"
 end
 
-get "/folders/:from_folder_id/link" do
+get "/folders/:from_folder_uuid/link" do
   @page_type = :link_folder
-  @from_folder_id = params[:from_folder_id].to_i
+  @from_folder_uuid = params[:from_folder_uuid]
+  @from_folder_id = get_folder_id_from_uuid(@from_folder_uuid)
   from_folder = @storage.load_folder(@user_id, @from_folder_id)
   @from_folder_name = from_folder.first[:folder_name]
   @from_folder_tags_string = from_folder.first[:folder_tags]
 
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
-  sort_method = params[:sort] || ""
+  sort_method = params[:sort] || "alphabetical"
   @folders = @storage.load_linkable_folders(@query, @from_folder_id, type_filter, sort_method)
   @folder_tags = parse_folder_tags(@folders)
 
   erb :link_folder, layout: :layout_flexible
 end
 
-get "/folders/:from_folder_id/unlink" do
+post "/folders/:from_folder_uuid/link/:to_folder_uuid" do
+  from_folder_uuid = params[:from_folder_uuid]
+  to_folder_uuid = params[:to_folder_uuid]
+  @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
+  @to_folder_id = get_folder_id_from_uuid(to_folder_uuid)
+
+  @storage.link_folders(@from_folder_id, @to_folder_id)
+
+  redirect "/folders/#{from_folder_uuid}"
+end
+
+get "/folders/:from_folder_uuid/unlink" do
   @page_type = :unlink_folder
-  @from_folder_id = params[:from_folder_id].to_i
+  @from_folder_uuid = params[:from_folder_uuid]
+  @from_folder_id = get_folder_id_from_uuid(@from_folder_uuid)
   from_folder = @storage.load_folder(@user_id, @from_folder_id)
   @from_folder_name = from_folder.first[:folder_name]
   @from_folder_tags_string = from_folder.first[:folder_tags]
 
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
-  sort_method = params[:sort] || ""
+  sort_method = params[:sort] || "alphabetical"
   @folders = @storage.load_related_folders_with_query(@user_id, @from_folder_id, @query, type_filter, sort_method)
   @folder_tags = parse_folder_tags(@folders)
 
   erb :unlink_folder, layout: :layout_flexible
 end
 
-post "/folders/:from_folder_id/link/:to_folder_id" do
-  @from_folder_id = params[:from_folder_id].to_i
-  @to_folder_id = params[:to_folder_id].to_i
-
-  @storage.link_folders(@from_folder_id, @to_folder_id)
-
-  redirect "/folders/#{@from_folder_id}"
-end
-
-post "/folders/:from_folder_id/unlink/:to_folder_id" do
-  @from_folder_id = params[:from_folder_id].to_i
-  @to_folder_id = params[:to_folder_id].to_i
+post "/folders/:from_folder_uuid/unlink/:to_folder_uuid" do
+  from_folder_uuid = params[:from_folder_uuid]
+  to_folder_uuid = params[:to_folder_uuid]
+  @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
+  @to_folder_id = get_folder_id_from_uuid(to_folder_uuid)
 
   @storage.unlink_folders(@from_folder_id, @to_folder_id)
 
-  redirect "/folders/#{@from_folder_id}"
+  redirect "/folders/#{from_folder_uuid}"
 end
 
-get "/folders/:id/notes/new" do
-  @folder_id = params[:id].to_i
+get "/folders/:uuid/notes/new" do
+  @folder_uuid = params[:uuid]
+  @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
@@ -321,22 +350,25 @@ get "/folders/:id/notes/new" do
   erb :new_note, layout: :layout_standard
 end
 
-post "/folders/:id/notes/new" do
+post "/folders/:uuid/notes/new" do
   if pass_form_validations?
-    folder_id = params[:id]
+    folder_uuid = params[:uuid]
+    folder_id = get_folder_id_from_uuid(folder_uuid)
     title = params[:title]
     body = params[:body]
+    uuid = generate_uuid
 
-    @storage.create_note(title, body, @user_id, folder_id)
+    @storage.create_note(title, body, @user_id, folder_id, uuid)
 
-    redirect "/folders/#{folder_id}"
+    redirect "/folders/#{folder_uuid}"
   else
     erb :new_note, layout: :layout_standard
   end
 end
 
-get "/folders/:folder_id/notes/:note_id/edit" do
-  @folder_id = params[:folder_id].to_i
+get "/folders/:folder_uuid/notes/:note_uuid/edit" do
+  @folder_uuid = params[:folder_uuid]
+  @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
@@ -351,7 +383,8 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
-  @note_id = params[:note_id].to_i
+  @note_uuid = params[:note_uuid]
+  @note_id = get_note_id_from_uuid(@note_uuid)
 
   @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
   @related_folders = sort_folders_alphabetically(@selected_folders)
@@ -359,34 +392,35 @@ get "/folders/:folder_id/notes/:note_id/edit" do
   erb :edit_note, layout: :layout_standard
 end
 
-# Updates or Deletes note
-
-post "/folders/:folder_id/notes/:note_id/edit" do
+post "/folders/:folder_uuid/notes/:note_uuid/edit" do
   if params[:action] == "Update Note"
     if pass_form_validations?
-      folder_id = params[:folder_id]
-      note_id = params[:note_id]
+      folder_uuid = params[:folder_uuid]
+      folder_id = get_folder_id_from_uuid(folder_uuid)
+      note_id = get_note_id_from_uuid(params[:note_uuid])
       note_title = params[:title]
       note_body = params[:body]
 
       @storage.update_note(@user_id, folder_id, note_id, note_title, note_body)
 
-      redirect "/folders/#{folder_id}"
+      redirect "/folders/#{folder_uuid}"
     else
       erb :edit_folder, layout: :layout_flexible
     end
   elsif params[:action] == "Delete Note"
-    folder_id = params[:folder_id]
-    note_id = params[:note_id]
+    folder_uuid = params[:folder_uuid]
+    folder_id = get_folder_id_from_uuid(folder_uuid)
+    note_id = get_note_id_from_uuid(params[:note_uuid])
 
     @storage.delete_note(@user_id, folder_id, note_id)
 
-    redirect "/folders/#{folder_id}"
+    redirect "/folders/#{folder_uuid}"
   end
 end
 
-get "/folders/:folder_id/all_related_notes" do
-  @folder_id = params[:folder_id].to_i
+get "/folders/:folder_uuid/all_related_notes" do
+  @folder_uuid = params[:folder_uuid]
+  @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)
 
   @folder_name = folder.first[:folder_name]
