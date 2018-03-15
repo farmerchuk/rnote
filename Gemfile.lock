@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.11.1)
+    bcrypt (3.1.11)
     erubis (2.7.0)
     macaddr (1.7.1)
       systemu (~> 2.6.2)
@@ -33,6 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   erubis
   pg
   puma

@@ -12,10 +12,11 @@ CREATE TABLE users (
 CREATE TABLE folders (
   id serial PRIMARY KEY,
   uuid uuid UNIQUE NOT NULL,
-  name text UNIQUE NOT NULL,
+  name text NOT NULL,
   tags text NOT NULL CHECK (tags ~ '^[a-z0-9 _-]+$'),
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-  dt timestamptz NOT NULL DEFAULT now()
+  dt timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (user_id, name)
 );
 
 CREATE TABLE notes (
@@ -44,5 +45,3 @@ CREATE TABLE relations (
   dt timestamptz NOT NULL DEFAULT now(),
   UNIQUE (parent_id, child_id)
 );
-
-INSERT INTO users (name, uuid, email, password) VALUES ('Jason', '1c5a3880-0625-0136-c75a-784f43a699ea', 'jason@gmail.com', 'secret');

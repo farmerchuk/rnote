@@ -2,6 +2,7 @@ require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
 require "uuid"
+require "bcrypt"
 require "pry"
 
 require_relative "lib/database"
@@ -19,7 +20,8 @@ end
 
 before do
   @storage = Database.new(logger)
-  @user_id = 1
+  @user_id = get_user_id_from_uuid(session[:user_uuid])
+  @user_name = session[:user_name]
 end
 
 after do
@@ -44,12 +46,27 @@ end
 # ROUTE HELPERS
 # ---------------------------------------
 
-def pass_form_validations?
-  true
-end
-
 def generate_uuid
   UUID.new.generate
+end
+
+def user_logged_in?
+  !!@user_id
+end
+
+def redirect_if_not_logged_in
+  unless user_logged_in?
+    redirect "/"
+  end
+end
+
+def password_correct?(password, password_on_file)
+  password_on_file = BCrypt::Password.new(password_on_file)
+  password_on_file == password
+end
+
+def get_user_id_from_uuid(uuid)
+  uuid ? @storage.user_id_by_uuid(uuid).to_i : nil
 end
 
 def get_folder_id_from_uuid(uuid)
@@ -58,6 +75,41 @@ end
 
 def get_note_id_from_uuid(uuid)
   uuid ? @storage.note_id_by_uuid(uuid).to_i : nil
+end
+
+def folder_name_exists?(new_folder_name)
+  existing_folder_names = @storage.load_folder_names_by_user(@user_id)
+  existing_folder_names.any? { |folder_name| folder_name == new_folder_name.downcase}
+end
+
+def parse_folder_tags(folders)
+  folders.map do |folder|
+    folder[:folder_tags].split(' ')
+  end.flatten.uniq.sort
+end
+
+def format_folder_tags_as_string(folder_tags)
+  folder_tags.split(' ').map { |tags| "##{tags}"}.sort.join(' ')
+end
+
+def format_folder_tags_as_array(folder_tags)
+  folder_tags.split(' ').map { |tags| "##{tags}"}.sort
+end
+
+def sort_folders_alphabetically(folders)
+  folders.sort_by { |folder| folder[:folder_name] }
+end
+
+# ---------------------------------------
+# VALIDATIONS
+# ---------------------------------------
+
+def pass_form_validations?
+  true
+end
+
+def pass_user_validations?(name, email, password)
+  true
 end
 
 def new_folder_validations(params)
@@ -120,38 +172,76 @@ def edit_folder_validations(params, folder_id)
   errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
 end
 
-def folder_name_exists?(new_folder_name)
-  existing_folder_names = @storage.load_folder_names_by_user(@user_id)
-  existing_folder_names.any? { |folder_name| folder_name == new_folder_name.downcase}
-end
-
-def parse_folder_tags(folders)
-  folders.map do |folder|
-    folder[:folder_tags].split(' ')
-  end.flatten.uniq.sort
-end
-
-def format_folder_tags_as_string(folder_tags)
-  folder_tags.split(' ').map { |tags| "##{tags}"}.sort.join(' ')
-end
-
-def format_folder_tags_as_array(folder_tags)
-  folder_tags.split(' ').map { |tags| "##{tags}"}.sort
-end
-
-def sort_folders_alphabetically(folders)
-  folders.sort_by { |folder| folder[:folder_name] }
-end
-
 # ---------------------------------------
 # ROUTES
 # ---------------------------------------
 
 get "/" do
-  redirect "/folders/find_folder"
+  if user_logged_in?
+    redirect "/folders/find_folder"
+  else
+    redirect "/sign-in"
+  end
+end
+
+get "/sign-in" do
+  erb :login
+end
+
+post "/sign_in" do
+  email = params[:email]
+  password = params[:password]
+  user = @storage.get_user_by_email(email)
+
+  if user
+    password_on_file = user[:password]
+    if password_correct?(password, password_on_file)
+      session[:user_uuid] = user[:uuid]
+      session[:user_name] = user[:name]
+      redirect "/folders/find_folder"
+    else
+      erb :login
+    end
+  else
+    session[:user_email] = email
+    session[:user_password] = password
+    redirect "/new_user"
+  end
+end
+
+get "/new_user" do
+  @new_user = true
+  erb :login
+end
+
+post "/create_account" do
+  name = params[:name]
+  email = session[:user_email]
+  password = session[:user_password]
+
+  encrypted_password = BCrypt::Password.create(password)
+  uuid = generate_uuid
+
+  session[:user_email] = nil
+  session[:user_password] = nil
+
+  new_user = @storage.create_user(name, uuid, email, encrypted_password)
+
+  session[:user_uuid] = new_user[:uuid]
+  session[:user_name] = new_user[:name]
+
+  redirect "/folders/new"
+end
+
+get "/logout" do
+  session[:user_uuid] = nil
+  session[:user_name] = nil
+  redirect "/"
 end
 
 get "/folders/find_folder" do
+  redirect_if_not_logged_in
+
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || "alphabetical"
@@ -162,6 +252,8 @@ get "/folders/find_folder" do
 end
 
 get "/folders/new" do
+  redirect_if_not_logged_in
+
   @parent_uuid = params[:parent_uuid]
   @parent_name = params[:parent_name]
 
@@ -169,6 +261,8 @@ get "/folders/new" do
 end
 
 post "/folders/new" do
+  redirect_if_not_logged_in
+
   @errors = new_folder_validations(params)
 
   if !@errors
@@ -193,6 +287,8 @@ post "/folders/new" do
 end
 
 get "/folders/:uuid" do
+  redirect_if_not_logged_in
+
   @folder_id = get_folder_id_from_uuid(params[:uuid])
   @folder_uuid = params[:uuid]
 
@@ -218,6 +314,8 @@ get "/folders/:uuid" do
 end
 
 get "/folders/:uuid/edit" do
+  redirect_if_not_logged_in
+
   @folder_id = get_folder_id_from_uuid(params[:uuid])
   @folder_uuid = params[:uuid]
 
@@ -238,6 +336,8 @@ get "/folders/:uuid/edit" do
 end
 
 post "/folders/:uuid/edit" do
+  redirect_if_not_logged_in
+
   @folder_uuid = params[:uuid]
   folder_id = get_folder_id_from_uuid(@folder_uuid)
 
@@ -265,6 +365,8 @@ post "/folders/:uuid/edit" do
 end
 
 post "/folders/:uuid/delete" do
+  redirect_if_not_logged_in
+
   folder_id = get_folder_id_from_uuid(params[:uuid])
   @storage.delete_folder(@user_id, folder_id)
 
@@ -272,6 +374,8 @@ post "/folders/:uuid/delete" do
 end
 
 get "/folders/:from_folder_uuid/link" do
+  redirect_if_not_logged_in
+
   @page_type = :link_folder
   @from_folder_uuid = params[:from_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(@from_folder_uuid)
@@ -282,13 +386,15 @@ get "/folders/:from_folder_uuid/link" do
   @query = params[:query] || ""
   type_filter = params[:filter_by_tag] || ""
   sort_method = params[:sort] || "alphabetical"
-  @folders = @storage.load_linkable_folders(@query, @from_folder_id, type_filter, sort_method)
+  @folders = @storage.load_linkable_folders(@user_id, @query, @from_folder_id, type_filter, sort_method)
   @folder_tags = parse_folder_tags(@folders)
 
   erb :link_folder, layout: :layout_flexible
 end
 
 post "/folders/:from_folder_uuid/link/:to_folder_uuid" do
+  redirect_if_not_logged_in
+
   from_folder_uuid = params[:from_folder_uuid]
   to_folder_uuid = params[:to_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
@@ -300,6 +406,8 @@ post "/folders/:from_folder_uuid/link/:to_folder_uuid" do
 end
 
 get "/folders/:from_folder_uuid/unlink" do
+  redirect_if_not_logged_in
+
   @page_type = :unlink_folder
   @from_folder_uuid = params[:from_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(@from_folder_uuid)
@@ -317,6 +425,8 @@ get "/folders/:from_folder_uuid/unlink" do
 end
 
 post "/folders/:from_folder_uuid/unlink/:to_folder_uuid" do
+  redirect_if_not_logged_in
+
   from_folder_uuid = params[:from_folder_uuid]
   to_folder_uuid = params[:to_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
@@ -328,6 +438,8 @@ post "/folders/:from_folder_uuid/unlink/:to_folder_uuid" do
 end
 
 get "/folders/:uuid/notes/new" do
+  redirect_if_not_logged_in
+
   @folder_uuid = params[:uuid]
   @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)
@@ -351,6 +463,8 @@ get "/folders/:uuid/notes/new" do
 end
 
 post "/folders/:uuid/notes/new" do
+  redirect_if_not_logged_in
+
   if pass_form_validations?
     folder_uuid = params[:uuid]
     folder_id = get_folder_id_from_uuid(folder_uuid)
@@ -367,6 +481,8 @@ post "/folders/:uuid/notes/new" do
 end
 
 get "/folders/:folder_uuid/notes/:note_uuid/edit" do
+  redirect_if_not_logged_in
+
   @folder_uuid = params[:folder_uuid]
   @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)
@@ -393,6 +509,8 @@ get "/folders/:folder_uuid/notes/:note_uuid/edit" do
 end
 
 post "/folders/:folder_uuid/notes/:note_uuid/edit" do
+  redirect_if_not_logged_in
+
   if params[:action] == "Update Note"
     if pass_form_validations?
       folder_uuid = params[:folder_uuid]
@@ -419,6 +537,8 @@ post "/folders/:folder_uuid/notes/:note_uuid/edit" do
 end
 
 get "/folders/:folder_uuid/all_related_notes" do
+  redirect_if_not_logged_in
+
   @folder_uuid = params[:folder_uuid]
   @folder_id = get_folder_id_from_uuid(@folder_uuid)
   folder = @storage.load_folder(@user_id, @folder_id)

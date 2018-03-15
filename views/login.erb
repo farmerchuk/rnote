@@ -1,0 +1,182 @@
+<!doctype html>
+
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8">
+    <title>r.note</title>
+    <link rel="stylesheet" href="/stylesheets/login_styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body id="login">
+
+    <header>
+
+      <div class="column">
+
+        <section class="title">
+
+          <h1>r.note</h1>
+
+        </section>
+
+      </div>
+
+    </header>
+
+    <main>
+
+      <section class="splash">
+
+        <% if @new_user %>
+
+          <div class="column">
+
+            <h2>A simple but capable tool for organizing information.</h2>
+
+            <form class="sign-in" action="/create_account" method="post">
+
+              <fieldset>
+
+                <legend>Create Account</legend>
+
+                <p>
+                  Welcome! It looks like you might be new in town? To get started, simply
+                  enter your name and click or tap the <strong>New Account</strong> button.
+                </p>
+
+                <dl>
+
+                  <dt>
+                    <label for="name">First name:</label>
+                  </dt>
+                  <dd>
+                    <input type="text" name="name" id="name">
+                  </dd>
+
+                </dl>
+
+                <input type="submit" value="Create New Account">
+
+              </fieldset>
+
+            </form>
+
+          </div>
+
+        <% else %>
+
+          <div class="column">
+
+            <h2>A simple but capable tool for organizing information.</h2>
+
+            <form class="sign-in" action="/sign_in" method="post">
+
+              <fieldset>
+
+                <legend>Sign-in / Create Account</legend>
+
+                <dl>
+
+                  <dt>
+                    <label for="email">E-mail:</label>
+                  </dt>
+                  <dd>
+                    <input type="text" name="email" id="email">
+                  </dd>
+
+                  <dt>
+                    <label for="password">Password:</label>
+                  </dt>
+                  <dd>
+                    <input type="password" name="password" id="password">
+                  </dd>
+
+                </dl>
+
+                <input type="submit" value="Submit">
+
+              </fieldset>
+
+            </form>
+
+          </div>
+
+        <% end %>
+
+      </section>
+
+      <section class="value-props">
+
+        <div class="column">
+
+          <ul>
+
+            <li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_spredsheet.png" alt="Spredsheet">
+
+              <h3>Flexible like a Spredsheet</h3>
+
+              <p>
+                Create any type of folder you want. Keep notes on people, places,
+                events, and accounts, or just about anything else you can
+                imagine.
+              </p>
+
+            </li><!--
+
+            --><li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_crm.png" alt="Linked dots">
+
+              <h3>Powerful like a CRM System</h3>
+
+              <p>
+                Define the relationships that exist between your folders. All on
+                the fly without the need to define a complicated schema in advance.
+              </p>
+
+            </li><!--
+
+            --><li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_notepad.png" alt="Notepad">
+
+              <h3>Easy as a Note Taking App</h3>
+
+              <p>
+                No complicated setup required. Just log in, create a folder for your
+                notes and start typing!
+              </p>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+      <section class="screenshots">
+
+        <div class="column">
+
+          <img src="/images/img_screen1.png" alt="Screenshot">
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+  </body>
+
+</html>

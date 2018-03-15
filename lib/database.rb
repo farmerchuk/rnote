@@ -44,6 +44,39 @@ class Database
 
   # Database methods
 
+  def get_user_by_email(email)
+    email = email.downcase
+    sql = "SELECT * FROM users WHERE email = $1;"
+    result = query(sql, email)
+    user = result.map do |tuple|
+      {
+        id: tuple["id"],
+        uuid: tuple["uuid"],
+        name: tuple["name"],
+        email: tuple["email"],
+        password: tuple["password"]
+      }
+    end
+
+    user.empty? ? nil : user.first
+  end
+
+  def create_user(name, uuid, email, password)
+    email = email.downcase
+    sql = <<~SQL
+      INSERT INTO users (name, uuid, email, password)
+      VALUES ($1, $2, $3, $4);
+    SQL
+    query(sql, name, uuid, email, password)
+
+    get_user_by_email(email)
+  end
+
+  def user_id_by_uuid(uuid)
+    sql = "SELECT id FROM users WHERE uuid = $1;"
+    query(sql, uuid).first["id"]
+  end
+
   def folder_id_by_uuid(uuid)
     sql = "SELECT id FROM folders WHERE uuid = $1;"
     query(sql, uuid).first["id"]
@@ -95,7 +128,7 @@ class Database
     sort_folders(sort_method, folders)
   end
 
-  def load_linkable_folders(search_query, folder_id, tag_filter, sort_method)
+  def load_linkable_folders(user_id, search_query, folder_id, tag_filter, sort_method)
     search_query = "%" + search_query + "%"
     tag_filter = "%" + tag_filter + "%"
 
@@ -105,10 +138,10 @@ class Database
         SELECT child_id FROM relations WHERE parent_id = $1 AND child_id IS NOT NULL
         UNION SELECT parent_id FROM relations WHERE child_id = $1 AND parent_id IS NOT NULL
         UNION SELECT $1)
-      AND name ILIKE $2 AND tags ILIKE $3;
+      AND name ILIKE $2 AND tags ILIKE $3 AND user_id = $4;
     SQL
 
-    result = query(sql, folder_id, search_query, tag_filter)
+    result = query(sql, folder_id, search_query, tag_filter, user_id)
     folders = result.map do |tuple|
       {
         folder_id: tuple["id"],

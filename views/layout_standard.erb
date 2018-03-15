@@ -14,20 +14,16 @@
   <body>
 
     <header class="user-settings">
-      <a href="#">Jason</a>
+      <a href="/logout"><%= @user_name %></a>
     </header>
 
     <aside class="folder-menu">
 
       <header>
 
-        <a class="logo" href="/">
-          <img src="/images/logo.png" alt="logo">
-        </a>
+        <a class="logo" href="/">r.note</a>
 
-        <a class="btn folder-action" href="/folders/<%= @folder_uuid %>/edit">&#9998;</a>
-
-        <a class="btn folder-action" href="/folders/new?parent_uuid=<%= @folder_uuid %>&parent_name=<%= @folder_name %>">New Folder</a>
+        <a class="new-folder-icon" href="/folders/new?parent_uuid=<%= @folder_uuid %>&parent_name=<%= @folder_name %>"></a>
 
       </header>
 
@@ -42,6 +38,8 @@
           <% end %>
 
         </a>
+
+        <a class="edit-folder-icon" href="/folders/<%= @folder_uuid %>/edit"></a>
 
       </section>
 

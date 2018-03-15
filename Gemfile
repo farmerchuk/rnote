@@ -7,4 +7,5 @@ gem "sinatra-contrib"
 gem "erubis"
 gem "pg"
 gem "puma"
-gem 'uuid', '~> 2.3'
+gem "uuid", "~> 2.3"
+gem "bcrypt"

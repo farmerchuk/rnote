@@ -1,0 +1,212 @@
+/*
+==============================
+CSS Reset
+==============================
+*/
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 100%;
+  box-sizing: border-box;
+  vertical-align: baseline;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*
+==============================
+Login Page Styles
+==============================
+*/
+
+html {
+  font: normal 18px "Nunito", sans-serif;
+  line-height: 1.3;
+}
+
+h1 {
+  display: inline-block;
+  padding: 0 20px 5px 20px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  border: 8px solid #fff;
+}
+
+h2 {
+  float: left;
+  width: 400px;
+  padding-top: 20px;
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-shadow: 5px 5px 10px #dadada;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding-bottom: 30px;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+p {
+  line-height: 1.5rem;
+}
+
+form {
+  width: 450px;
+}
+
+fieldset {
+  padding: 30px;
+  border: 2px solid #dadada;
+  border-radius: 4px;
+}
+
+legend {
+  padding: 0 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.column {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.title {
+  overflow: hidden;
+}
+
+.splash {
+  padding: 100px 20px;
+  overflow: hidden;
+}
+
+.sign-in {
+  float: right;
+}
+
+.sign-in p {
+  padding-bottom: 20px;
+}
+
+.sign-in input[type="text"],
+.sign-in input[type="password"],
+.sign-in input[type="submit"] {
+  width: 100%;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  padding: 10px 10px;
+  background: inherit;
+  color: #363636;
+}
+
+.sign-in dl dd {
+  padding-bottom: 20px;
+}
+
+.sign-in dl dd:last-of-type {
+  border-bottom: 1px dashed #dadada;
+}
+
+.sign-in input[type="submit"] {
+  cursor: pointer;
+  margin-top: 20px;
+  border: 1px solid #30d8d8;
+  padding: 10px 10px;
+  background: #30d8d8;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.sign-in input[type="submit"]:hover {
+  background: #2dc3c3;
+}
+
+.value-props {
+  padding: 100px 20px;
+  background: #363636;
+  color: #fff;
+}
+
+.value-props ul {
+  display: block;
+}
+
+.value-prop {
+  display: inline-block;
+  width: 300px;
+  height: 500px;
+  padding: 30px;
+  border: 1px dashed #fff;
+  border-radius: 4px;
+  margin-right: 50px;
+  vertical-align: top;
+  text-align: center;
+}
+
+.value-prop:last-child {
+  margin-right: 0;
+}
+
+.value-prop-imgs {
+  display: block;
+  margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.screenshots {
+  padding: 100px 20px;
+  background: #fff;
+}
+
+.screenshots img {
+  display: block;
+  width: 1000px;
+}
+
+#login > header {
+  padding: 40px 20px;
+  background: #363636;
+  color: #fff;
+}
+
+#login > main {
+  background: #fff;
+  color: #363636;
+}
+
+#login > footer {
+  height: 100px;
+  background: #363636;
+  color: #fff;
+}
