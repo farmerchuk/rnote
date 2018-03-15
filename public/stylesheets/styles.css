@@ -324,7 +324,6 @@ Folder Menu Styles
 }
 
 .folder-menu h1 {
-  margin-right: 100px;
   padding-bottom: 10px;
   color: #98b3c4;
 }
@@ -335,7 +334,7 @@ Folder Menu Styles
 
 .folder-menu .folder-title {
   padding-bottom: 20px;
-  border-bottom: 2px dotted #505050;
+  border-bottom: 1px dashed #505050;
 }
 
 .folder-menu .folder-attributes {

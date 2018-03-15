@@ -108,8 +108,21 @@ def pass_form_validations?
   true
 end
 
-def pass_user_validations?(name, email, password)
-  true
+def pass_user_validations?(email, password)
+  errors = {
+    email: [],
+    password: []
+  }
+
+  if !email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i)
+    errors[:email] << 'Please enter a valid email address.'
+  end
+
+  if !password.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/)
+    errors[:password] << 'Password must be at least 8 characters long and include both letters and numbers'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
 end
 
 def new_folder_validations(params)
@@ -191,21 +204,28 @@ end
 post "/sign_in" do
   email = params[:email]
   password = params[:password]
-  user = @storage.get_user_by_email(email)
+  errors = pass_user_validations?(email, password)
 
-  if user
-    password_on_file = user[:password]
-    if password_correct?(password, password_on_file)
-      session[:user_uuid] = user[:uuid]
-      session[:user_name] = user[:name]
-      redirect "/folders/find_folder"
+  if !errors
+    user = @storage.get_user_by_email(email)
+
+    if user
+      password_on_file = user[:password]
+      if password_correct?(password, password_on_file)
+        session[:user_uuid] = user[:uuid]
+        session[:user_name] = user[:name]
+        redirect "/folders/find_folder"
+      else
+        erb :login
+      end
     else
-      erb :login
+      session[:user_email] = email
+      session[:user_password] = password
+
+      redirect "/new_user"
     end
   else
-    session[:user_email] = email
-    session[:user_password] = password
-    redirect "/new_user"
+    erb :login
   end
 end
 
