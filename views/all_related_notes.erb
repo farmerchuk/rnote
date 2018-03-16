@@ -50,6 +50,40 @@
 
             <article>
 
+              <% if !note[:note_url].empty? %>
+
+                <header>
+
+                  <div class="timestamp">
+
+                    <small>Created on:</small>
+
+                    <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+
+                  </div>
+
+                  <h1>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                  </h1>
+
+                  <h3><%= note[:folder_name] %></h3>
+
+                </header>
+
+                <section class="display-note-url">
+
+                  <a href="<%= note[:note_url] %>" rel="noopener noreferrer" target="_blank"><%= note[:note_url] %></a>
+
+                  <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+
+                  <p>
+                    <pre class="display-note-body"><%= note[:note_body] %></pre>
+                  </p>
+
+                </section>
+
+              <% else %>
+
               <header>
 
                 <div class="timestamp">
@@ -68,13 +102,15 @@
 
               </header>
 
-              <section>
+                <section>
 
-                <p>
-                  <pre class="display-note-body"><%= note[:note_body] %></pre>
-                </p>
+                  <p>
+                    <pre class="display-note-body"><%= note[:note_body] %></pre>
+                  </p>
 
-              </section>
+                </section>
+
+              <% end %>
 
             </article>
 

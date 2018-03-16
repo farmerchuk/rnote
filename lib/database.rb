@@ -316,7 +316,9 @@ class Database
 
   def load_notes(user_id, folder_id)
     sql = <<~SQL
-      SELECT id AS note_id, uuid AS note_uuid, title AS note_title, body AS note_body, dt AS note_date_time
+      SELECT id AS note_id, uuid AS note_uuid, folder_uuid AS folder_uuid, title AS note_title,
+        url AS note_url, url_preview AS note_url_preview, body AS note_body,
+        dt AS note_date_time
       FROM notes
       WHERE user_id = $1 AND folder_id = $2
       ORDER BY dt ASC;
@@ -327,27 +329,30 @@ class Database
       {
         note_id: tuple["note_id"],
         note_uuid: tuple["note_uuid"].delete('-'),
+        folder_uuid: tuple["folder_uuid"].delete('-'),
         note_title: tuple["note_title"],
+        note_url: tuple["note_url"],
+        note_url_preview: tuple["note_url_preview"],
         note_body: tuple["note_body"],
         note_date_time: tuple["note_date_time"]
       }
     end
   end
 
-  def create_note(title, body, user_id, folder_id, uuid)
+  def create_note(title, url, url_preview, body, user_id, folder_id, folder_uuid, note_uuid)
     sql = <<~SQL
-      INSERT INTO notes (title, body, user_id, folder_id, uuid)
-      VALUES ($1, $2, $3, $4, $5);
+      INSERT INTO notes (title, url, url_preview, body, user_id, folder_id, folder_uuid, uuid)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
     SQL
 
-    query(sql, title, body, user_id, folder_id, uuid)
+    query(sql, title, url, url_preview, body, user_id, folder_id, folder_uuid, note_uuid)
   end
 
-  def update_note(user_id, folder_id, note_id, note_title, note_body)
+  def update_note(user_id, folder_id, note_id, note_title, note_url, note_url_preview, note_body)
     sql = <<~SQL
-      UPDATE notes SET (title, body) = ($1, $2) WHERE id = $3 AND folder_id = $4 AND user_id = $5;
+      UPDATE notes SET (title, url, url_preview, body) = ($1, $2, $3, $4) WHERE id = $5 AND folder_id = $6 AND user_id = $7;
     SQL
-    query(sql, note_title, note_body, note_id, folder_id, user_id)
+    query(sql, note_title, note_url, note_url_preview, note_body, note_id, folder_id, user_id)
   end
 
   def delete_note(user_id, folder_id, note_id)
@@ -361,6 +366,7 @@ class Database
         folders.id AS folder_id, folders.uuid AS folder_uuid,
         folders.name AS folder_name, folders.tags AS folder_tags,
         notes.title AS note_title, notes.body AS note_body,
+        notes.url AS note_url, notes.url_preview AS note_url_preview,
         notes.dt AS note_date_time
       FROM notes
       INNER JOIN folders ON notes.folder_id = folders.id
@@ -388,6 +394,8 @@ class Database
         folder_name: tuple["folder_name"],
         folder_tags: tuple["folder_tags"],
         note_title: tuple["note_title"],
+        note_url: tuple["note_url"],
+        note_url_preview: tuple["note_url_preview"],
         note_body: tuple["note_body"],
         note_date_time: tuple["note_date_time"]
       }

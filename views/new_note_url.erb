@@ -1,59 +1,59 @@
-<div id="main-page">
+<div id="create-new-note-url" class="note-form">
 
   <header class="main-header">
 
-    <a class="new-url-icon" href="/folders/<%= @folder_uuid %>/notes_url/new"></a>
-    <a class="new-note-icon" href="/folders/<%= @folder_uuid %>/notes/new"></a>
+    <h1>Add New Link</h1>
+
     <a class="all-related-notes-icon" href="/folders/<%= @folder_uuid %>/all_related_notes"></a>
 
   </header>
 
   <section class="main-body">
 
-    <% if @notes.empty? %>
+    <form action="/folders/<%= @folder_uuid %>/notes_url/new" method="post">
 
-      <ul>
+      <fieldset>
 
-        <li>
+        <dl>
 
-          <article>
+          <div class="form-row">
+            <dt>
+              <label for="title">Note title:</label>
+            </dt>
+            <dd>
+              <input type="text" name="title" id="title" placeholder="Follow-up">
+            </dd>
+          </div>
 
-            <section>
+          <div class="form-row">
+            <dt>
+              <label for="url">URL:</label>
+            </dt>
+            <dd>
+              <input type="text" name="url" id="url" placeholder="http://www.basecamp.com">
+            </dd>
+          </div>
 
-              <div class="welcome-new-note">
+          <div class="form-row">
+            <dt>
+              <label for="body">Details:</label>
+            </dt>
+            <dd>
+              <textarea name="body" id="body" rows="8" cols="80"></textarea>
+            </dd>
+          </div>
 
-                <h1>Welcome to your new folder!</h1>
+        </dl>
 
-                <p>
-                  To start adding notes, simply click the <strong>'Add New Note'</strong> icon
-                  <img class="inline-icon" src="/images/icon_new_note.png" alt="New note">
-                  above. As you add notes, they will appear here, ordered from newest to oldest.
-                </p>
+      </fieldset>
 
-                <p>
-                  Related folders will appear in a sidebar to the right.
-                </p>
+      <input class="btn form-submit" type="submit" value="Save New Link">
 
-                <p>
-                  To view all notes for not just this folder, but also all folders
-                  related to it, click the <strong>'All Related Notes'</strong> icon
-                  <img class="inline-icon" src="/images/icon_all_notes.png" alt="All notes">
-                  above.
-                </p>
+    </form>
 
-              </div>
+    <% if !@notes.empty? %>
 
-            </section>
-
-          </article>
-
-        </li>
-
-      </ul>
-
-    <% else %>
-
-      <ul>
+      <ul class="notes">
 
         <% @notes.each do |note| %>
 
@@ -129,9 +129,9 @@
 
         <% end %>
 
-      <% end %>
+      </ul>
 
-    </ul>
+    <% end %>
 
   </section>
 

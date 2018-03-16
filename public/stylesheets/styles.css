@@ -158,6 +158,22 @@ Custom Styles
   text-align: center;
 }
 
+.display-note-url {
+  overflow: hidden;
+}
+
+.display-note-url a {
+  display: block;
+  font-size: 1.5rem;
+}
+
+.display-note-url img {
+  float: left;
+  margin: 20px 20px 20px 0;
+  max-width: 300px;
+  max-height: 100px;
+}
+
 .display-note-body {
   white-space: pre-wrap;
   line-height: 2;
@@ -303,6 +319,20 @@ Main Header Styles
 
 .new-note-icon:hover {
   background: transparent url("../images/icon_new_note_hover.png") 0 0 no-repeat;
+}
+
+.new-url-icon {
+  float: right;
+  margin-top: 2px;
+  margin-left: 20px;
+  height: 40px;
+  width: 40px;
+  background: transparent url("../images/icon_new_url.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+
+.new-url-icon:hover {
+  background: transparent url("../images/icon_new_url_hover.png") 0 0 no-repeat;
 }
 
 .all-related-notes-icon {
@@ -706,7 +736,18 @@ Note Form Styles
 
 /*
 ==============================
-Create New Note Page Styles
+General Note Page Styles
+==============================
+*/
+
+#active-note {
+  padding-top: 120px;
+  margin-top: -100px;
+}
+
+/*
+==============================
+Create / Edit New Note Page Styles
 ==============================
 */
 
@@ -714,24 +755,30 @@ Create New Note Page Styles
   padding-top: 50px;
 }
 
-#create-new-note .main-body textarea {
-  width: 100%;
-  height: 50vh;
-}
-
-/*
-==============================
-Edit Note Page Styles
-==============================
-*/
-
 #edit-note .note-delete {
   float: left;
 }
 
-#edit-note #active-note {
-  padding-top: 120px;
-  margin-top: -100px;
+/*
+==============================
+Create / Edit Note URL Page Styles
+==============================
+*/
+
+#create-new-note-url .main-body .notes li:first-of-type,
+#edit-note-url .main-body .notes li:first-of-type {
+  padding-top: 50px;
+}
+
+#create-new-note-url .main-body input[name="url"],
+#edit-note-url .main-body input[name="url"] {
+  width: 100%;
+}
+
+#create-new-note-url .main-body textarea,
+#edit-note-url .main-body textarea {
+  width: 100%;
+  height: 20vh;
 }
 
 /*

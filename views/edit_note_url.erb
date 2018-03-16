@@ -1,8 +1,8 @@
-<div id="edit-note" class="note-form">
+<div id="edit-note-url" class="note-form">
 
   <header class="main-header">
 
-    <h1>Edit Note</h1>
+    <h1>Edit Link</h1>
 
     <a class="all-related-notes-icon" href="/folders/<%= @folder_uuid %>/all_related_notes"></a>
 
@@ -34,7 +34,7 @@
 
                 </header>
 
-                <form action="/folders/<%= @folder_uuid %>/notes/<%= @note_uuid %>/edit" method="post">
+                <form action="/folders/<%= @folder_uuid %>/notes_url/<%= @note_uuid %>/edit" method="post">
 
                   <fieldset>
 
@@ -51,6 +51,15 @@
 
                       <div class="form-row">
                         <dt>
+                          <label for="url">URL:</label>
+                        </dt>
+                        <dd>
+                          <input type="text" name="url" id="url" value="<%= note[:note_url] %>">
+                        </dd>
+                      </div>
+
+                      <div class="form-row">
+                        <dt>
                           <label for="body">Details:</label>
                         </dt>
                         <dd>
@@ -62,9 +71,9 @@
 
                   </fieldset>
 
-                  <input class="btn form-submit" type="submit" name="action" value="Update Note">
+                  <input class="btn form-submit" type="submit" name="action" value="Update Link">
 
-                  <input class="btn btn-delete note-delete" type="submit" name="action" value="Delete Note">
+                  <input class="btn btn-delete note-delete" type="submit" name="action" value="Delete Link">
 
                 </form>
 

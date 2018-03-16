@@ -24,8 +24,11 @@ CREATE TABLE notes (
   uuid uuid UNIQUE NOT NULL,
   title text NOT NULL,
   body text,
+  url text,
+  url_preview text,
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   folder_id integer NOT NULL REFERENCES folders (id) ON DELETE CASCADE,
+  folder_uuid uuid NOT NULL,
   dt timestamptz NOT NULL DEFAULT now()
 );
 
