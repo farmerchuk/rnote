@@ -38,7 +38,7 @@ helpers do
   end
 
   def format_date(date)
-    date.split('.').first
+    date.split('.').first.split(' ').join(' at ')
   end
 end
 
@@ -108,7 +108,19 @@ def pass_form_validations?
   true
 end
 
-def pass_user_validations?(email, password)
+def pass_name_validation(name)
+  errors = {
+    name: []
+  }
+
+  if name.size < 3
+    errors[:name] << 'Name must be at least 3 characters long.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
+end
+
+def pass_user_validations(email, password)
   errors = {
     email: [],
     password: []
@@ -119,7 +131,7 @@ def pass_user_validations?(email, password)
   end
 
   if !password.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/)
-    errors[:password] << 'Password must be at least 8 characters long and include both letters and numbers'
+    errors[:password] << 'Password must be at least 8 characters long and include both letters and numbers.'
   end
 
   errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
@@ -193,20 +205,20 @@ get "/" do
   if user_logged_in?
     redirect "/folders/find_folder"
   else
-    redirect "/sign-in"
+    redirect "/sign_in"
   end
 end
 
-get "/sign-in" do
+get "/sign_in" do
   erb :login
 end
 
 post "/sign_in" do
   email = params[:email]
   password = params[:password]
-  errors = pass_user_validations?(email, password)
+  @errors = pass_user_validations(email, password)
 
-  if !errors
+  if !@errors
     user = @storage.get_user_by_email(email)
 
     if user
@@ -236,21 +248,34 @@ end
 
 post "/create_account" do
   name = params[:name]
-  email = session[:user_email]
-  password = session[:user_password]
+  @name_errors = pass_name_validation(name)
 
-  encrypted_password = BCrypt::Password.create(password)
-  uuid = generate_uuid
+  if !@name_errors
+    email = session[:user_email]
+    password = session[:user_password]
 
-  session[:user_email] = nil
-  session[:user_password] = nil
+    user_errors = pass_user_validations(email, password)
 
-  new_user = @storage.create_user(name, uuid, email, encrypted_password)
+    session[:user_email] = nil
+    session[:user_password] = nil
 
-  session[:user_uuid] = new_user[:uuid]
-  session[:user_name] = new_user[:name]
+    if !user_errors
+      encrypted_password = BCrypt::Password.create(password)
+      uuid = generate_uuid
 
-  redirect "/folders/new"
+      new_user = @storage.create_user(name, uuid, email, encrypted_password)
+
+      session[:user_uuid] = new_user[:uuid]
+      session[:user_name] = new_user[:name]
+
+      redirect "/folders/new"
+    else
+      redirect "/sign_in"
+    end
+  else
+    @new_user = true
+    erb :login
+  end
 end
 
 get "/logout" do

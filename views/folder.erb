@@ -24,8 +24,20 @@
                 <h1>Welcome to your new folder!</h1>
 
                 <p>
-                  To start adding notes, simply click the new note icon
+                  To start adding notes, simply click the <strong>'Add New Note'</strong> icon
+                  <img class="inline-icon" src="/images/icon_new_note.png" alt="New note">
                   above. As you add notes, they will appear here, ordered from newest to oldest.
+                </p>
+
+                <p>
+                  Related folders will appear in a sidebar to the right.
+                </p>
+
+                <p>
+                  To view all notes for not just this folder, but also all folders
+                  related to it, click the <strong>'All Related Notes'</strong> icon
+                  <img class="inline-icon" src="/images/icon_all_notes.png" alt="All notes">
+                  above.
                 </p>
 
               </div>
@@ -50,7 +62,13 @@
 
               <header>
 
-                <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+                <div class="timestamp">
+
+                  <small>Created on:</small>
+
+                  <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+
+                </div>
 
                 <h1>
                   <a href="/folders/<%= @folder_uuid %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>

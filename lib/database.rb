@@ -74,17 +74,20 @@ class Database
 
   def user_id_by_uuid(uuid)
     sql = "SELECT id FROM users WHERE uuid = $1;"
-    query(sql, uuid).first["id"]
+    result = query(sql, uuid)
+    result.values.empty? ? nil : result.first['id']
   end
 
   def folder_id_by_uuid(uuid)
     sql = "SELECT id FROM folders WHERE uuid = $1;"
-    query(sql, uuid).first["id"]
+    result = query(sql, uuid)
+    result.values.empty? ? nil : result.first['id']
   end
 
   def folder_name_by_id(folder_id)
     sql = "SELECT name FROM folders WHERE id = $1;"
-    query(sql, folder_id).first["name"]
+    result = query(sql, folder_id)
+    result.values.empty? ? nil : result.first['name']
   end
 
   def load_folder(user_id, folder_id)

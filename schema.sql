@@ -3,7 +3,7 @@ set time zone 'UTC';
 CREATE TABLE users (
   id serial PRIMARY KEY,
   uuid uuid UNIQUE NOT NULL,
-  name text NOT NULL,
+  name text NOT NULL CHECK (length(name) >= 3),
   email text UNIQUE NOT NULL,
   password text NOT NULL,
   dt timestamptz NOT NULL DEFAULT now()

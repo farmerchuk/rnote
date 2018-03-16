@@ -54,7 +54,13 @@
 
               <header>
 
-                <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+                <div class="timestamp">
+
+                  <small>Created on:</small>
+
+                  <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+
+                </div>
 
                 <h1>
                   <a href="/folders/<%= @folder_uuid %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
