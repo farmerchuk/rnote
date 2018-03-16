@@ -661,7 +661,7 @@ end
 post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
   redirect_if_not_logged_in
 
-  if params[:action] == "Update Note"
+  if params[:action] == "Update Link"
     if pass_form_validations?
       folder_uuid = params[:folder_uuid]
       folder_id = get_folder_id_from_uuid(folder_uuid)
@@ -679,7 +679,7 @@ post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
     else
       erb :edit_folder, layout: :layout_flexible
     end
-  elsif params[:action] == "Delete Note"
+  elsif params[:action] == "Delete Link"
     folder_uuid = params[:folder_uuid]
     folder_id = get_folder_id_from_uuid(folder_uuid)
     note_id = get_note_id_from_uuid(params[:note_uuid])
