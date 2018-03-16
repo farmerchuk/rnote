@@ -99,12 +99,6 @@ article header {
   overflow: hidden;
 }
 
-article time {
-  float: right;
-  padding-top: 10px;
-  font-size: 1.2rem;
-}
-
 form {
   overflow: hidden;
 }
@@ -136,23 +130,32 @@ Custom Styles
 
 .logo {
   display: inline-block;
-  margin-bottom: 50px;
+  padding: 0 10px 2px 10px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #dadada;
+  border: 4px solid #dadada;
+}
+
+.inline-icon {
+  height: 25px;
+  margin-bottom: -5px;
 }
 
 .welcome-new-note {
   display: block;
-  max-width: 500px;
-  height: 300px;
-  border: 3px dashed #dadada;
+  max-width: 600px;
+  border: 2px dashed #dadada;
   border-radius: 4px;
-  margin: 10vh auto 0 auto;
+  margin: 8vh auto 0 auto;
   padding: 30px;
-  text-align: center;
+  text-align: left;
 }
 
 .welcome-new-note h1 {
   padding-bottom: 30px;
   padding-top: 23px;
+  text-align: center;
 }
 
 .display-note-body {
@@ -199,6 +202,24 @@ Button Styles
 
 /*
 ==============================
+Button Styles
+==============================
+*/
+
+.timestamp {
+  float: right;
+  font-size: 1.2rem;
+}
+
+.timestamp small {
+  display: block;
+  font-size: 1rem;
+  text-align: right;
+  font-weight: bold;
+}
+
+/*
+==============================
 User Settings Styles
 ==============================
 */
@@ -227,10 +248,10 @@ User Settings Styles
   content: '';
   display: inline-block;
   background: transparent url("../images/icon_menu.png") 0 0 no-repeat;
-  background-size: 30px 30px;
-  height: 30px;
-  width: 30px;
-  vertical-align: text-bottom;
+  background-size: 40px 40px;
+  height: 40px;
+  width: 40px;
+  vertical-align: -10px;
   margin-left: 20px;
 }
 
@@ -266,8 +287,35 @@ Main Header Styles
 }
 
 .main-header .btn:hover {
-  border: 1px solid #97a7b1;
-  color: #97a7b1;
+  border: 1px solid #98b3c4;
+  color: #98b3c4;
+}
+
+.new-note-icon {
+  float: right;
+  margin-top: 2px;
+  margin-left: 20px;
+  height: 40px;
+  width: 40px;
+  background: transparent url("../images/icon_new_note.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+
+.new-note-icon:hover {
+  background: transparent url("../images/icon_new_note_hover.png") 0 0 no-repeat;
+}
+
+.all-related-notes-icon {
+  float: right;
+  margin-top: 2px;
+  height: 40px;
+  width: 40px;
+  background: transparent url("../images/icon_all_notes.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+
+.all-related-notes-icon:hover {
+  background: transparent url("../images/icon_all_notes_hover.png") 0 0 no-repeat;
 }
 
 /*
@@ -288,28 +336,62 @@ Folder Menu Styles
   z-index: 2;
 }
 
+.folder-menu header {
+  padding-bottom: 58px;
+}
+
 .folder-menu h1 {
   padding-bottom: 10px;
-  color: #bad0df;
+  color: #98b3c4;
 }
 
 .folder-menu h2 {
-  color: #dadada;
+  color: #fff;
+}
+
+.folder-menu .folder-title {
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #505050;
 }
 
 .folder-menu .folder-attributes {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .folder-menu .folder-attributes h4 {
   padding-bottom: 0.5rem;
-  color: #bad0df;
+  color: #98b3c4;
 }
 
 .folder-menu .folder-attributes dd {
   padding-bottom: 1.5rem;
   padding-left: 1rem;
   font-size: 1.1rem;
+}
+
+.folder-menu .new-folder-icon {
+  float: right;
+  height: 40px;
+  width: 40px;
+  background: transparent url("../images/icon_new_folder.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+
+.folder-menu .new-folder-icon:hover {
+  background: transparent url("../images/icon_new_folder_hover.png") 0 0 no-repeat;
+}
+
+.folder-menu .edit-folder-icon {
+  float: right;
+  margin-top: -35px;
+  height: 40px;
+  width: 40px;
+  background: transparent url("../images/icon_edit_folder.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+
+.folder-menu .edit-folder-icon:hover {
+  background: transparent url("../images/icon_edit_folder_hover.png") 0 0 no-repeat;
 }
 
 .folder-menu .find {
@@ -338,13 +420,8 @@ Folder Menu Styles
 }
 
 .folder-menu .btn:hover {
-  border: 1px solid #bad0df;
-  color: #bad0df;
-}
-
-.folder-menu .folder-action {
-  margin-left: 10px;
-  float: right;
+  border: 1px solid #98b3c4;
+  color: #98b3c4;
 }
 
 /*
@@ -375,7 +452,7 @@ Filter-Sort Styles
 }
 
 .filter-sort label {
-  color: #bad0df;
+  color: #98b3c4;
   font-size: 1.1rem;
 }
 
@@ -413,7 +490,7 @@ Folder Summary Styles
 }
 
 .folder-summary:hover {
-  color: #97a7b1;
+  color: #98b3c4;
 }
 
 .folder-summary ul {
@@ -442,7 +519,7 @@ Main Body Styles
 }
 
 .main-body a:hover {
-  color: #97a7b1;
+  color: #98b3c4;
 }
 
 .main-body form input[type="text"] {
@@ -462,13 +539,13 @@ Main Body Styles
 }
 
 .main-body .btn:hover {
-  border: 1px solid #97a7b1;
-  color: #97a7b1;
+  border: 1px solid #98b3c4;
+  color: #98b3c4;
 }
 
 .main-body .btn-delete {
-  border: 1px solid #97a7b1;
-  color: #97a7b1;
+  border: 1px solid #98b3c4;
+  color: #98b3c4;
 }
 
 .main-body .btn-delete:hover {
@@ -498,7 +575,7 @@ Related Folders Styles
 }
 
 .related-folders a:hover {
-  color: #97a7b1;
+  color: #98b3c4;
 }
 
 .related-folders > ul {

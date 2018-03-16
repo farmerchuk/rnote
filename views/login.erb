@@ -1,0 +1,287 @@
+<!doctype html>
+
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8">
+    <title>r.note</title>
+    <link rel="stylesheet" href="/stylesheets/login_styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body id="login">
+
+    <header>
+
+      <div class="column">
+
+        <section class="title">
+
+          <a href="/sign_in">
+            <h1>r.note</h1>
+          </a>
+
+          <nav class="main-links">
+
+            <ul>
+
+              <li>
+
+                <a href="#">
+                  <h3>Use Cases</h3>
+                </a>
+
+
+              </li><!--
+
+              --><li>
+
+                <a href="#">
+                  <h3>Pricing</h3>
+                </a>
+
+              </li><!--
+
+              --><li>
+
+                <a href="#">
+                  <h3>About Us</h3>
+                </a>
+
+              </li>
+
+            </ul>
+
+          </nav>
+
+        </section>
+
+      </div>
+
+    </header>
+
+    <main>
+
+      <section class="splash">
+
+        <div class="column">
+
+          <h2>A simple yet dynamic tool for organizing information.</h2>
+
+          <% if @new_user %>
+
+            <form class="sign-in" action="/create_account" method="post">
+
+              <fieldset>
+
+                <legend>Welcome!</legend>
+
+                <p>
+                  It looks like you might be new to r.note? To get started, simply
+                  enter your name then click or tap the <strong>'New Account'</strong> button.
+                </p>
+
+                <dl>
+
+                  <dt>
+                    <label for="name">First name:</label>
+                  </dt>
+                  <dd>
+                    <input type="text" name="name" id="name" value="<%= params[:name] %>">
+                  </dd>
+
+                  <% if @name_errors %>
+
+                    <ul>
+                      <% @name_errors[:name].each do |error| %>
+                        <li>
+                          <small class="form-error"><%= error %></small>
+                        </li>
+                      <% end %>
+                    </ul>
+
+                  <% end %>
+
+                </dl>
+
+                <input type="submit" value="Create New Account">
+
+              </fieldset>
+
+            </form>
+
+          <% else %>
+
+            <form class="sign-in" action="/sign_in" method="post">
+
+              <fieldset>
+
+                <legend>Sign-in / Create Account</legend>
+
+                <dl>
+
+                  <dt>
+                    <label for="email">E-mail:</label>
+                  </dt>
+                  <dd>
+                    <input type="text" name="email" id="email" value="<%= params[:email] %>">
+                  </dd>
+
+                  <% if @errors %>
+
+                    <ul>
+                      <% @errors[:email].each do |error| %>
+                        <li>
+                          <small class="form-error"><%= error %></small>
+                        </li>
+                      <% end %>
+                    </ul>
+
+                  <% end %>
+
+                  <dt>
+                    <label for="password">Password:</label>
+                  </dt>
+                  <dd>
+                    <input type="password" name="password" id="password">
+                  </dd>
+
+                  <% if @errors %>
+
+                    <ul>
+                      <% @errors[:password].each do |error| %>
+                        <li>
+                          <small class="form-error"><%= error %></small>
+                        </li>
+                      <% end %>
+                    </ul>
+
+                  <% end %>
+
+                </dl>
+
+                <input type="submit" value="Submit">
+
+              </fieldset>
+
+            </form>
+
+          <% end %>
+
+        </div>
+
+      </section>
+
+      <section class="value-props">
+
+        <div class="column">
+
+          <ul>
+
+            <li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_spredsheet.png" alt="Spredsheet">
+
+              <h3>Flexible like a Spredsheet</h3>
+
+              <p>
+                Create any type of folder you want. Keep track of notes on people, places,
+                and things, or just about anything else you can imagine.
+              </p>
+
+            </li><!--
+
+            --><li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_crm.png" alt="Linked dots">
+
+              <h3>Powerful like a CRM System</h3>
+
+              <p>
+                Link and unlink folders on the fly. Model naturally occuring relationships,
+                organizational hierarchies, or a dynamic web of interconnected ideas.
+              </p>
+
+            </li><!--
+
+            --><li class="value-prop">
+
+              <img class="value-prop-imgs" src="/images/img_notepad.png" alt="Notepad">
+
+              <h3>Simple like a Note Taking App</h3>
+
+              <p>
+                No complicated setup required. Just log in, create your first folder,
+                add a tag and some notes. That's it!
+              </p>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+      <section class="screenshots">
+
+        <div class="column">
+
+          <img src="/images/img_screen1.png" alt="Screenshot">
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+
+      <div class="column">
+
+        <a href="/sign_in">
+          <h1>r.note</h1>
+        </a>
+
+        <nav class="main-links">
+
+          <ul>
+
+            <li>
+
+              <a href="#">
+                <h3>Use Cases</h3>
+              </a>
+
+
+            </li><!--
+
+            --><li>
+
+              <a href="#">
+                <h3>Pricing</h3>
+              </a>
+
+            </li><!--
+
+            --><li>
+
+              <a href="#">
+                <h3>About Us</h3>
+              </a>
+
+            </li>
+
+          </ul>
+
+        </nav>
+
+      </div>
+
+    </footer>
+
+  </body>
+
+</html>

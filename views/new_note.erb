@@ -4,7 +4,7 @@
 
     <h1>Add New Note</h1>
 
-    <a class="btn btn-right" href="/folders/<%= @folder_uuid %>/all_related_notes">VIEW ALL RELATED NOTES</a>
+    <a class="all-related-notes-icon" href="/folders/<%= @folder_uuid %>/all_related_notes"></a>
 
   </header>
 
@@ -54,7 +54,13 @@
 
               <header>
 
-                <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+                <div class="timestamp">
+
+                  <small>Created on:</small>
+
+                  <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+
+                </div>
 
                 <h1>
                   <a href="/folders/<%= @folder_uuid %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>

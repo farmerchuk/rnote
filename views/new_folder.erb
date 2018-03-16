@@ -12,9 +12,7 @@
 
       <header>
 
-        <a class="logo" href="/">
-          <img src="/images/logo.png" alt="logo">
-        </a>
+        <a class="logo" href="/">r.note</a>
 
       </header>
 
@@ -28,12 +26,12 @@
         </p>
 
         <p>
-          Separate multiple tags with a space.
+          Separate multiple tags with a space. For example, 'Account Lead'
         </p>
 
         <p>
           Attributes are key traits like a person's title and contact
-          information.
+          information. They are optional.
         </p>
 
       </section>
@@ -57,7 +55,7 @@
               </dt>
 
               <dd>
-                <input type="text" name="name" id="name" placeholder="Person, Place or Thing" value="<%= params[:name]%>">
+                <input type="text" name="name" id="name" placeholder="Person, Place or Thing" value="<%= params[:name] %>">
               </dd>
 
               <% if @errors %>
@@ -81,7 +79,7 @@
               </dt>
 
               <dd>
-                <input type="text" name="tags" id="tags" placeholder="Account, Contact, Event, etc." value="<%= params[:tags]%>">
+                <input type="text" name="tags" id="tags" placeholder="ie. Contact" value="<%= params[:tags] %>">
               </dd>
 
               <% if @errors %>
@@ -105,7 +103,7 @@
                   <label for="attr1">Attribute 1:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr1" id="attr1" placeholder="Title" value="<%= params[:attr1]%>">
+                  <input type="text" name="attr1" id="attr1" placeholder="ie. Title" value="<%= params[:attr1] %>">
                 </dd>
               </div><!--
 
@@ -114,7 +112,7 @@
                   <label for="value1"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value1" id="value1" placeholder="VP of Product" value="<%= params[:value1]%>">
+                  <input type="text" name="value1" id="value1" placeholder="ie. VP of Product" value="<%= params[:value1] %>">
                 </dd>
               </div>
 
@@ -127,7 +125,7 @@
                   <label for="attr2">Attribute 2:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr2" id="attr2" placeholder="Email" value="<%= params[:attr2]%>">
+                  <input type="text" name="attr2" id="attr2" placeholder="" value="<%= params[:attr2] %>">
                 </dd>
               </div><!--
 
@@ -136,7 +134,7 @@
                   <label for="value2"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value2" id="value2" placeholder="jane@gmail.com" value="<%= params[:value2]%>">
+                  <input type="text" name="value2" id="value2" placeholder="" value="<%= params[:value2] %>">
                 </dd>
               </div>
 
@@ -149,7 +147,7 @@
                   <label for="attr3">Attribute 3:</label>
                 </dt>
                 <dd>
-                  <input type="text" name="attr3" id="attr3" placeholder="" value="<%= params[:attr3]%>">
+                  <input type="text" name="attr3" id="attr3" placeholder="" value="<%= params[:attr3] %>">
                 </dd>
               </div><!--
 
@@ -158,7 +156,7 @@
                   <label for="value3"></label>
                 </dt>
                 <dd>
-                  <input type="text" name="value3" id="value3" placeholder="" value="<%= params[:value3]%>">
+                  <input type="text" name="value3" id="value3" placeholder="" value="<%= params[:value3] %>">
                 </dd>
               </div>
 
