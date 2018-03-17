@@ -4,6 +4,7 @@
 
     <h1>All Related Notes</h1>
 
+    <a class="new-url-icon" href="/folders/<%= @folder_uuid %>/notes_url/new"></a>
     <a class="new-note-icon" href="/folders/<%= @folder_uuid %>/notes/new"></a>
 
   </header>
@@ -50,6 +51,48 @@
 
             <article>
 
+              <% if !note[:note_url].empty? %>
+
+                <header>
+
+                  <div class="timestamp">
+
+                    <small>Created on:</small>
+
+                    <time datetime="2001-05-15T19:00"><%= format_date(note[:note_date_time]) %></time>
+
+                  </div>
+
+                  <h1>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
+                  </h1>
+
+                  <h3><%= note[:folder_name] %></h3>
+
+                </header>
+
+                <section class="display-note-url">
+
+                  <a href="<%= format_url(note[:note_url]) %>" rel="noopener noreferrer" target="_blank"><%= format_url(note[:note_url]) %></a>
+
+                  <% if note[:note_url_preview].empty? %>
+
+                    <img src="/images/img_no_image.jpg" alt="No preview">
+
+                  <% else %>
+
+                    <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+
+                  <% end %>
+
+                  <p>
+                    <pre class="display-note-body"><%= note[:note_body] %></pre>
+                  </p>
+
+                </section>
+
+              <% else %>
+
               <header>
 
                 <div class="timestamp">
@@ -61,20 +104,22 @@
                 </div>
 
                 <h1>
-                  <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                  <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
                 </h1>
 
                 <h3><%= note[:folder_name] %></h3>
 
               </header>
 
-              <section>
+                <section>
 
-                <p>
-                  <pre class="display-note-body"><%= note[:note_body] %></pre>
-                </p>
+                  <p>
+                    <pre class="display-note-body"><%= note[:note_body] %></pre>
+                  </p>
 
-              </section>
+                </section>
+
+              <% end %>
 
             </article>
 

@@ -4,6 +4,7 @@ require "tilt/erubis"
 require "uuid"
 require "bcrypt"
 require "pry"
+require "metainspector"
 
 require_relative "lib/database"
 
@@ -39,6 +40,10 @@ helpers do
 
   def format_date(date)
     date.split('.').first.split(' ').join(' at ')
+  end
+
+  def format_url(url)
+    url[0, 4].match(/http/i) ? url : 'http://' + url
   end
 end
 
@@ -100,12 +105,57 @@ def sort_folders_alphabetically(folders)
   folders.sort_by { |folder| folder[:folder_name] }
 end
 
+def is_valid_url?(url)
+  begin
+    page = MetaInspector.new(url)
+  rescue
+    return false
+  end
+
+  true
+end
+
+def get_url_preview(url)
+  begin
+    page = MetaInspector.new(url)
+  rescue
+    return ''
+  end
+
+  page.images.best || ''
+end
+
 # ---------------------------------------
 # VALIDATIONS
 # ---------------------------------------
 
-def pass_form_validations?
-  true
+def pass_note_validation(title)
+  errors = {
+    title: []
+  }
+
+  if title.size < 3
+    errors[:title] << 'Title must be at least 3 characters long.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
+end
+
+def pass_note_url_validation(title, url)
+  errors = {
+    title: [],
+    url: []
+  }
+
+  if title.size < 3
+    errors[:title] << 'Title must be at least 3 characters long.'
+  end
+
+  if url.empty? || !is_valid_url?(url)
+    errors[:url] << 'Valid URL required.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
 end
 
 def pass_name_validation(name)
@@ -352,6 +402,7 @@ get "/folders/:uuid" do
   end
 
   @notes = @storage.load_notes(@user_id, @folder_id).reverse
+
   @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
   @related_folders = sort_folders_alphabetically(@selected_folders)
 
@@ -510,18 +561,106 @@ end
 post "/folders/:uuid/notes/new" do
   redirect_if_not_logged_in
 
-  if pass_form_validations?
+  folder_uuid = params[:uuid]
+  title = params[:title]
+  @errors = pass_note_validation(title)
+
+  if !@errors
+    folder_id = get_folder_id_from_uuid(folder_uuid)
+    body = params[:body]
+    note_uuid = generate_uuid
+
+    @storage.create_note(title, "", "", body, @user_id, folder_id, folder_uuid, note_uuid)
+
+    redirect "/folders/#{folder_uuid}"
+  else
+    @folder_uuid = params[:uuid]
+    @folder_id = get_folder_id_from_uuid(@folder_uuid)
+    folder = @storage.load_folder(@user_id, @folder_id)
+
+    @folder_name = folder.first[:folder_name]
+    @folder_tags = folder.first[:folder_tags].split(' ')
+
+    @folder_attributes = []
+    folder.each_with_index do |row, idx|
+      @folder_attributes << {
+        name: folder[idx][:attr_name],
+        value: folder[idx][:attr_value]
+      }
+    end
+
+    @notes = @storage.load_notes(@user_id, @folder_id).reverse
+    @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+    @related_folders = sort_folders_alphabetically(@selected_folders)
+
+    erb :new_note, layout: :layout_standard
+  end
+end
+
+get "/folders/:uuid/notes_url/new" do
+  redirect_if_not_logged_in
+
+  @folder_uuid = params[:uuid]
+  @folder_id = get_folder_id_from_uuid(@folder_uuid)
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_tags = folder.first[:folder_tags].split(' ')
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @notes = @storage.load_notes(@user_id, @folder_id).reverse
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
+
+  erb :new_note_url, layout: :layout_standard
+end
+
+post "/folders/:uuid/notes_url/new" do
+  redirect_if_not_logged_in
+
+  title = params[:title]
+  url = params[:url]
+  @errors = pass_note_url_validation(title, url)
+
+  if !@errors
     folder_uuid = params[:uuid]
     folder_id = get_folder_id_from_uuid(folder_uuid)
     title = params[:title]
     body = params[:body]
-    uuid = generate_uuid
+    note_uuid = generate_uuid
+    url_preview = get_url_preview(url)
 
-    @storage.create_note(title, body, @user_id, folder_id, uuid)
+    @storage.create_note(title, url, url_preview, body, @user_id, folder_id, folder_uuid, note_uuid)
 
     redirect "/folders/#{folder_uuid}"
   else
-    erb :new_note, layout: :layout_standard
+    @folder_uuid = params[:uuid]
+    @folder_id = get_folder_id_from_uuid(@folder_uuid)
+    folder = @storage.load_folder(@user_id, @folder_id)
+
+    @folder_name = folder.first[:folder_name]
+    @folder_tags = folder.first[:folder_tags].split(' ')
+
+    @folder_attributes = []
+    folder.each_with_index do |row, idx|
+      @folder_attributes << {
+        name: folder[idx][:attr_name],
+        value: folder[idx][:attr_value]
+      }
+    end
+
+    @notes = @storage.load_notes(@user_id, @folder_id).reverse
+    @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+    @related_folders = sort_folders_alphabetically(@selected_folders)
+
+    erb :new_note_url, layout: :layout_standard
   end
 end
 
@@ -557,20 +696,127 @@ post "/folders/:folder_uuid/notes/:note_uuid/edit" do
   redirect_if_not_logged_in
 
   if params[:action] == "Update Note"
-    if pass_form_validations?
+    note_title = params[:title]
+    @errors = pass_note_validation(note_title)
+
+    if !@errors
       folder_uuid = params[:folder_uuid]
       folder_id = get_folder_id_from_uuid(folder_uuid)
       note_id = get_note_id_from_uuid(params[:note_uuid])
-      note_title = params[:title]
       note_body = params[:body]
 
-      @storage.update_note(@user_id, folder_id, note_id, note_title, note_body)
+      @storage.update_note(@user_id, folder_id, note_id, note_title, "", "", note_body)
 
       redirect "/folders/#{folder_uuid}"
     else
-      erb :edit_folder, layout: :layout_flexible
+      @folder_uuid = params[:folder_uuid]
+      @folder_id = get_folder_id_from_uuid(@folder_uuid)
+      folder = @storage.load_folder(@user_id, @folder_id)
+
+      @folder_name = folder.first[:folder_name]
+      @folder_tags = folder.first[:folder_tags].split(' ')
+
+      @folder_attributes = []
+      folder.each_with_index do |row, idx|
+        @folder_attributes << {
+          name: folder[idx][:attr_name],
+          value: folder[idx][:attr_value]
+        }
+      end
+
+      @notes = @storage.load_notes(@user_id, @folder_id).reverse
+      @note_uuid = params[:note_uuid]
+      @note_id = get_note_id_from_uuid(@note_uuid)
+
+      @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+      @related_folders = sort_folders_alphabetically(@selected_folders)
+
+      erb :edit_note, layout: :layout_standard
     end
   elsif params[:action] == "Delete Note"
+    folder_uuid = params[:folder_uuid]
+    folder_id = get_folder_id_from_uuid(folder_uuid)
+    note_id = get_note_id_from_uuid(params[:note_uuid])
+
+    @storage.delete_note(@user_id, folder_id, note_id)
+
+    redirect "/folders/#{folder_uuid}"
+  end
+end
+
+get "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
+  redirect_if_not_logged_in
+
+  @folder_uuid = params[:folder_uuid]
+  @folder_id = get_folder_id_from_uuid(@folder_uuid)
+  folder = @storage.load_folder(@user_id, @folder_id)
+
+  @folder_name = folder.first[:folder_name]
+  @folder_tags = folder.first[:folder_tags].split(' ')
+
+  @folder_attributes = []
+  folder.each_with_index do |row, idx|
+    @folder_attributes << {
+      name: folder[idx][:attr_name],
+      value: folder[idx][:attr_value]
+    }
+  end
+
+  @notes = @storage.load_notes(@user_id, @folder_id).reverse
+  @note_uuid = params[:note_uuid]
+  @note_id = get_note_id_from_uuid(@note_uuid)
+
+  @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+  @related_folders = sort_folders_alphabetically(@selected_folders)
+
+  erb :edit_note_url, layout: :layout_standard
+end
+
+post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
+  redirect_if_not_logged_in
+
+  if params[:action] == "Update Link"
+    note_title = params[:title]
+    note_url = params[:url]
+    @errors = pass_note_url_validation(note_title, note_url)
+
+    if !@errors
+      folder_uuid = params[:folder_uuid]
+      folder_id = get_folder_id_from_uuid(folder_uuid)
+      note_id = get_note_id_from_uuid(params[:note_uuid])
+      note_url = params[:url]
+      note_body = params[:body]
+      note_url_preview = get_url_preview(note_url)
+
+      @storage.update_note(@user_id, folder_id, note_id, note_title, note_url, note_url_preview, note_body)
+
+      redirect "/folders/#{folder_uuid}"
+    else
+      @folder_uuid = params[:folder_uuid]
+      @folder_id = get_folder_id_from_uuid(@folder_uuid)
+      folder = @storage.load_folder(@user_id, @folder_id)
+
+      @folder_name = folder.first[:folder_name]
+      @folder_tags = folder.first[:folder_tags].split(' ')
+
+      @folder_attributes = []
+      folder.each_with_index do |row, idx|
+        @folder_attributes << {
+          name: folder[idx][:attr_name],
+          value: folder[idx][:attr_value]
+        }
+      end
+
+      @notes = @storage.load_notes(@user_id, @folder_id).reverse
+      @note_uuid = params[:note_uuid]
+      @note_id = get_note_id_from_uuid(@note_uuid)
+
+      @selected_folders = @storage.load_related_folders(@user_id, @folder_id)
+      @related_folders = sort_folders_alphabetically(@selected_folders)
+
+      erb :edit_note_url, layout: :layout_standard
+    end
+  elsif params[:action] == "Delete Link"
     folder_uuid = params[:folder_uuid]
     folder_id = get_folder_id_from_uuid(folder_uuid)
     note_id = get_note_id_from_uuid(params[:note_uuid])

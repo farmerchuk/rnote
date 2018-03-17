@@ -22,10 +22,13 @@ CREATE TABLE folders (
 CREATE TABLE notes (
   id serial PRIMARY KEY,
   uuid uuid UNIQUE NOT NULL,
-  title text NOT NULL,
-  body text,
+  title text NOT NULL CHECK (length(title) >= 3),
+  body text NOT NULL,
+  url text NOT NULL,
+  url_preview text NOT NULL,
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   folder_id integer NOT NULL REFERENCES folders (id) ON DELETE CASCADE,
+  folder_uuid uuid NOT NULL,
   dt timestamptz NOT NULL DEFAULT now()
 );
 
