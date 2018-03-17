@@ -3,7 +3,6 @@ require "sinatra/content_for"
 require "tilt/erubis"
 require "uuid"
 require "bcrypt"
-require "pry"
 require "metainspector"
 
 require_relative "lib/database"
