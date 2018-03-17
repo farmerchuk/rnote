@@ -336,7 +336,7 @@ Main Header Styles
 }
 
 .all-related-notes-icon {
-  float: right;
+  float: left;
   margin-top: 2px;
   height: 40px;
   width: 40px;
@@ -765,8 +765,8 @@ Create / Edit Note URL Page Styles
 ==============================
 */
 
-#create-new-note-url .main-body .notes li:first-of-type,
-#edit-note-url .main-body .notes li:first-of-type {
+#create-new-note-url .main-body .notes > li:first-of-type,
+#edit-note-url .main-body .notes > li:first-of-type {
   padding-top: 50px;
 }
 

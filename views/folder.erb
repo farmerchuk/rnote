@@ -74,7 +74,7 @@
                   </div>
 
                   <h1>
-                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
                   </h1>
 
                   <h3><%= note[:folder_name] %></h3>
@@ -83,9 +83,17 @@
 
                 <section class="display-note-url">
 
-                  <a href="<%= note[:note_url] %>" rel="noopener noreferrer" target="_blank"><%= note[:note_url] %></a>
+                  <a href="<%= format_url(note[:note_url]) %>" rel="noopener noreferrer" target="_blank"><%= format_url(note[:note_url]) %></a>
 
-                  <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+                  <% if note[:note_url_preview].empty? %>
+
+                    <img src="/images/img_no_image.jpg" alt="No preview">
+
+                  <% else %>
+
+                    <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+
+                  <% end %>
 
                   <p>
                     <pre class="display-note-body"><%= note[:note_body] %></pre>
@@ -106,7 +114,7 @@
                   </div>
 
                   <h1>
-                    <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
                   </h1>
 
                   <h3><%= note[:folder_name] %></h3>

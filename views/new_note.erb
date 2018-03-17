@@ -4,8 +4,6 @@
 
     <h1>Add New Note</h1>
 
-    <a class="all-related-notes-icon" href="/folders/<%= @folder_uuid %>/all_related_notes"></a>
-
   </header>
 
   <section class="main-body">
@@ -21,8 +19,20 @@
               <label for="title">Note title:</label>
             </dt>
             <dd>
-              <input type="text" name="title" id="title" placeholder="Follow-up">
+              <input type="text" name="title" id="title" placeholder="Follow-up" value="<%= params[:title] %>">
             </dd>
+
+            <% if @errors %>
+
+              <ul>
+                <% @errors[:title].each do |error| %>
+                  <li>
+                    <small class="form-error"><%= error %></small>
+                  </li>
+                <% end %>
+              </ul>
+
+            <% end %>
           </div>
 
           <div class="form-row">
@@ -30,7 +40,7 @@
               <label for="body">Details:</label>
             </dt>
             <dd>
-              <textarea name="body" id="body" rows="8" cols="80"></textarea>
+              <textarea name="body" id="body" rows="8" cols="80"><%= params[:body] %></textarea>
             </dd>
           </div>
 
@@ -65,7 +75,7 @@
                   </div>
 
                   <h1>
-                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes_url/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
                   </h1>
 
                   <h3><%= note[:folder_name] %></h3>
@@ -74,9 +84,17 @@
 
                 <section class="display-note-url">
 
-                  <a href="<%= note[:note_url] %>" rel="noopener noreferrer" target="_blank"><%= note[:note_url] %></a>
+                  <a href="<%= format_url(note[:note_url]) %>" rel="noopener noreferrer" target="_blank"><%= format_url(note[:note_url]) %></a>
 
-                  <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+                  <% if note[:note_url_preview].empty? %>
+
+                    <img src="/images/img_no_image.jpg" alt="No preview">
+
+                  <% else %>
+
+                    <img src="<%= note[:note_url_preview] %>" alt="Note image preview">
+
+                  <% end %>
 
                   <p>
                     <pre class="display-note-body"><%= note[:note_body] %></pre>
@@ -97,7 +115,7 @@
                   </div>
 
                   <h1>
-                    <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit#active-note"><%= note[:note_title] %></a>
+                    <a href="/folders/<%= note[:folder_uuid] %>/notes/<%= note[:note_uuid] %>/edit"><%= note[:note_title] %></a>
                   </h1>
 
                   <h3><%= note[:folder_name] %></h3>
