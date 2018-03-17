@@ -105,6 +105,16 @@ def sort_folders_alphabetically(folders)
   folders.sort_by { |folder| folder[:folder_name] }
 end
 
+def is_valid_url?(url)
+  begin
+    page = MetaInspector.new(url)
+  rescue
+    return false
+  end
+
+  true
+end
+
 def get_url_preview(url)
   begin
     page = MetaInspector.new(url)
@@ -141,7 +151,7 @@ def pass_note_url_validation(title, url)
     errors[:title] << 'Title must be at least 3 characters long.'
   end
 
-  if url.empty?
+  if url.empty? || !is_valid_url?(url)
     errors[:url] << 'Valid URL required.'
   end
 
