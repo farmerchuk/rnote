@@ -1,7 +1,6 @@
 # database.rb
 
 require "pg"
-require "pry"
 
 class Database
   attr_reader :db, :logger
