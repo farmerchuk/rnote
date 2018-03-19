@@ -250,17 +250,21 @@ User Settings Styles
   padding: 20px;
   background: #fff;
   box-shadow: 0 20px 10px -3px #fff;
+}
+
+.user-settings-menu {
+  float: right;
+  display: inline-block;
   overflow: hidden;
 }
 
-.user-settings a {
-  display: inline-block;
+.user-settings-menu h3 {
   float: right;
-  font-size: 1.5rem;
   color: #363636;
+  cursor: pointer;
 }
 
-.user-settings a::after {
+.user-settings-menu > h3::after {
   content: '';
   display: inline-block;
   background: transparent url("../images/icon_menu.png") 0 0 no-repeat;
@@ -269,6 +273,37 @@ User Settings Styles
   width: 40px;
   vertical-align: -10px;
   margin-left: 20px;
+}
+
+.user-settings-dropdown {
+  display: none;
+  margin-top: 60px;
+  padding: 20px;
+  background: #fff;
+  border: 3px solid #dadada;
+  border-radius: 4px;
+  text-align: right;
+  font-size: 1.5rem;
+}
+
+.user-settings-dropdown li {
+  padding-top: 10px;
+}
+
+.user-settings-dropdown li:first-of-type {
+  padding-top: 0;
+}
+
+.user-settings-dropdown a {
+  color: #363636;
+}
+
+.user-settings-dropdown a:hover {
+  color: #98b3c4;
+}
+
+.user-settings-menu:hover > .user-settings-dropdown {
+  display: block;
 }
 
 /*

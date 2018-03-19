@@ -15,7 +15,9 @@
   <body>
 
     <header class="user-settings">
-      <a href="/logout"><%= @user_name %></a>
+
+      <%== erb :_user_settings_widget %>
+
     </header>
 
     <%== yield %>
