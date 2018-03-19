@@ -107,6 +107,8 @@ end
 def is_valid_url?(url)
   begin
     page = MetaInspector.new(url)
+  rescue MetaInspector::ParserError
+    return true
   rescue
     return false
   end
@@ -117,6 +119,8 @@ end
 def get_url_preview(url)
   begin
     page = MetaInspector.new(url)
+  rescue MetaInspector::ParserError
+    return url
   rescue
     return ''
   end
