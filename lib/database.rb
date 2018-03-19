@@ -1,6 +1,7 @@
 # database.rb
 
 require "pg"
+require "pry"
 
 class Database
   attr_reader :db, :logger
@@ -227,8 +228,8 @@ class Database
     sql_new_folder = "INSERT INTO folders (name, tags, user_id, uuid) VALUES ($1, $2, $3, $4);"
     query(sql_new_folder, name, tags, user_id, uuid)
 
-    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 AND name = $2"
-    sql_folder_ids_result = query(sql_folder_ids, user_id, name)
+    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 ORDER BY id DESC LIMIT 1;"
+    sql_folder_ids_result = query(sql_folder_ids, user_id)
     folder_id = sql_folder_ids_result.first["id"].to_i
     folder_uuid = sql_folder_ids_result.first["uuid"]
 
@@ -260,8 +261,8 @@ class Database
     sql_new_folder = "INSERT INTO folders (name, tags, user_id, uuid) VALUES ($1, $2, $3, $4);"
     query(sql_new_folder, name, tags, user_id, uuid)
 
-    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 AND name = $2"
-    sql_folder_ids_result = query(sql_folder_ids, user_id, name)
+    sql_folder_ids = "SELECT id, uuid FROM folders WHERE user_id = $1 ORDER BY id DESC LIMIT 1;"
+    sql_folder_ids_result = query(sql_folder_ids, user_id)
     folder_id = sql_folder_ids_result.first["id"].to_i
     folder_uuid = sql_folder_ids_result.first["uuid"]
 

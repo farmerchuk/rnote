@@ -192,10 +192,6 @@ def new_folder_validations(params)
     folder_attr2: [], folder_attr3: []
   }
 
-  if folder_name_exists?(params['name'])
-    errors[:folder_name] << 'Folder name already exists.'
-  end
-
   if params['name'].length < 3
     errors[:folder_name] << 'Folder name must be at least 3 characters.'
   end
@@ -222,10 +218,6 @@ def edit_folder_validations(params, folder_id)
   }
   new_folder_name = params['name']
   current_folder_name = @storage.folder_name_by_id(folder_id)
-
-  if folder_name_exists?(new_folder_name) && new_folder_name != current_folder_name
-    errors[:folder_name] << 'Folder name already exists.'
-  end
 
   if params['name'].length < 3
     errors[:folder_name] << 'Folder name must be at least 3 characters.'

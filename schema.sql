@@ -15,8 +15,7 @@ CREATE TABLE folders (
   name text NOT NULL,
   tags text NOT NULL CHECK (tags ~ '^[a-z0-9 _-]+$'),
   user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-  dt timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (user_id, name)
+  dt timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE TABLE notes (
