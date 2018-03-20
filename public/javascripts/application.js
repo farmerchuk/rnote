@@ -8,4 +8,5 @@ $.fn.scrollView = function () {
 
 $(document).ready(function() {
   $('#active-note').scrollView();
+  $(".flash").delay(5000).fadeOut("slow");
 });

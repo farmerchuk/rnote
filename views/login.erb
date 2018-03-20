@@ -91,10 +91,10 @@
                     <input type="text" name="name" id="name" value="<%= params[:name] %>">
                   </dd>
 
-                  <% if @name_errors %>
+                  <% if @errors && @errors[:name] %>
 
                     <ul>
-                      <% @name_errors[:name].each do |error| %>
+                      <% @errors[:name].each do |error| %>
                         <li>
                           <small class="form-error"><%= error %></small>
                         </li>
@@ -128,7 +128,7 @@
                     <input type="text" name="email" id="email" value="<%= params[:email] %>">
                   </dd>
 
-                  <% if @errors %>
+                  <% if @errors && @errors[:email] %>
 
                     <ul>
                       <% @errors[:email].each do |error| %>
@@ -147,8 +147,7 @@
                     <input type="password" name="password" id="password">
                   </dd>
 
-                  <% if @errors %>
-
+                  <% if @errors && @errors[:password] %>
                     <ul>
                       <% @errors[:password].each do |error| %>
                         <li>

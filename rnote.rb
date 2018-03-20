@@ -4,6 +4,7 @@ require "tilt/erubis"
 require "uuid"
 require "bcrypt"
 require "metainspector"
+require "pry"
 
 require_relative "lib/database"
 
@@ -62,11 +63,6 @@ def redirect_if_not_logged_in
   unless user_logged_in?
     redirect "/"
   end
-end
-
-def password_correct?(password, password_on_file)
-  password_on_file = BCrypt::Password.new(password_on_file)
-  password_on_file == password
 end
 
 def get_user_id_from_uuid(uuid)
@@ -190,6 +186,19 @@ def pass_user_validations(email, password)
   errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
 end
 
+def password_validation(password, password_on_file)
+  password_on_file = BCrypt::Password.new(password_on_file)
+  errors = {
+    password: []
+  }
+
+  if password_on_file != password
+    errors[:password] << 'Incorrect password.'
+  end
+
+  errors.any? { |_, error_list| !error_list.empty? } ? errors : nil
+end
+
 def new_folder_validations(params)
   errors = {
     folder_name: [], folder_tags: [], folder_attr1: [],
@@ -268,7 +277,9 @@ post "/sign_in" do
 
     if user
       password_on_file = user[:password]
-      if password_correct?(password, password_on_file)
+      @errors = password_validation(password, password_on_file)
+
+      if !@errors
         session[:user_uuid] = user[:uuid]
         session[:user_name] = user[:name]
         redirect "/folders/find_folder"
@@ -293,9 +304,9 @@ end
 
 post "/create_account" do
   name = params[:name]
-  @name_errors = pass_name_validation(name)
+  @errors = pass_name_validation(name)
 
-  if !@name_errors
+  if !@errors
     email = session[:user_email]
     password = session[:user_password]
 
@@ -370,6 +381,7 @@ post "/folders/new" do
       folder_uuid = @storage.create_folder(*new_folder_params)
     end
 
+    session[:flash_success] = "#{params['name']} successfully added!"
     redirect "/folders/#{folder_uuid}"
   else
     erb :new_folder, layout: :layout_flexible
@@ -449,6 +461,7 @@ post "/folders/:uuid/edit" do
                            folder_attr2, folder_value2,
                            folder_attr3, folder_value3)
 
+    session[:flash_success] = "#{folder_name} successfully updated!"
     redirect "/folders/#{@folder_uuid}"
   else
     erb :edit_folder, layout: :layout_flexible
@@ -459,8 +472,10 @@ post "/folders/:uuid/delete" do
   redirect_if_not_logged_in
 
   folder_id = get_folder_id_from_uuid(params[:uuid])
+  folder_name = @storage.folder_name_by_id(folder_id)
   @storage.delete_folder(@user_id, folder_id)
 
+  session[:flash_success] = "#{folder_name} successfully deleted!"
   redirect "/folders/find_folder"
 end
 
@@ -490,9 +505,12 @@ post "/folders/:from_folder_uuid/link/:to_folder_uuid" do
   to_folder_uuid = params[:to_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
   @to_folder_id = get_folder_id_from_uuid(to_folder_uuid)
+  from_folder_name = @storage.folder_name_by_id(@from_folder_id)
+  to_folder_name = @storage.folder_name_by_id(@to_folder_id)
 
   @storage.link_folders(@from_folder_id, @to_folder_id)
 
+  session[:flash_success] = "#{from_folder_name} successfully linked to #{to_folder_name}!"
   redirect "/folders/#{from_folder_uuid}"
 end
 
@@ -522,9 +540,12 @@ post "/folders/:from_folder_uuid/unlink/:to_folder_uuid" do
   to_folder_uuid = params[:to_folder_uuid]
   @from_folder_id = get_folder_id_from_uuid(from_folder_uuid)
   @to_folder_id = get_folder_id_from_uuid(to_folder_uuid)
+  from_folder_name = @storage.folder_name_by_id(@from_folder_id)
+  to_folder_name = @storage.folder_name_by_id(@to_folder_id)
 
   @storage.unlink_folders(@from_folder_id, @to_folder_id)
 
+  session[:flash_success] = "#{from_folder_name} successfully unlinked from #{to_folder_name}!"
   redirect "/folders/#{from_folder_uuid}"
 end
 
@@ -567,6 +588,7 @@ post "/folders/:uuid/notes/new" do
 
     @storage.create_note(title, "", "", body, @user_id, folder_id, folder_uuid, note_uuid)
 
+    session[:flash_success] = "#{title} successfully added!"
     redirect "/folders/#{folder_uuid}"
   else
     @folder_uuid = params[:uuid]
@@ -634,6 +656,7 @@ post "/folders/:uuid/notes_url/new" do
 
     @storage.create_note(title, url, url_preview, body, @user_id, folder_id, folder_uuid, note_uuid)
 
+    session[:flash_success] = "#{title} successfully added!"
     redirect "/folders/#{folder_uuid}"
   else
     @folder_uuid = params[:uuid]
@@ -690,8 +713,9 @@ end
 post "/folders/:folder_uuid/notes/:note_uuid/edit" do
   redirect_if_not_logged_in
 
+  note_title = params[:title]
+
   if params[:action] == "Update Note"
-    note_title = params[:title]
     @errors = pass_note_validation(note_title)
 
     if !@errors
@@ -702,6 +726,7 @@ post "/folders/:folder_uuid/notes/:note_uuid/edit" do
 
       @storage.update_note(@user_id, folder_id, note_id, note_title, "", "", note_body)
 
+      session[:flash_success] = "#{note_title} successfully updated!"
       redirect "/folders/#{folder_uuid}"
     else
       @folder_uuid = params[:folder_uuid]
@@ -735,6 +760,7 @@ post "/folders/:folder_uuid/notes/:note_uuid/edit" do
 
     @storage.delete_note(@user_id, folder_id, note_id)
 
+    session[:flash_success] = "#{note_title} successfully deleted!"
     redirect "/folders/#{folder_uuid}"
   end
 end
@@ -770,8 +796,9 @@ end
 post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
   redirect_if_not_logged_in
 
+  note_title = params[:title]
+
   if params[:action] == "Update Link"
-    note_title = params[:title]
     note_url = params[:url]
     @errors = pass_note_url_validation(note_title, note_url)
 
@@ -785,6 +812,7 @@ post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
 
       @storage.update_note(@user_id, folder_id, note_id, note_title, note_url, note_url_preview, note_body)
 
+      session[:flash_success] = "#{note_title} successfully updated!"
       redirect "/folders/#{folder_uuid}"
     else
       @folder_uuid = params[:folder_uuid]
@@ -818,6 +846,7 @@ post "/folders/:folder_uuid/notes_url/:note_uuid/edit" do
 
     @storage.delete_note(@user_id, folder_id, note_id)
 
+    session[:flash_success] = "#{note_title} successfully deleted!"
     redirect "/folders/#{folder_uuid}"
   end
 end

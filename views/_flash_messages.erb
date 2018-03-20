@@ -1,0 +1,11 @@
+<% if session[:flash_success] %>
+
+  <div class="flash">
+
+    <h4>&check; <%= session[:flash_success] %></h4>
+
+  </div>
+
+  <% session[:flash_success] = nil %>
+
+<% end %>

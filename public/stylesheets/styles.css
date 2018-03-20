@@ -236,6 +236,30 @@ Button Styles
 
 /*
 ==============================
+Flash Styles
+==============================
+*/
+
+.flash {
+  position: fixed;
+  display: block;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3;
+}
+
+.flash h4 {
+  display: inline-block;
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
+  padding: 10px 30px;
+  background: #87d785;
+  border-radius: 30px;
+}
+
+/*
+==============================
 User Settings Styles
 ==============================
 */
@@ -277,10 +301,11 @@ User Settings Styles
 
 .user-settings-dropdown {
   display: none;
-  margin-top: 60px;
+  float: right;
+  margin-top: 10px;
   padding: 20px;
-  background: #fff;
-  border: 3px solid #dadada;
+  width: 150px;
+  background: #363636;
   border-radius: 4px;
   text-align: right;
   font-size: 1.5rem;
@@ -295,7 +320,7 @@ User Settings Styles
 }
 
 .user-settings-dropdown a {
-  color: #363636;
+  color: #fff;
 }
 
 .user-settings-dropdown a:hover {
