@@ -612,6 +612,10 @@ Main Body Styles
   color: #98b3c4;
 }
 
+.main-body form {
+  padding: 0 5px;
+}
+
 .main-body form input[type="text"] {
   border: 1px solid #dadada;
   border-radius: 4px;
