@@ -4,7 +4,6 @@ require "tilt/erubis"
 require "uuid"
 require "bcrypt"
 require "metainspector"
-require "pry"
 
 require_relative "lib/database"
 
