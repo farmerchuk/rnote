@@ -284,6 +284,7 @@ User Settings Styles
 
 .user-settings-menu h3 {
   float: right;
+  padding-bottom: 10px;
   color: #363636;
   cursor: pointer;
 }
@@ -301,10 +302,10 @@ User Settings Styles
 
 .user-settings-dropdown {
   display: none;
-  float: right;
-  margin-top: 10px;
+  position: fixed;
+  top: 70px;
+  right: 20px;
   padding: 20px;
-  width: 150px;
   background: #363636;
   border-radius: 4px;
   text-align: right;
@@ -327,7 +328,7 @@ User Settings Styles
   color: #98b3c4;
 }
 
-.user-settings-menu:hover > .user-settings-dropdown {
+.user-settings-menu:hover > div.user-settings-dropdown {
   display: block;
 }
 
