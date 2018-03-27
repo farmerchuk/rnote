@@ -1,371 +1,255 @@
-<!doctype html>
+<section class="splash">
 
-<html lang="en-US">
+  <div class="column">
 
-  <head>
-    <meta charset="utf-8">
-    <title>r.note</title>
-    <link rel="stylesheet" href="/stylesheets/login_styles.css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
+    <h2>A simple yet dynamic tool for organizing information.</h2>
 
-  <body>
+    <% if @new_user %>
 
-    <header>
+      <form class="sign-in" action="/create_account" method="post">
 
-      <div class="column">
+        <fieldset>
 
-        <section class="title">
+          <legend>Welcome!</legend>
 
-          <a href="/sign_in">
-            <h1 class="logo">r.note</h1>
-          </a>
+          <p>
+            It looks like you might be new to <strong>r.note</strong>? To get started, simply
+            enter your name then click or tap the <strong>'Create New Account'</strong> button.
+          </p>
 
-          <nav class="main-nav">
+          <dl>
 
-            <ul>
+            <dt>
+              <label for="name">First name:</label>
+            </dt>
+            <dd>
+              <input type="text" name="name" id="name" value="<%= params[:name] %>">
+            </dd>
 
-              <li>
+            <% if @errors && @errors[:name] %>
 
-                <a href="#use-cases">
-                  <h3>Use Cases</h3>
-                </a>
+              <ul>
+                <% @errors[:name].each do |error| %>
+                  <li>
+                    <small class="form-error"><%= error %></small>
+                  </li>
+                <% end %>
+              </ul>
 
+            <% end %>
 
-              </li><!--
+          </dl>
 
-              --><li>
+          <input type="submit" value="Create New Account">
 
-                <a href="#">
-                  <h3>Pricing</h3>
-                </a>
+        </fieldset>
 
-              </li><!--
+      </form>
 
-              --><li>
+    <% else %>
 
-                <a href="#">
-                  <h3>Contact</h3>
-                </a>
+      <form class="sign-in" action="/sign_in" method="post">
 
-              </li>
+        <fieldset>
 
-            </ul>
+          <legend>Sign-in / Create Account</legend>
 
-          </nav>
+          <dl>
 
-        </section>
+            <dt>
+              <label for="email">E-mail:</label>
+            </dt>
+            <dd>
+              <input type="text" name="email" id="email" value="<%= params[:email] %>">
+            </dd>
 
-      </div>
+            <% if @errors && @errors[:email] %>
 
-    </header>
+              <ul>
+                <% @errors[:email].each do |error| %>
+                  <li>
+                    <small class="form-error"><%= error %></small>
+                  </li>
+                <% end %>
+              </ul>
 
-    <main>
+            <% end %>
 
-      <section class="splash">
+            <dt>
+              <label for="password">Password:</label>
+            </dt>
+            <dd>
+              <input type="password" name="password" id="password">
+            </dd>
 
-        <div class="column">
+            <% if @errors && @errors[:password] %>
+              <ul>
+                <% @errors[:password].each do |error| %>
+                  <li>
+                    <small class="form-error"><%= error %></small>
+                  </li>
+                <% end %>
+              </ul>
 
-          <h2>A simple yet dynamic tool for organizing information.</h2>
+            <% end %>
 
-          <% if @new_user %>
+          </dl>
 
-            <form class="sign-in" action="/create_account" method="post">
+          <input type="submit" value="Submit">
 
-              <fieldset>
+        </fieldset>
 
-                <legend>Welcome!</legend>
+      </form>
 
-                <p>
-                  It looks like you might be new to <strong>r.note</strong>? To get started, simply
-                  enter your name then click or tap the <strong>'Create New Account'</strong> button.
-                </p>
+    <% end %>
 
-                <dl>
+  </div>
 
-                  <dt>
-                    <label for="name">First name:</label>
-                  </dt>
-                  <dd>
-                    <input type="text" name="name" id="name" value="<%= params[:name] %>">
-                  </dd>
+</section>
 
-                  <% if @errors && @errors[:name] %>
+<section class="value-props">
 
-                    <ul>
-                      <% @errors[:name].each do |error| %>
-                        <li>
-                          <small class="form-error"><%= error %></small>
-                        </li>
-                      <% end %>
-                    </ul>
+  <div class="column">
 
-                  <% end %>
+    <ul>
 
-                </dl>
+      <li class="value-prop">
 
-                <input type="submit" value="Create New Account">
+        <img class="value-prop-imgs" src="/images/img_spredsheet.png" alt="Spredsheet">
 
-              </fieldset>
+        <h3>Flexible like a Spredsheet</h3>
 
-            </form>
+        <p>
+          Create any type of folder you want. Keep track of notes on people, places,
+          and things, or just about anything else you can imagine.
+        </p>
 
-          <% else %>
+      </li><!--
 
-            <form class="sign-in" action="/sign_in" method="post">
+      --><li class="value-prop">
 
-              <fieldset>
+        <img class="value-prop-imgs" src="/images/img_crm.png" alt="Linked dots">
 
-                <legend>Sign-in / Create Account</legend>
+        <h3>Powerful like a CRM System</h3>
 
-                <dl>
+        <p>
+          Link and unlink folders on the fly. Model naturally occuring relationships,
+          organizational hierarchies, or a dynamic web of interconnected ideas.
+        </p>
 
-                  <dt>
-                    <label for="email">E-mail:</label>
-                  </dt>
-                  <dd>
-                    <input type="text" name="email" id="email" value="<%= params[:email] %>">
-                  </dd>
+      </li><!--
 
-                  <% if @errors && @errors[:email] %>
+      --><li class="value-prop">
 
-                    <ul>
-                      <% @errors[:email].each do |error| %>
-                        <li>
-                          <small class="form-error"><%= error %></small>
-                        </li>
-                      <% end %>
-                    </ul>
+        <img class="value-prop-imgs" src="/images/img_notepad.png" alt="Notepad">
 
-                  <% end %>
+        <h3>Simple like a Note Taking App</h3>
 
-                  <dt>
-                    <label for="password">Password:</label>
-                  </dt>
-                  <dd>
-                    <input type="password" name="password" id="password">
-                  </dd>
+        <p>
+          No complicated setup required. Just log in, create your first folder,
+          add a tag and some notes. That's it!
+        </p>
 
-                  <% if @errors && @errors[:password] %>
-                    <ul>
-                      <% @errors[:password].each do |error| %>
-                        <li>
-                          <small class="form-error"><%= error %></small>
-                        </li>
-                      <% end %>
-                    </ul>
+      </li>
 
-                  <% end %>
+    </ul>
 
-                </dl>
+  </div>
 
-                <input type="submit" value="Submit">
+</section>
 
-              </fieldset>
+<section id="use-cases" class="use-cases">
 
-            </form>
+  <div class="column">
 
-          <% end %>
+    <h2>What can I do?</h2>
 
-        </div>
+    <ul>
 
-      </section>
+      <li class="use-case">
 
-      <section class="value-props">
+        <img src="/images/img_screen1.png" alt="">
 
-        <div class="column">
+        <h3>Take Notes</h3>
 
-          <ul>
+        <p>
+          Taking notes for a course in school or organizing
+          ideas for a book you'd like to write? <strong>r.note</strong> offers
+          a simple, straight-forward way to organize your thoughts.
+        </p>
 
-            <li class="value-prop">
+      </li><!--
 
-              <img class="value-prop-imgs" src="/images/img_spredsheet.png" alt="Spredsheet">
+      --><li class="use-case">
 
-              <h3>Flexible like a Spredsheet</h3>
+        <img src="/images/img_screen1.png" alt="">
 
-              <p>
-                Create any type of folder you want. Keep track of notes on people, places,
-                and things, or just about anything else you can imagine.
-              </p>
+        <h3>Plan an Event</h3>
 
-            </li><!--
+        <p>
+          If you're planning a meeting, a conference or even a wedding, <strong>r.note</strong>
+          makes it easy to keep track of all the moving pieces.
+        </p>
 
-            --><li class="value-prop">
+      </li><!--
 
-              <img class="value-prop-imgs" src="/images/img_crm.png" alt="Linked dots">
+      --><li class="use-case">
 
-              <h3>Powerful like a CRM System</h3>
+        <img src="/images/img_screen1.png" alt="">
 
-              <p>
-                Link and unlink folders on the fly. Model naturally occuring relationships,
-                organizational hierarchies, or a dynamic web of interconnected ideas.
-              </p>
+        <h3>Run a Business</h3>
 
-            </li><!--
+        <p>
+          Keeping up with your accounts, contacts, leads and opportunities
+          can feel overwhelming. With <strong>r.note</strong>, you'll be
+          organized and agile.
+        </p>
 
-            --><li class="value-prop">
+      </li><!--
 
-              <img class="value-prop-imgs" src="/images/img_notepad.png" alt="Notepad">
+      --><li class="use-case">
 
-              <h3>Simple like a Note Taking App</h3>
+        <img src="/images/img_screen1.png" alt="">
 
-              <p>
-                No complicated setup required. Just log in, create your first folder,
-                add a tag and some notes. That's it!
-              </p>
+        <h3>Manage Projects</h3>
 
-            </li>
+        <p>
+          Projects can get really complicated. Use <strong>r.note</strong> to organize
+          requirements, conversations with clients, and outstanding tasks.
+        </p>
 
-          </ul>
+      </li><!--
 
-        </div>
+      --><li class="use-case">
 
-      </section>
+        <img src="/images/img_screen1.png" alt="">
 
-      <section id="use-cases" class="use-cases">
+        <h3>Play Games</h3>
 
-        <div class="column">
+        <p>
+          If you've ever hosted a game of Dungeons & Dragons, you know how
+          tough it can be to remember every story detail. <strong>r.note</strong>
+          helps bring order to the chaos.
+        </p>
 
-          <h2>What can I do?</h2>
+      </li><!--
 
-          <ul>
+      --><li class="use-case">
 
-            <li class="use-case">
+        <img src="/images/img_screen1.png" alt="">
 
-              <img src="/images/img_screen1.png" alt="">
+        <h3>Flowcharting</h3>
 
-              <h3>Take Notes</h3>
+        <p>
+          Need a way to map out a complicated process and keep track of
+          the myriad relations? <strong>r.note</strong> is a quick and
+          flexible solution.
+        </p>
 
-              <p>
-                Taking notes for a course in school or organizing
-                ideas for a book you'd like to write? <strong>r.note</strong> offers
-                a simple, straight-forward way to organize your thoughts.
-              </p>
+      </li>
 
-            </li><!--
+    </ul>
 
-            --><li class="use-case">
+  </div>
 
-              <img src="/images/img_screen1.png" alt="">
-
-              <h3>Plan an Event</h3>
-
-              <p>
-                If you're planning a meeting, a conference or even a wedding, <strong>r.note</strong>
-                makes it easy to keep track of all the moving pieces.
-              </p>
-
-            </li><!--
-
-            --><li class="use-case">
-
-              <img src="/images/img_screen1.png" alt="">
-
-              <h3>Run a Business</h3>
-
-              <p>
-                Keeping up with your accounts, contacts, leads and opportunities
-                can feel overwhelming. With <strong>r.note</strong>, you'll be
-                organized and agile.
-              </p>
-
-            </li><!--
-
-            --><li class="use-case">
-
-              <img src="/images/img_screen1.png" alt="">
-
-              <h3>Manage Projects</h3>
-
-              <p>
-                Projects can get really complicated. Use <strong>r.note</strong> to organize
-                requirements, conversations with clients, and outstanding tasks.
-              </p>
-
-            </li><!--
-
-            --><li class="use-case">
-
-              <img src="/images/img_screen1.png" alt="">
-
-              <h3>Play Games</h3>
-
-              <p>
-                If you've ever hosted a game of Dungeons & Dragons, you know how
-                tough it can be to remember every story detail. <strong>r.note</strong>
-                helps bring order to the chaos.
-              </p>
-
-            </li><!--
-
-            --><li class="use-case">
-
-              <img src="/images/img_screen1.png" alt="">
-
-              <h3>Flowcharting</h3>
-
-              <p>
-                Need a way to map out a complicated process and keep track of
-                the myriad relations? <strong>r.note</strong> is a quick and
-                flexible solution.
-              </p>
-
-            </li>
-
-          </ul>
-
-        </div>
-
-      </section>
-
-    </main>
-
-    <footer>
-
-      <div class="column">
-
-        <a href="/sign_in">
-          <h1 class="logo">r.note</h1>
-        </a>
-
-        <nav class="main-nav">
-
-          <ul>
-
-            <li>
-
-              <a href="#use-cases">
-                <h3>Use Cases</h3>
-              </a>
-
-
-            </li><!--
-
-            --><li>
-
-              <a href="#">
-                <h3>Pricing</h3>
-              </a>
-
-            </li><!--
-
-            --><li>
-
-              <a href="#">
-                <h3>Contact</h3>
-              </a>
-
-            </li>
-
-          </ul>
-
-        </nav>
-
-      </div>
-
-    </footer>
-
-  </body>
-
-</html>
+</section>

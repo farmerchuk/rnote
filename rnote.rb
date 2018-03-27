@@ -263,7 +263,7 @@ get "/" do
 end
 
 get "/sign_in" do
-  erb :login
+  erb :login, layout: :layout_webpage
 end
 
 post "/sign_in" do
@@ -283,7 +283,7 @@ post "/sign_in" do
         session[:user_name] = user[:name]
         redirect "/folders/find_folder"
       else
-        erb :login
+        erb :login, layout: :layout_webpage
       end
     else
       session[:user_email] = email
@@ -292,13 +292,13 @@ post "/sign_in" do
       redirect "/new_user"
     end
   else
-    erb :login
+    erb :login, layout: :layout_webpage
   end
 end
 
 get "/new_user" do
   @new_user = true
-  erb :login
+  erb :login, layout: :layout_webpage
 end
 
 post "/create_account" do
@@ -329,8 +329,12 @@ post "/create_account" do
     end
   else
     @new_user = true
-    erb :login
+    erb :login, layout: :layout_webpage
   end
+end
+
+get "/use_cases" do
+  erb :use_cases, layout: :layout_webpage
 end
 
 get "/logout" do
